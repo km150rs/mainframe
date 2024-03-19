@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="selection" value=""/>
+		<item key="wrap" value="true"/>
+		<item key="casesensitive" value="false"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<list key="findhistory">
+			<item value="/updateinfo"/>
+			<item value="/modify"/>
+			<item value="countp"/>
+			<item value="BUS_monthArrangeSP_other"/>
+			<item value="tot_work"/>
+			<item value="maxinfo"/>
+			<item value="countP"/>
+			<item value="BUS_monthArrangeBasic"/>
+			<item value="BUS_ViewMonthArrange"/>
+			<item value="2"/>
+			<item value="sumAllocateCount"/>
+			<item value="sumEmpAllocateCount"/>
+			<item value="sumEmpTotWorkCount"/>
+			<item value="sumDailyAllocateCount"/>
+			<item value="DAY_START_COLUMN"/>
+		</list>
+		<list key="replacehistory">
+			<item value="DAY_START_COLUMN"/>
+			<item value=""/>
+			<item value="right: 10px"/>
+			<item value="LEFT: 10PX"/>
+			<item value="&apos;${companyNo}&apos;"/>
+			<item value="&apos;${toDate}&apos;"/>
+			<item value="&apos;${fromDate}&apos;"/>
+			<item value="punctualityGrid"/>
+			<item value="vacationTable"/>
+			<item value="TBM_EMPLOYEE_VACATION_INFO"/>
+			<item value="vocationTable"/>
+			<item value="TBM_EMPLOYEE_VOCATION_INFO"/>
+			<item value="offRequest"/>
+			<item value="OffRequest"/>
+			<item value="휴가"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="61"/>
+		<item key="DIALOG_Y_ORIGIN" value="478"/>
+		<item key="DIALOG_WIDTH" value="322"/>
+		<item key="DIALOG_HEIGHT" value="390"/>
+		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
+	</section>
+</section>

@@ -1,0 +1,131 @@
+2024-03-14 18:10:10.379 INFO  [restartedMain] [com.pjy.dashboard.PjyApplication] - Starting PjyApplication on DESKTOP-S5VRF32 with PID 17176 (C:\Users\ITSMART\Downloads\BUS\dashboard\dashboard\target\classes started by ITSMART in C:\Users\ITSMART\Downloads\BUS\dashboard\dashboard)
+2024-03-14 18:10:10.384 INFO  [restartedMain] [com.pjy.dashboard.PjyApplication] - The following profiles are active: oauth
+2024-03-14 18:10:10.421 INFO  [restartedMain] [o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor] - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-03-14 18:10:10.421 INFO  [restartedMain] [o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor] - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-03-14 18:10:11.150 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode!
+2024-03-14 18:10:11.150 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-03-14 18:10:11.241 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 86ms. Found 3 JPA repository interfaces.
+2024-03-14 18:10:11.465 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode!
+2024-03-14 18:10:11.465 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-03-14 18:10:11.500 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationExtensionSupport] - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.pjy.dashboard.core.dao.jpa.h2.FileRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2024-03-14 18:10:11.501 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationExtensionSupport] - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.pjy.dashboard.core.dao.jpa.h2.MemberRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2024-03-14 18:10:11.501 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationExtensionSupport] - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.pjy.dashboard.core.dao.jpa.h2.RememberMeRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2024-03-14 18:10:11.501 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 36ms. Found 0 JDBC repository interfaces.
+2024-03-14 18:10:11.804 INFO  [restartedMain] [c.u.j.c.EnableEncryptablePropertiesBeanFactoryPostProcessor] - Post-processing PropertySource instances
+2024-03-14 18:10:11.849 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource configurationProperties [org.springframework.boot.context.properties.source.ConfigurationPropertySourcesPropertySource] to AOP Proxy
+2024-03-14 18:10:11.850 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource commandLineArgs [org.springframework.core.env.SimpleCommandLinePropertySource] to EncryptableEnumerablePropertySourceWrapper
+2024-03-14 18:10:11.850 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource servletConfigInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2024-03-14 18:10:11.850 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource servletContextInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2024-03-14 18:10:11.850 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource systemProperties [org.springframework.core.env.PropertiesPropertySource] to EncryptableMapPropertySourceWrapper
+2024-03-14 18:10:11.850 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource systemEnvironment [org.springframework.boot.env.SystemEnvironmentPropertySourceEnvironmentPostProcessor$OriginAwareSystemEnvironmentPropertySource] to EncryptableSystemEnvironmentPropertySourceWrapper
+2024-03-14 18:10:11.850 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource random [org.springframework.boot.env.RandomValuePropertySource] to EncryptablePropertySourceWrapper
+2024-03-14 18:10:11.850 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource applicationConfig: [classpath:/application-oauth.properties] [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+2024-03-14 18:10:11.850 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource applicationConfig: [classpath:/application.properties] [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+2024-03-14 18:10:11.850 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource devtools [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2024-03-14 18:10:11.850 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource class path resource [pjy.properties] [org.springframework.core.env.CompositePropertySource] to EncryptableEnumerablePropertySourceWrapper
+2024-03-14 18:10:11.850 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource class path resource [common.properties] [org.springframework.core.io.support.ResourcePropertySource] to EncryptableMapPropertySourceWrapper
+2024-03-14 18:10:11.895 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'asyncConfiguration' of type [com.pjy.dashboard.configuration.AsyncConfiguration$$EnhancerBySpringCGLIB$$2b48f9f0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-03-14 18:10:11.929 INFO  [restartedMain] [c.u.j.filter.DefaultLazyPropertyFilter] - Property Filter custom Bean not found with name 'encryptablePropertyFilter'. Initializing Default Property Filter
+2024-03-14 18:10:11.994 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.security.config.annotation.configuration.ObjectPostProcessorConfiguration' of type [org.springframework.security.config.annotation.configuration.ObjectPostProcessorConfiguration$$EnhancerBySpringCGLIB$$153f5e1d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-03-14 18:10:12.057 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'objectPostProcessor' of type [org.springframework.security.config.annotation.configuration.AutowireBeanFactoryObjectPostProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-03-14 18:10:12.060 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@20d41399' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-03-14 18:10:12.064 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration' of type [org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration$$EnhancerBySpringCGLIB$$3a1400cf] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-03-14 18:10:12.071 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.security.config.annotation.method.configuration.Jsr250MetadataSourceConfiguration' of type [org.springframework.security.config.annotation.method.configuration.Jsr250MetadataSourceConfiguration$$EnhancerBySpringCGLIB$$5f6918e5] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-03-14 18:10:12.073 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'jsr250MethodSecurityMetadataSource' of type [org.springframework.security.access.annotation.Jsr250MethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-03-14 18:10:12.074 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-03-14 18:10:12.087 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$7c9195e3] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-03-14 18:10:12.107 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.hateoas.config.HateoasConfiguration' of type [org.springframework.hateoas.config.HateoasConfiguration$$EnhancerBySpringCGLIB$$fc11e315] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-03-14 18:10:12.191 INFO  [restartedMain] [c.u.j.r.DefaultLazyPropertyResolver] - Property Resolver custom Bean not found with name 'encryptablePropertyResolver'. Initializing Default Property Resolver
+2024-03-14 18:10:12.194 INFO  [restartedMain] [c.u.j.d.DefaultLazyPropertyDetector] - Property Detector custom Bean not found with name 'encryptablePropertyDetector'. Initializing Default Property Detector
+2024-03-14 18:10:12.469 INFO  [restartedMain] [o.s.b.w.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port(s): 10010 (http)
+2024-03-14 18:10:12.481 INFO  [restartedMain] [o.apache.coyote.http11.Http11NioProtocol] - Initializing ProtocolHandler ["http-nio-10010"]
+2024-03-14 18:10:12.487 INFO  [restartedMain] [org.apache.catalina.core.StandardService] - Starting service [Tomcat]
+2024-03-14 18:10:12.488 INFO  [restartedMain] [org.apache.catalina.core.StandardEngine] - Starting Servlet engine: [Apache Tomcat/9.0.29]
+2024-03-14 18:10:12.672 INFO  [restartedMain] [org.apache.jasper.servlet.TldScanner] - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2024-03-14 18:10:12.676 INFO  [restartedMain] [o.a.c.c.C.[Tomcat].[localhost].[/]] - Initializing Spring embedded WebApplicationContext
+2024-03-14 18:10:12.676 INFO  [restartedMain] [o.s.web.context.ContextLoader] - Root WebApplicationContext: initialization completed in 2254 ms
+2024-03-14 18:10:13.170 INFO  [restartedMain] [c.u.j.encryptor.DefaultLazyEncryptor] - Found Custom Encryptor Bean org.jasypt.encryption.pbe.PooledPBEStringEncryptor@1b2f148f with name: jasyptStringEncryptor
+2024-03-14 18:10:13.210 INFO  [restartedMain] [com.zaxxer.hikari.HikariDataSource] - H2 - Starting...
+2024-03-14 18:10:13.268 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.executeSql(PoolBase.java:567)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 5 msec}
+2024-03-14 18:10:13.272 INFO  [restartedMain] [com.zaxxer.hikari.HikariDataSource] - H2 - Start completed.
+2024-03-14 18:10:13.687 INFO  [restartedMain] [o.hibernate.jpa.internal.util.LogHelper] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2024-03-14 18:10:13.736 INFO  [restartedMain] [org.hibernate.Version] - HHH000412: Hibernate Core {5.3.14.Final}
+2024-03-14 18:10:13.738 INFO  [restartedMain] [org.hibernate.cfg.Environment] - HHH000206: hibernate.properties not found
+2024-03-14 18:10:13.848 INFO  [restartedMain] [org.hibernate.annotations.common.Version] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2024-03-14 18:10:13.977 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2024-03-14 18:10:13.989 INFO  [restartedMain] [org.hibernate.dialect.Dialect] - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2024-03-14 18:10:14.475 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+1. select SEQUENCE_CATALOG, SEQUENCE_SCHEMA, SEQUENCE_NAME, INCREMENT from information_schema.sequences
+ {executed in 1 msec}
+2024-03-14 18:10:14.542 INFO  [restartedMain] [o.s.o.j.LocalContainerEntityManagerFactoryBean] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-03-14 18:10:14.733 INFO  [restartedMain] [o.h.h.i.QueryTranslatorFactoryInitiator] - HHH000397: Using ASTQueryTranslatorFactory
+2024-03-14 18:10:15.282 INFO  [restartedMain] [com.pjy.dashboard.filter.TestFilter] - init Pjy Filter
+2024-03-14 18:10:15.850 INFO  [restartedMain] [o.s.s.concurrent.ThreadPoolTaskExecutor] - Initializing ExecutorService
+2024-03-14 18:10:15.857 INFO  [restartedMain] [o.s.s.concurrent.ThreadPoolTaskExecutor] - Initializing ExecutorService 'asyncThreadPool'
+2024-03-14 18:10:16.015 WARN  [restartedMain] [o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-03-14 18:10:16.075 INFO  [restartedMain] [o.s.b.a.w.s.WelcomePageHandlerMapping] - Adding welcome page: ServletContext resource [/index.html]
+2024-03-14 18:10:16.201 INFO  [restartedMain] [o.s.b.a.e.web.EndpointLinksResolver] - Exposing 16 endpoint(s) beneath base path '/actuator'
+2024-03-14 18:10:16.247 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/h2-console/**'], []
+2024-03-14 18:10:16.247 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/css/**'], []
+2024-03-14 18:10:16.247 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/js/**'], []
+2024-03-14 18:10:16.247 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/monitor/**'], []
+2024-03-14 18:10:16.247 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/img/**'], []
+2024-03-14 18:10:16.247 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/lib/**'], []
+2024-03-14 18:10:16.247 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/main.css'], []
+2024-03-14 18:10:16.247 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/common.js'], []
+2024-03-14 18:10:16.247 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/resources/**'], []
+2024-03-14 18:10:16.348 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@21a00911, org.springframework.security.web.context.SecurityContextPersistenceFilter@7f26caf3, org.springframework.security.web.header.HeaderWriterFilter@264f9e7d, org.springframework.web.filter.CorsFilter@73cab347, org.springframework.security.web.authentication.logout.LogoutFilter@534174d9, com.pjy.dashboard.core.filter.AuthenticationFilterObtainUsernameFilter@5b54ecb6, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@5b991ed6, org.springframework.security.web.session.ConcurrentSessionFilter@4514b717, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@2c09338e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@53f8ff8c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@9cc2bda, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@428a7dd7, org.springframework.security.web.session.SessionManagementFilter@637775b1, org.springframework.security.web.access.ExceptionTranslationFilter@704a5a85, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3e528664]
+2024-03-14 18:10:16.363 INFO  [restartedMain] [o.s.aop.framework.CglibAopProxy] - Unable to proxy interface-implementing method [public final void org.springframework.web.filter.GenericFilterBean.init(javax.servlet.FilterConfig) throws javax.servlet.ServletException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2024-03-14 18:10:16.784 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 2 msec}
+2024-03-14 18:10:17.253 INFO  [restartedMain] [o.s.b.d.a.OptionalLiveReloadServer] - LiveReload server is running on port 35729
+2024-03-14 18:10:17.316 INFO  [restartedMain] [o.s.s.concurrent.ThreadPoolTaskScheduler] - Initializing ExecutorService
+2024-03-14 18:10:17.321 INFO  [restartedMain] [o.apache.coyote.http11.Http11NioProtocol] - Starting ProtocolHandler ["http-nio-10010"]
+2024-03-14 18:10:17.349 INFO  [restartedMain] [o.s.b.w.embedded.tomcat.TomcatWebServer] - Tomcat started on port(s): 10010 (http) with context path ''
+2024-03-14 18:10:17.353 INFO  [restartedMain] [com.pjy.dashboard.PjyApplication] - Started PjyApplication in 7.269 seconds (JVM running for 7.986)
+2024-03-14 18:10:17.353 INFO  [restartedMain] [com.pjy.dashboard.AppStartedListener] - =====================
+2024-03-14 18:10:17.353 INFO  [restartedMain] [com.pjy.dashboard.AppStartedListener] - Application started
+2024-03-14 18:10:17.353 INFO  [restartedMain] [com.pjy.dashboard.AppStartedListener] - =====================
+2024-03-14 18:10:17.865 INFO  [RMI TCP Connection(9)-127.0.0.1] [o.a.c.c.C.[Tomcat].[localhost].[/]] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-03-14 18:10:29.004 INFO  [http-nio-10010-exec-1] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2024-03-14 18:10:29.004 INFO  [http-nio-10010-exec-1] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2024-03-14 18:10:29.409 DEBUG [http-nio-10010-exec-10] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2024-03-14 18:10:29.410 DEBUG [http-nio-10010-exec-10] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+1. SELECT company_no,company_nm  FROM TBL_COMPANYINFO where use_yn = 'Y' ORDER BY 1
+ {executed in 1 msec}
+2024-03-14 18:10:31.157 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2024-03-14 18:10:31.162 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139' and companyno='100'
+ {executed in 0 msec}
+2024-03-14 18:10:31.178 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2024-03-14 18:10:31.180 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select company_nm from TBL_COMPANYINFO where company_no = '100'
+ {executed in 0 msec}
+2024-03-14 18:10:31.244 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3hFbH3VDvMEmD3r0jIjPauqWdHfLSCDdftUh44bPxaFEmEzY0An.2,$2a$10$snH29WhT2W1mzphitA/BoOrTwrtlXqW1zPtUGTcbsnxOnyc7BX.w6
+2024-03-14 18:10:31.306 INFO  [http-nio-10010-exec-3] [c.pjy.dashboard.listener.SessionListener] - setSession 실행
+2024-03-14 18:10:35.322 INFO  [http-nio-10010-exec-10] [c.p.d.configuration.SecurityConfig] - addLogoutHandler:logout: 
+2024-03-14 18:10:35.322 INFO  [http-nio-10010-exec-10] [c.pjy.dashboard.listener.SessionListener] - sessionDestroyed 실행
+2024-03-14 18:10:35.322 INFO  [http-nio-10010-exec-10] [c.pjy.dashboard.listener.SessionListener] - updateUserCloseTime p00139 
+2024-03-14 18:10:35.322 INFO  [http-nio-10010-exec-10] [c.pjy.dashboard.listener.SessionListener] - currentSessionUserList ->  false
+2024-03-14 18:10:35.322 INFO  [http-nio-10010-exec-10] [c.pjy.dashboard.listener.SessionListener] - sessionDestroyed 실행
+2024-03-14 18:10:35.322 INFO  [http-nio-10010-exec-10] [c.pjy.dashboard.listener.SessionListener] - updateUserCloseTime p00139 
+2024-03-14 18:10:35.322 INFO  [http-nio-10010-exec-10] [c.pjy.dashboard.listener.SessionListener] - currentSessionUserList ->  false
+2024-03-14 18:10:35.322 INFO  [http-nio-10010-exec-10] [c.p.d.configuration.SecurityConfig] - logoutSuccessHandler:onLogoutSuccess: 
+2024-03-14 18:10:35.440 INFO  [http-nio-10010-exec-3] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2024-03-14 18:10:35.441 INFO  [http-nio-10010-exec-3] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2024-03-14 18:34:36.764 INFO  [http-nio-10010-exec-2] [c.pjy.dashboard.listener.SessionListener] - sessionDestroyed 실행
+2024-03-14 18:34:36.764 INFO  [http-nio-10010-exec-2] [c.pjy.dashboard.listener.SessionListener] - sessionDestroyed 실행
+2024-03-14 18:34:36.770 INFO  [http-nio-10010-exec-2] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2024-03-14 18:34:36.770 INFO  [http-nio-10010-exec-2] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2024-03-14 18:34:44.914 WARN  [H2 housekeeper] [com.zaxxer.hikari.pool.HikariPool] - H2 - Thread starvation or clock leap detected (housekeeper delta=24m1s630ms754µs300ns).

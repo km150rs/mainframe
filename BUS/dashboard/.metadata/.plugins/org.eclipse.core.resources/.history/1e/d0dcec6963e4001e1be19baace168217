@@ -1,0 +1,13 @@
+package com.pjy.dashboard.domain;
+
+public class MenuVo {
+	private String menuId;
+	private String menuNm;
+	private String url;
+	private int mainSeq;
+	private int subSeq;
+	private String role;
+	
+	private List<E> list;           // 조회결과
+}
+

@@ -1,0 +1,218 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8" %>
+<%@ include file="nav.jsp" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Main Frame with Dynamic Tabs</title>
+    <style>
+        /* 프레임 스타일 */
+        .frame {
+            width: 100%;
+        }
+
+        /* 상단 프레임 스타일 */
+        #topFrame {
+            height: 50px; /* 상단 프레임의 높이를 고정시킵니다. */
+            background-color: #f1f1f1;
+        }
+
+        /* 중간 프레임 스타일 */
+        #middleFrame {
+         
+            height: 500px; 
+            /*height: calc(100% - 200px); 전체 높이에서 상단, 하단 프레임 높이를 빼서 중간 프레임의 높이 설정 */
+            background-color: #e5e5e5;
+            overflow: auto; /* 내용이 넘칠 경우 스크롤 표시 */
+        }
+
+		/* 하단 프레임 스타일 */
+		#bottomFrame {
+		    height: 50px; /* 하단 프레임의 높이를 고정시킵니다. */
+		    background-color: #f1f1f1;
+		    position: fixed; /* 화면의 아래에 고정시킵니다. */
+		    bottom: 0; /* 화면 하단에 배치합니다. */
+		    left: 0; /* 왼쪽 정렬합니다. */
+		    width: 100%; /* 전체 너비를 채우도록 설정합니다. */
+		}
+        /* 탭 스타일 */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+        /* 탭 링크 스타일 */
+        .tab a {
+            float: left;
+            display: block;
+            padding: 8px 12px;
+            text-decoration: none;
+            transition: 0.3s;
+            background-color: #ddd;
+            color: #333;
+        }
+
+        /* 선택된 탭 링크 스타일 */
+        .tab a.active {
+            background-color: #ccc;
+        }
+
+
+		
+/* 탭 컨텐츠 스타일 */
+.tabcontent {
+    width: 100%; /* 부모 요소의 너비에 맞게 설정 */
+    height: calc(100% - 50px); /* 부모 요소의 높이에 맞게 설정 */
+    border: none; /* 테두리 없애기 */
+    overflow: hidden; /* 내용이 넘칠 경우 스크롤 없애기 */
+}
+
+/* iframe 스타일 */
+.tabcontent iframe {
+    width: 100%; /* 부모 요소의 너비에 맞게 설정 */
+    height: 100%; /* 부모 요소의 높이에 맞게 설정 */
+    border: none; /* 테두리 없애기 */
+}
+		
+/* 탭 컨테이너 스타일 */
+#tabContainer {
+    width: 100%; /* 중간 프레임 가로폭에 맞게 설정합니다. */
+    height: 100%; /* 중간 프레임 높이에 맞게 설정합니다. */
+}
+        /* 닫기 버튼 스타일 */
+        .close-btn {
+            float: right;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 상단 프레임 -->
+<div id="topFrame" class="frame">
+    <!-- 상단 메뉴 -->
+    <ul>
+        <li><a href="#" onclick="addTab('/jsp/employeeInfo', 'Menu 1')">Menu 1</a></li>
+        <li><a href="#" onclick="addTab('/otherPage', 'Menu 2')">Menu 2</a></li>
+        <!-- 다른 메뉴 항목들도 추가할 수 있습니다 -->
+    </ul>
+</div>
+
+<!-- 중간 프레임 -->
+<div id="middleFrame" class="frame">
+    <!-- 메인 프레임의 탭 -->
+    <div class="tab" id="tabContainer">
+        <!-- 탭이 동적으로 추가될 곳입니다. -->
+    </div>
+</div>
+
+<!-- 하단 프레임 -->
+<div id="bottomFrame" class="frame">
+    <!-- 하단 내용 -->
+    <p>하단 프레임 내용</p>
+</div>
+
+<!-- JavaScript -->
+<script>
+    var tabCounter = 0;
+
+    function addTab(url, tabName) {
+        tabCounter++;
+        var tabId = "menu" + tabCounter;
+
+        // 탭 링크 추가
+        var tabContainer = document.getElementById("tabContainer");
+        var tabLink = document.createElement("a");
+        tabLink.setAttribute("href", "#");
+        tabLink.setAttribute("onclick", "openTab(event, '" + tabId + "')");
+        tabLink.textContent = tabName;
+        tabLink.classList.add("tablinks");
+        tabContainer.appendChild(tabLink);
+
+        // 닫기 버튼 추가
+        var closeBtn = document.createElement("span");
+        closeBtn.innerHTML = "&times;"; // "×" 문자
+        closeBtn.classList.add("close-btn");
+        closeBtn.setAttribute("onclick", "closeTab('" + tabId + "')");
+        tabLink.appendChild(closeBtn);
+
+<!-- 탭 컨텐츠 추가 부분 -->
+var tabContent = document.createElement("div");
+tabContent.setAttribute("id", tabId);
+tabContent.classList.add("tabcontent");
+tabContainer.appendChild(tabContent);
+
+// iframe 생성
+var iframe = document.createElement("iframe");
+iframe.setAttribute("src", url);
+iframe.style.width = "100%";
+iframe.style.height = "100%";
+tabContent.appendChild(iframe);
+
+
+        // 새로 추가된 탭을 활성화
+        openTab(event, tabId);
+
+        // URL 로드
+        //loadUrlInTab(url, tabId);
+    }
+
+function openTab(evt, tabId) {
+    // 모든 탭 숨기기
+    var tabcontents = document.getElementsByClassName("tabcontent");
+    for (var i = 0; i < tabcontents.length; i++) {
+        tabcontents[i].style.display = "none";
+    }
+
+    // 모든 탭 링크 비활성화
+    var tablinks = document.getElementsByClassName("tablinks");
+    for (var i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
+    }
+
+    // 선택된 탭 활성화
+    var tabContent = document.getElementById(tabId);
+    tabContent.style.display = "block";
+    evt.currentTarget.classList.add("active");
+}
+
+    function closeTab(tabId) {
+//        var tabContent = document.getElementById(tabId);
+//        var tabLink = tabContent.previousSibling;
+//        var tabContainer = document.getElementById("tabContainer");
+//        tabContainer.removeChild(tabContent);
+//        tabContainer.removeChild(tabLink);
+        
+	    var tabContent = document.getElementById(tabId);
+	    var tabLink = tabContent.previousSibling;
+	
+	    // 탭 컨텐츠 및 탭 링크 제거
+	    tabContent.parentNode.removeChild(tabContent);
+	    tabLink.parentNode.removeChild(tabLink);
+	            
+    }
+
+    function loadUrlInTab(url, tabId) {
+        var tabContent = document.getElementById(tabId);
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    tabContent.innerHTML = xhr.responseText;
+                } else {
+                    tabContent.innerHTML = "Failed to load content.";
+                }
+            }
+        };
+        xhr.open("GET", url, true);
+        xhr.send();
+        
+	    // 중간 프레임 크기 조절
+	    //document.getElementById("middleFrame").style.height = "calc(100% - 50px)";
+            
+    }
+</script>
+
+</body>
+</html>

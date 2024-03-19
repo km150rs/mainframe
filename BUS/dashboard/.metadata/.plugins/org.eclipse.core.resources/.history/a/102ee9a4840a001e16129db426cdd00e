@@ -1,0 +1,621 @@
+
+var param = {};
+var popupManager = null;
+var commonVo =  new Object();
+
+ let columnMap_punctuality = new Map([
+	 ['no'           	,'no']
+	,['company_no'   	,'회사코드']
+	,['emp_no'          ,'사번'          ] 
+	,['emp_nm'          ,'사원명'        ] 
+	,['col000'        	,'버스ID'      ] 
+	,['col001'         	,'차량번호'      ] 
+	,['col002'          ,'운행회차'   ] 
+	,['col003'    		,'운행시작시각'      ] 
+	,['col004'         	,'운행종료시각'          ] 
+	,['route_nm'        ,'노선'          ] 
+	,['term'        	,'배차간격'        ] 
+	,['term_85'       	,'몰림기준'      ] 
+	,['term_125'       	,'지연기준'        ] 
+	,['term_past_cnt'   ,'몰림'        ] 
+	,['term_late_cnt'   ,'지연'        ] 
+	,['term_wiban_cnt'   	,'위반건수'            ] 
+	,['total_station_cnt'   ,'정류장수'      ] 
+	,['last_chg_user'       ,'최종사용자']	 
+	,['last_chg_date'       ,'최종수정일']	 
+]);
+let columnMap_danger = new Map([
+	 ['no'           	,'no']
+	,['company_no'   	,'회사코드']
+	,['emp_nm'       	,'운전자']
+	,['danger_km100'    ,'100km']
+	,['danger_act_cnt'  ,'실제횟수']
+	,['danger_act'      ,'위험행동']
+	,['danger_level'    ,'위험수준']
+	,['driving_cnt'   	,'운행일수']
+	,['driving_distance','총운행거리']
+	,['driving_time'    ,'총운행시간']
+	,['base_ym'     	,'기준월']
+	,['last_chg_user'   ,'최종사용자']	 
+	,['last_chg_date'   ,'최종수정일']	 
+]);
+
+
+let columnMap_accident = new Map([
+	 ['no'           ,'no']
+	,['company_no'   ,'회사코드']
+	,['base_year'   ,'기준년도']
+	,['company_nm'      ,'회사']
+	,['seq'             ,'연번']
+	,['acc_gb'          ,'사고구분']
+	,['gapi_gb'         ,'가피구분']
+	,['acc_kind'        ,'사고유형']
+	,['jacha_rate'      ,'자차과실(%)']
+	,['sangdae_rate'    ,'상대과실(%)']
+	,['proc_result'     ,'처리결과']
+	,['proc_memo'       ,'처리 진행사항']
+	,['acc_date'        ,'사고날짜']
+	,['acc_time'        ,'사고시간']
+	,['acc_place'       ,'사고장소']
+	,['route_nm'        ,'노선번호']
+	,['car_no'       	,'차량번호']
+	,['emp_nm'          ,'운전자']
+	,['daein_in_amt'    ,'대인 입금금액']
+	,['daemul_in_amt'   ,'대물 입금금액']
+	,['in_tot_amt'      ,'입금금액 합계']
+	,['daein_out_amt'   ,'대인 지출금액']
+	,['daemul_out_amt'  ,'대물 지출금액']
+    ,['jacha_amt'       ,'자차수리비 지출금액']
+    ,['out_tot_amt'     ,'지출금액 합계']
+    ,['last_chg_user'        ,'최종사용자']	 
+	,['last_chg_date'        ,'최종수정일']	 
+]);
+ 
+
+function render_check(data,type,row,meta){
+    if (data == null)
+    	return data;
+
+	var api = new $.fn.dataTable.Api(meta.settings);
+	$(api.cell(meta.row, meta.col).node()).css('background-color', '#d5ffff');
+	
+	return data;
+}
+ 
+$( function() {
+	var tabs = $( "#tabs" ).tabs(
+		{
+		  activate: function(e, ui) {
+		    var id = $(ui.newPanel).prop('id');
+		    if (id == 'tabs-1')
+				popupManager.btnView_accident();
+		    else if (id == 'tabs-2')
+				popupManager.btnView_danger();
+		    else popupManager.btnView_punctuality();
+		  }
+		}		
+	);    
+
+ 	
+   $('#widget').css('height', calcDataTableHeight()-70).split({
+//   $('#widget').css('height', calcDataTableHeight()+70).split({
+       orientation: 'vertical',
+       limit: 100,
+       position: '15%',
+       percent: true
+   });
+
+	popupManager = (function () {
+	    function popupManager() {
+	    } 	
+	    popupManager.mainGrid = null;
+	    popupManager.empListGrid = null;
+ 
+		$(".inp-img").on('change', function(){
+		    popupManager.readInputFile(this);
+		});
+		
+		$(".btn-delete").click(function(event) {
+		    popupManager.resetInputFile();
+		});
+	    popupManager.setSaveParamVo = function setSaveParamVo() {
+			var table = $('#empGrid').DataTable();
+			var itemList = [];
+			
+	    	table.rows( function ( idx, aData, node2 ) {
+			    // combobox 값을 cell 값으로 가져옴
+    			var typeGb = $(node2).find('.comboBoxType').val()
+				aData.wiban_gijun = typeGb;
+				itemList [idx] = aData;
+			});
+
+			return JSON.stringify (itemList);
+		}	    
+		popupManager.setCommonVo = function setCommonVo(targetTable,filterType,filterText,bValidCheck) {
+			commonVo.targetTable = targetTable;
+			commonVo.filterType = filterType;
+			commonVo.filterText = filterText;
+			return JSON.stringify (commonVo);
+		}		
+		/*
+		 *  저장
+		 */
+	    popupManager.btnSave = function () {
+			var commonVoString = popupManager.setCommonVo('TBM_ROUTE_COMMON_INFO','TBM_ROUTE_COMMON_INFO','',true);
+			var jsonString = popupManager.setSaveParamVo();
+			//console.log(commonVoString);
+			console.log(jsonString);
+			$.ajax({
+			       url : "/BUS_insertInfo",
+			       "data" :  {jsonDataStr : jsonString,commonVoStr : commonVoString}, 	       
+			        global: true, // 추가
+			        //async : false,
+			       timeout : 10000,
+			       success : function(ret) {	
+			    	   swal(ret);
+			    	   //popupManager.btnView();
+			       },
+			       error : function(request, status, error) {
+			    	   swal(request.responseText,'error');
+			       }
+				});	
+		}
+		popupManager.btnView = function (empNm) {
+			popupManager.mainGrid.clear(); 
+			dynamicAjaxCall(empNm,'getEmployeeCard');	
+		}
+		
+		
+		popupManager.empListView = function (table) {
+			var commonVoStr = popupManager.setCommonVo('','getEmployeeList','','N');
+			if (commonVoStr == null) return;
+			$.ajax({
+			       url : "/DynamicSqlFilterNoHeader",
+		    	   "data" :   {commonVoStr : commonVoStr},
+			       "dataSrc" : "",
+			        global: true, // 추가
+			        //async : false,
+			       dataType : 'json',
+			       timeout : 10000,
+			       success : function(result) {	
+					   console.log(result);
+			    	   table.clear().draw();
+					   table.rows.add( result).draw(false);
+			       },
+			       error : function(request, status, error) {
+			        	alert(request.responseText);
+			       }
+			});	
+			
+		}
+
+		/*
+		 * 배차정시성 조회
+		 */
+	    popupManager.btnView_punctuality = function () {
+			//commonVo.empNm = empNm;
+			var commonVoString = popupManager.setCommonVo('','TBL_ARRANGE_PUNCTUALITY_ANALIZE_emp','','');
+			//console.log(commonVoString);
+			var columns = [];
+			var exp1 = /(company_no|last_chg_user|last_chg_date)/;
+			$.ajax({
+			       url : "/DynamicSqlFilter",
+			       "data" :  {commonVoStr : commonVoString}, 	       
+			       "dataSrc" : "",
+			        global: false, // 추가
+			        async : false,
+			       dataType : 'json',
+			       timeout : 10000,
+			       success : function(ret) {	
+					  // //console.log(ret);
+					  var colNmEng ;
+						for (var i = 0; i < ret.header.length; i++) {
+							colNmEng = ret.header[i].COLUMN_NAME.toLowerCase();
+							var colNm = columnMap_punctuality.get(colNmEng);
+			    	        columns[i] = {
+			    	            'title': colNm,
+			    	            'data': colNmEng,
+			    	            'className': ret.header[i].TYPE_NAME, // DynamicHeaderMapper에서
+			    	            'visible' : exp1.test(colNmEng) ? false : true
+			    	        }
+			    	    };
+			    	    
+		    	        gfn_setGridData('#punctualityGrid',columns,ret.data,(calcDataTableHeight() / 2),true);
+					
+						//popupManager.btnView_danger(empNm);
+
+			       },
+			       error : function(request, status, error) {
+			    	   swal(request.responseText,'error');
+			       }
+				});	
+		}
+	
+		/*
+		 * 사고 조회
+		 */
+	    popupManager.btnView_accident = function () {
+			//commonVo.empNm = empNm;
+			var commonVoString = popupManager.setCommonVo('','TBM_ACCIDENT_INFO_empNm','','');
+			//console.log(commonVoString);
+			var columns = [];
+			var exp1 = /(company_no|base_year|company_nm|last_chg_user|last_chg_date)/;
+			$.ajax({
+			       url : "/DynamicSqlFilter",
+			       "data" :  {commonVoStr : commonVoString}, 	       
+			       "dataSrc" : "",
+			        global: false, // 추가
+			        async : false,
+			       dataType : 'json',
+			       timeout : 10000,
+			       success : function(ret) {	
+					  // //console.log(ret);
+					  var colNmEng ;
+						for (var i = 0; i < ret.header.length; i++) {
+							colNmEng = ret.header[i].COLUMN_NAME.toLowerCase();
+							var colNm = columnMap_accident.get(colNmEng);
+			    	        columns[i] = {
+			    	            'title': colNm,
+			    	            'data': colNmEng,
+			    	            'className': ret.header[i].TYPE_NAME, // DynamicHeaderMapper에서
+			    	            'visible' : exp1.test(colNmEng) ? false : true
+			    	        }
+			    	    };
+			    	    
+		    	        gfn_setGridData('#accidentGrid',columns,ret.data,(calcDataTableHeight() / 2),true);
+					
+						//popupManager.btnView_danger(empNm);
+
+			       },
+			       error : function(request, status, error) {
+			    	   swal(request.responseText,'error');
+			       }
+				});	
+		}
+		/*
+		 * 위험운전행동 분석(3년치)
+		 */
+	    popupManager.btnView_danger = function () {
+			//commonVo.empNm = empNm;
+			var commonVoString = popupManager.setCommonVo('','danagerAnal_Employee2','','');
+			console.log(commonVoString);
+			var columns = [];
+			var exp1 = /(company_no|last_chg_user|last_chg_date)/;
+			$.ajax({
+			       url : "/DynamicSqlFilter",
+			       "data" :  {commonVoStr : commonVoString}, 	       
+			       "dataSrc" : "",
+			        global: false, // 추가
+			        //async : false,
+			       dataType : 'json',
+			       timeout : 10000,
+			       success : function(ret) {	
+					  // //console.log(ret);
+					  var colNmEng ;
+						for (var i = 0; i < ret.header.length; i++) {
+							colNmEng = ret.header[i].COLUMN_NAME.toLowerCase();
+							var colNm = columnMap_danger.get(colNmEng);
+			    	        columns[i] = {
+			    	            'title': colNm,
+			    	            'data': colNmEng,
+			    	            'className': ret.header[i].TYPE_NAME, // DynamicHeaderMapper에서
+			    	            'visible' : exp1.test(colNmEng) ? false : true
+			    	        }
+			    	    };
+			    	    
+		    	        gfn_setGridData('#dangerGrid',columns,ret.data,(calcDataTableHeight() / 2),true);
+					
+			       },
+			       error : function(request, status, error) {
+			    	   swal(request.responseText,'error');
+			       }
+				});	
+		}			
+		popupManager.uploadImage = function() {
+			var input = $('.inp-img');
+			//console.log(input);
+			let formData = new FormData($('#uploadForm')[0]);
+			formData.append('images',input[0]);
+			formData.append('empNm',commonVo.empNm);
+		
+			$.ajax({
+				type:'post'
+				,enctype:'multipart/form-data'
+				,url :'/upload_image'
+				,data:formData
+				,processData:false
+				,contentType : false
+				,success: function(data) {
+					alert(
+				        '등록완료'
+				      )
+					popupManager.mainGrid.cell(0,0).invalidate().draw();
+				}
+				, error : function(e) {
+					alert('error');
+				}
+			});
+		    popupManager.resetInputFile();
+		}
+
+		popupManager.empListGrid  = $("#empListGrid").DataTable({
+			    "scrollY": calcDataTableHeight(),
+		        scrollCollapse: true,
+	    	    "language": {
+	    	        "emptyTable": "No data",
+    	    		searchPlaceholder: "search",
+        			search: "검색:"	    	        
+	    	    },    		
+	    	    //fixedHeader: true,
+	    	    select: {
+	            	style: 'os',
+	            	items: 'row'
+	        	},
+	        	ordering: true,
+		        "searching": true,
+				//dom: '<"top"i>rt<"top"flp><"clear">',
+		        scrollX: true,
+			    "columnDefs": [
+			        {"className": "dt-center", "targets": "_all"}
+	    		],
+		        columns : [
+	    	        {data: "emp_no"				,width:'10%'	}
+	    	        ,{data: "emp_nm"			,width:'10%'	}
+	    	        ,{data: "route_nm"			,width:'10%'	}
+			    ]
+		});  
+		popupManager.mainGrid = $("#empGrid").DataTable({
+		    "language": {
+		        "emptyTable": "no data"
+	       	},    		
+		    "scrollY": 570,
+	        //scrollCollapse: true,
+	        //scrollX: true,
+
+/*		    select: {
+	            style: 'single'
+		    },
+*/	//	    order : [[3,'asc']],
+		//    ordering: true,
+		    //autoWidth: true,
+		    "columnDefs": [
+		        {"className": "dt-center", "targets": [0,2,4,6,8,10]}	        
+		        ,{"className": "dt-right", "targets": [1,3,5,7,9],render : render_check}	        
+	    	],
+      		 columns : [
+		    	{data: "A0" 			,width:"10%", 
+		    		render: function (data, type, row, meta) {
+						if (meta.row == 0)
+							return '<img src="/images/' + data + '" height="100" width="100">';
+						else return data;
+//                		return '<img src="/resources/static/images/Screenshot.png" height="50" width="50"/>';
+              		}
+                },
+		    	{data: "A1" 			,width:"5%" },
+		    	{data: "A1_VALUE"		,width:"13%"},
+		    	{data: "A2" 			,width:"8%" },
+		    	{data: "A2_VALUE"		,width:"10%"},
+		    	{data: "A3" 			,width:"8%" },
+		    	{data: "A3_VALUE"		,width:"10%"},
+		    	{data: "A4" 			,width:"8%" },
+		    	{data: "A4_VALUE"		,width:"10%"},
+		    	{data: "A5" 			,width:"8%" },
+		    	{data: "A5_VALUE"		,width:"10%"},
+		     ]
+		});		
+/*		
+		datatableEdit({
+			dataTable : popupManager.mainGrid,
+			//eventTarget : 'tbody td',
+			columnDefs : [
+				 	{targets : 3	,maxlength:10}
+				, 	{targets : 4	,maxlength:10}
+				//,	{targets : 5	,maxlength:10}
+				,	{targets : 6	,maxlength:10}
+				,	{targets : 7	,maxlength:10}
+			]
+			,onEdited : function(prev, changed, index, cell) {
+				if (prev != changed) {
+					$(popupManager.mainGrid.cell({row: index.row, column: index.column}).node()).css('color', 'red');
+					popupManager.mainGrid.cell(index.row, 0).data('Y');
+				}
+			}
+		});		*/
+
+		// 등록 이미지 등록 미리보기
+		popupManager.readInputFile = function (input) {
+		    if(input.files && input.files[0]) {
+		        var reader = new FileReader();
+		        reader.onload = function (e) {
+		            //$('#preview').html("<img src="+ e.target.result +">");
+		            
+					Swal.fire({
+					  title: '사진등록',
+					  text: '위 사진을 등록하시겠습니까?',
+					  imageUrl: e.target.result,
+					  imageWidth: 100,
+					  imageHeight: 100,
+					  imageAlt: 'Custom image',
+						showCancelButton: true,
+		  				confirmButtonText: '등록',		
+		  					  showLoaderOnConfirm: true, // 데이터 결과를 받을때까지, 버튼에다가 로딩바를 표현
+						  preConfirm: (login) => { // 확인 버튼 누르면 실행되는 콜백함수
+								popupManager.uploadImage();
+						  },
+						  
+						  // 실행되는 동안 배경 누를때 모달창 안닫히도록 설정
+						  // isLoading() 즉, 로딩이 진행되는 동안 false를 리턴하게 해서 ousideClick을 안되게 하고, 로딩 상태가 아니면 ousideClick을 허용한다.
+						  allowOutsideClick: () => !Swal.isLoading() 
+					})
+           		    //popupManager.resetInputFile();
+		        }
+		        reader.readAsDataURL(input.files[0]);
+		    }
+		}
+		
+		// 등록 이미지 삭제 ( input file reset )
+		popupManager.resetInputFile =  function () {
+			var $input = $(".inp-img");
+		    var agent = navigator.userAgent.toLowerCase();
+		    if((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1)) {
+		        // ie 일때
+		        $input.replaceWith($input.clone(true));
+		        //$preview.empty();
+		    } else {
+		        //other
+		        $input.val("");
+		        //$preview.empty();
+		    }       
+		}
+
+	    return popupManager;
+	}());
+
+	$(document).on('click', '#btnSave', function () {
+		popupManager.btnSave();
+	});
+	// Handle change event for status selection control
+	//$('#empGrid').on('change', '.comboBoxType', function(){
+	    
+	 //   var row = $('#empGrid').DataTable().row($(this).closest('tr')).index();
+	 //   console.log(row);
+	    
+	    //$(rownode).find('.comboBoxType').val(item.wiban_gijun)
+	 //   popupManager.mainGrid.cell(row, 5).data($(this).val()).draw(false);	
+	//});
+	
+	// grid조회시 하단 내용조회
+	$('#empListGrid').on('click','td', function() {
+		var table = $('#empListGrid').DataTable();
+		var row = table.cell(this).index().row;
+		var col = table.cell(this).index().column;
+
+		var empNm = table.cell( row,1 ).data();
+		$( "#tabs" ).tabs( "option", "active", 0 );
+		popupManager.btnView(empNm);
+		//popupManager.btnView_danger(empNm);
+	});	
+
+/*	// 업로드 수행
+    $('#uploadBtn').on('click', function() {
+		var input = $('.inp-img');
+		console.log(input);
+		let formData = new FormData($('#uploadForm')[0]);
+		formData.append('images',input[0]);
+		formData.append('empNm',commonVo.empNm);
+
+		$.ajax({
+			type:'post'
+			,enctype:'multipart/form-data'
+			,url :'/upload_image'
+			,data:formData
+			,async : false
+			,processData:false
+			,contentType : false
+			,success: function(data) {
+				//alert('ok');
+				
+				popupManager.btnView(commonVo.empNm);
+			}
+			, error : function(e) {
+				alert('error');
+			}
+		});
+	});	
+*/
+	// delete 수행
+    $('#deleteImageBtn').on('click', function() {
+		let formData = new FormData($('#uploadForm')[0]);
+		formData.append('empNm',commonVo.empNm);
+
+		$.ajax({
+			type:'post'
+			,url :'/delete_image'
+			,enctype:'multipart/form-data'
+			,processData:false
+			,contentType : false
+			,data:formData
+			,success: function(data) {
+				alert('ok');
+				popupManager.mainGrid.cell(0,0).invalidate().draw();
+
+			}
+			, error : function(e) {
+				alert('error');
+			}
+		});
+	});		
+	popupManager.empListView(popupManager.empListGrid);
+});
+
+
+
+
+/*
+ * dynamic 공통 호출
+ */
+function dynamicAjaxCall(empNm,filterType) {
+
+	commonVo.filterType = filterType;
+	//console.log(param.route_nm);
+	//commonVo.routeNm = '';
+	commonVo.empNm = empNm;
+	commonVo.filterText = '';
+	var commonVoStr = JSON.stringify (commonVo);
+	
+	console.log(commonVoStr);
+	
+	$.ajax({
+	       url : "/DynamicSqlFilterMybatis",
+    	   "data" :   {commonVoStr : commonVoStr},
+	       "dataSrc" : "",
+	        global: true, // 추가
+	       dataType : 'json',
+	       async : false,
+	       timeout : 10000,
+	       success : function(ret) {	
+/*                $.each(ret.data, function (i, item) {
+                	var rownode = popupManager.mainGrid.row.add( item ).draw(false).node();
+                	// use_yn을 combobox로 변환	
+                	$(rownode).find('.comboBoxType').val(item.wiban_gijun)
+                })			   
+*/
+    	        popupManager.mainGrid.rows.add( ret.data ).draw();
+	    	    //popupManager.mainGrid.columns.adjust().draw(false);
+
+				$(popupManager.mainGrid.cell(5,2).node()).attr('colspan', 7);
+				for (var i=3; i<=8;i++) {
+					$(popupManager.mainGrid.cell(5,i).node()).css('display', 'none');
+				}
+				
+				$(popupManager.mainGrid.cell(0,0).node()).attr('rowspan', 6);
+				for (var j=1; j<=5;j++) {
+					$(popupManager.mainGrid.cell(j,0).node()).css('display', 'none');
+				}
+
+	
+				var day = popupManager.mainGrid.cell(2,4).data();
+				
+				popupManager.mainGrid.cell(2,4).data(cal_year(day)).draw();
+				
+				popupManager.btnView_accident();
+
+	       },
+	       error : function(request, status, error) {
+	        alert(request.responseText);
+	       }
+	});	
+}
+
+function cal_year(day)
+{
+    var cYear = parseInt(day / 365);
+    var cMonth = parseInt((day % 365)/30);
+
+	return  cYear + '년 ' + cMonth + '개월' ;
+}
+
+function calcDataTableHeight () {
+	  return ($(window).height() -200) ;
+	  //return ($(window).height() * 55 / 100) ;
+};

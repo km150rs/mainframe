@@ -1,0 +1,639 @@
+mtr.logAsspect.InsertLog=false
+mtr.logAsspect.ControllerTimeCheck=false
+mtr.logAsspect.ControllerStartTime=07:50:00
+mtr.logAsspect.ControllerEndTime=21:30:00
+mtr.auth.ip=172.16.112.42,172.16.112.54
+mtr.auth.check=false 
+
+mtr.apicheck.recv.phoneNo=01038443140
+mtr.apicheck.send.phoneNo=0237745918
+
+#	한글깨짐 조치
+#    	String a = getCompositeConfiguration().getString(key);
+#       return new String(a.getBytes("ISO-8859-1"),"UTF-8");
+#
+
+#휴일조회  
+ mtr.query.filter_selectHolidayInfo= \
+	SELECT a.* ,a.work_date as key,rownum as id \
+	FROM TBM_Holiday_INFO a \
+	where 	a.company_no = '@companyNo' \
+    AND 	a.work_date   like substr('@workDate',1,4) || '%' \
+	order by a.work_date
+
+#일별 배차상세조회
+ mtr.query.filter_dailyArrangeInfo= \
+ SELECT k.*,e.phone_no,e.email,e.emp_no \
+ FROM ( \
+		 SELECT a.CAR_REGNO ,a.EMP_NM ,'' as value,REGEXP_REPLACE(a.@checkDay,'[*0-9@]','') AS ampm,convert(REGEXP_REPLACE(a.@checkDay,'[*ap@]',''),int) AS seq \
+		 FROM 	TBL_MONTH_ARRANGE_DETAIL a \
+		 WHERE 	a.company_no = '@companyNo' \
+		 AND 	a.route_nm = '@routeNm' \
+		 AND    a.BASE_Ym = '@baseYm' \
+		 AND    a.CAR_REGNO  NOT LIKE 'SP%' \
+		 AND 	a.@checkDay NOT LIKE '%*%' \
+		 AND 	a.@checkDay NOT LIKE '%@%' \
+		 AND    a.DISPATCH_SEQ = 5 \
+		 UNION ALL \
+		 SELECT a.CAR_REGNO ,b.EMP_NM ,'SP' as value,REGEXP_REPLACE(a.@checkDay,'[*0-9@-]','') AS ampm,convert(REGEXP_REPLACE(a.@checkDay,'[*ap@-]',''),int) AS seq \
+		 FROM 	TBL_MONTH_ARRANGE_DETAIL a LEFT OUTER JOIN TBL_MONTH_ARRANGE_DETAIL b \
+							 on     a.COMPANY_NO =b.COMPANY_NO \
+							 AND 	a.ROUTE_NM = b.ROUTE_NM \
+							 AND 	a.BASE_YM  = b.BASE_YM \
+							 AND 	a.DISPATCH_SEQ = b.DISPATCH_SEQ \
+							 AND    b.CAR_REGNO LIKE 'SP%' \
+							 AND 	a.@checkDay LIKE b.@checkDay || '%' \
+		WHERE	a.company_no = '@companyNo'  \
+		AND 	a.route_nm = '@routeNm' \
+		AND     a.BASE_Ym = '@baseYm' \
+		AND     a.CAR_REGNO  NOT LIKE 'SP%' \
+		AND 	(a.@checkDay LIKE '%*%' OR a.@checkDay LIKE '%@%') \
+		AND     a.DISPATCH_SEQ = 5 \
+ ) k left outer join tbl_employeeInfo e \
+ on k.emp_nm = e.emp_nm \
+ AND 	e.company_no = '100' \
+ ORDER BY 4 ,5
+
+mtr.query.filter_dailyArrangeInfo_old= \
+	SELECT  b.CAR_REGNO ,a.EMP_NM ||'*' AS EMP_NM ,a.@checkDay, REGEXP_REPLACE(a.@checkDay,'[*0-9@]','') AS ampm,convert(REGEXP_REPLACE(a.@checkDay,'[*ap@]',''),int) AS seq \
+	 FROM 	TBL_MONTH_ARRANGE_DETAIL a ,TBL_MONTH_ARRANGE_DETAIL b \
+	 WHERE 	a.company_no = '@companyNo' \
+	 AND 	a.route_nm = '@routeNm' \
+	 AND    a.BASE_Ym = '@baseYm' \
+	 AND    a.CAR_REGNO  LIKE 'SP%'\
+	 AND    a.DISPATCH_SEQ = 5 \
+	 AND    a.COMPANY_NO =b.COMPANY_NO \
+	 AND 	a.ROUTE_NM = b.ROUTE_NM \
+	 AND 	a.BASE_YM  = b.BASE_YM \
+	 AND 	a.DISPATCH_SEQ = b.DISPATCH_SEQ \
+	 AND    b.CAR_REGNO NOT LIKE 'SP%' \
+	 AND 	b.@checkDay LIKE a.d1 || '%' \
+	 UNION ALL \
+	 SELECT a.CAR_REGNO ,a.EMP_NM ,a.@checkDay,REGEXP_REPLACE(a.@checkDay,'[*0-9@]','') AS ampm,convert(REGEXP_REPLACE(a.@checkDay,'[*ap@]',''),int) AS seq \
+	 FROM 	TBL_MONTH_ARRANGE_DETAIL a \
+	 WHERE 	a.company_no = '@companyNo' \
+	 AND 	a.route_nm = '@routeNm' \
+	 AND    a.BASE_Ym = '@baseYm' \
+	 AND    a.CAR_REGNO  NOT LIKE 'SP%' \
+	 AND 	a.@checkDay NOT LIKE '%-' \
+	 AND    a.DISPATCH_SEQ = 5  \
+	 ORDER BY 4,5 
+	 
+
+# 노선배차설정
+ mtr.query.filter_getRouteInfoDetail= \
+	SELECT 	a.ROUTE_NM \
+		,	a.auto_cnt as tot_count \
+		,	max(CASE WHEN REDUCT_WEEK = 7 THEN REDUCT_COUNT ELSE 0 END) sat_count \
+		,	max(CASE WHEN REDUCT_WEEK = 1 THEN REDUCT_COUNT ELSE 0 END) sun_count \
+		,	nvl(c.NEXT_WORK_INTERVAL ,0) AS next_interval ,'N' as bit \
+	FROM TBL_ROUTEINFO a LEFT OUTER JOIN TBM_ROUTE_REDUCTION_INFO b \
+			ON  	a.COMPANY_NO = b.COMPANY_NO  \
+			AND 	a.ROUTE_NM = b.ROUTE_NM  \
+			LEFT OUTER JOIN TBM_ROUTEINFO_DETAIL c \
+			ON  	a.COMPANY_NO = c.COMPANY_NO  \
+			AND 	a.ROUTE_NM = c.ROUTE_NM \
+	GROUP BY a.ROUTE_NM ,a.auto_cnt		\
+	ORDER BY 1
+
+# 노선배차조회_ampm구분별
+mtr.h2.BUS_monthArrangeDetail_ampm= \
+    WITH RECURSIVE countera(n) AS ( \
+		WITH routeCount AS ( \
+		SELECT 'a' ampm_gubun, a.AUTO_CNT FROM TBL_ROUTEINFO a \
+			WHERE 	a.COMPANY_NO  = '@companyNo' \
+			AND 	a.ROUTE_NM    = '@routeNm'	 \
+		union \
+			SELECT 'p' ampm_gubun, a.AUTO_CNT FROM TBL_ROUTEINFO a \
+			WHERE 	a.COMPANY_NO  = '@companyNo' \
+			AND 	a.ROUTE_NM    = '@routeNm' \
+		) \
+	  	SELECT t.n+1,t.n as no,c.ampm_gubun,to_char(t.n,'00') || c.ampm_gubun AS gubun \
+ 				,  CASE WHEN a.ampm_gubun = '' AND a.d1 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d1 ,'[*@?]') and a.d1  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d1        \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d2  like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d2  ,'[*@?]') and a.d2   like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d2     \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d3  like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d3  ,'[*@?]') and a.d3   like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d3     \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d4  like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d4  ,'[*@?]') and a.d4   like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d4     \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d5  like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d5  ,'[*@?]') and a.d5   like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d5     \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d6  like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d6  ,'[*@?]') and a.d6   like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d6     \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d7  like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d7  ,'[*@?]') and a.d7   like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d7     \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d8  like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d8  ,'[*@?]') and a.d8   like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d8     \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d9  like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d9  ,'[*@?]') and a.d9   like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d9     \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d10 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d10 ,'[*@?]') and a.d10  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d10    \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d11 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d11 ,'[*@?]') and a.d11  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d11    \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d12 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d12 ,'[*@?]') and a.d12  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d12    \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d13 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d13 ,'[*@?]') and a.d13  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d13    \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d14 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d14 ,'[*@?]') and a.d14  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d14    \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d15 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d15 ,'[*@?]') and a.d15  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d15    \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d16 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d16 ,'[*@?]') and a.d16  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d16    \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d17 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d17 ,'[*@?]') and a.d17  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d17    \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d18 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d18 ,'[*@?]') and a.d18  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d18    \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d19 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d19 ,'[*@?]') and a.d19  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d19    \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d20 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d20 ,'[*@?]') and a.d20  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d20    \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d21 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d21 ,'[*@?]') and a.d21  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d21    \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d22 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d22 ,'[*@?]') and a.d22  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d22    \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d23 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d23 ,'[*@?]') and a.d23  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d23    \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d24 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d24 ,'[*@?]') and a.d24  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d24    \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d25 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d25 ,'[*@?]') and a.d25  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d25    \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d26 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d26 ,'[*@?]') and a.d26  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d26    \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d27 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d27 ,'[*@?]') and a.d27  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d27    \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d28 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d28 ,'[*@?]') and a.d28  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d28    \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d29 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d29 ,'[*@?]') and a.d29  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d29    \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d30 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d30 ,'[*@?]') and a.d30  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d30    \
+				,  CASE WHEN a.ampm_gubun = '' AND a.d31 like t.n || c.ampm_gubun ||'%' THEN emp_nm ||'*' WHEN not REGEXP_LIKE(a.d31 ,'[*@?]') and a.d31  like t.n || c.ampm_gubun  THEN EMP_NM ELSE '' END d31    \
+      FROM t ,TBL_MONTH_ARRANGE_DETAIL a , routeCount c \
+    	WHERE 	a.COMPANY_NO  = '@companyNo' \
+    	AND 	a.ROUTE_NM    = '@routeNm' \
+    	AND 	a.BASE_YM = '@baseYm' \
+    	AND     t.n <= c.auto_cnt \
+    ) \
+    SELECT 	decode(ampm_gubun,'a','오전','오후') as ampm_gubun , no as seq,0 as cnt \
+    	,	max(d1 ) as d1 \
+    	,	max(d2 ) as d2 \
+    	,	max(d3 ) as d3 \
+    	,	max(d4 ) as d4 \
+    	,	max(d5 ) as d5 \
+    	,	max(d6 ) as d6 \
+    	,	max(d7 ) as d7 \
+    	,	max(d8 ) as d8 \
+    	,	max(d9 ) as d9 \
+    	,	max(d10) as d10 \
+    	,	max(d11) as d11 \
+    	,	max(d12) as d12 \
+    	,	max(d13) as d13 \
+    	,	max(d14) as d14 \
+    	,	max(d15) as d15 \
+    	,	max(d16) as d16 \
+    	,	max(d17) as d17 \
+    	,	max(d18) as d18 \
+    	,	max(d19) as d19 \
+    	,	max(d20) as d20 \
+    	,	max(d21) as d21 \
+    	,	max(d22) as d22 \
+    	,	max(d23) as d23 \
+    	,	max(d24) as d24 \
+    	,	max(d25) as d25 \
+    	,	max(d26) as d26 \
+    	,	max(d27) as d27 \
+    	,	max(d28) as d28 \
+    	,	max(d29) as d29 \
+    	,	max(d30) as d30 \
+    	,	max(d31) as d31 \
+    from countera \
+    GROUP BY ampm_gubun,gubun
+    
+# 노선배차상태
+ mtr.query.filter_getRouteArrangeStatus= \
+ 	SELECT 	a.ROUTE_NM,b.STATUS,b.LAST_CHG_USER,b.LAST_CHG_DATE \
+	FROM 	TBL_ROUTEINFO a left outer join TBM_MONTH_ARRANGE_STATUS b \
+		on	a.company_no = b.company_no \
+		and a.route_nm   = b.route_nm \
+	    AND b.BASE_YM = '@baseYm' \
+		AND	b.ROUTE_NM like '@routeNm' || '%' \
+	WHERE 	a.company_no = '@companyNo' \
+	ORDER BY 1
+
+#근태현황조회  
+ mtr.query.filter_selectEmpNmList= \
+	SELECT	DISTINCT(b.EMP_NM) || '/' || b.ROUTE_NM ||  '/' || b.sp_gb || '/' || b.car_regno as emp_info ,b.EMP_NM,b.route_nm,b.sp_gb \
+	FROM	TBL_DRIVERINFO b \
+	WHERE	b.company_no = '100' \
+	AND     b.emp_nm like ('@empNm' || '%') \
+	order by b.route_nm desc,b.sp_gb desc,b.EMP_NM
+
+
+#근태현황조회  
+ mtr.query.filter_selectAttendanceInfo= \
+	SELECT a.* ,a.work_date||a.emp_nm||a.attendance_Type as key,rownum as id \
+		,	b.ROUTE_NM ,b.SP_GB ,b.CAR_REGNO \
+		,	b.EMP_NM || '/' || b.ROUTE_NM ||  '/' || b.sp_gb || '/' || b.car_regno as emp_info \
+	FROM TBM_DRIVER_Attendance_INFO a LEFT OUTER join TBL_DRIVERINFO b \
+		on 	a.COMPANY_NO  	= b.COMPANY_NO \
+		AND a.EMP_NM 		= b.EMP_NM \
+	where 	a.company_no = '@companyNo' \
+    AND 	a.work_date   between '@fromDate' and '@toDate' \
+	and 	a.emp_nm like '@empNm%' \
+	AND 	a.attendance_Type  = decode ('@attendanceType','All',a.attendance_Type,'@attendanceType') \
+	order by a.work_date,a.emp_nm,a.attendance_type
+
+#SP 기사의 타노선 배차정보  
+ mtr.query.filter_sp_otherAllocateInfo= \
+	SELECT  b.ROUTE_NM,b.CAR_REGNO \
+	 FROM 	TBL_MONTH_ARRANGE_DETAIL b \
+	where 	b.company_no = '@companyNo' \
+        AND b.BASE_YM = '@baseYm' \
+  	 	and b.DISPATCH_SEQ = 5 \
+	 	AND b.CAR_REGNO NOT LIKE  'SP%' \
+	 	AND b.ROUTE_NM <> '@routeNm' \
+	 	AND b.d@checkDay = '@dayValue' || '-' 
+	 	
+#당월배차_전월근무패턴(운전자정보상세)
+ mtr.query.filter_TBM_DRIVERINFO_DETAIL= \
+	SELECT  'N' as bit,CAR_REGNO ,EMP_NM ,prev_daily_seq ,PREV_WORK_PATTERN ,ampm_gubun, off_group \
+	FROM TBM_DRIVERINFO_DETAIL \
+    where   company_no = '@companyNo' \
+	AND 	route_nm = '@routeNm' \
+	AND     BASE_YM = '@baseYm'
+	 
+#사원정보
+ mtr.query.filter_TBL_EMPLOYEEINFO= \
+    select   ROWNUM AS no,a.* \
+    from    TBL_employeeInfo a \
+    where   a.company_no = '@companyNo' \
+    order by a.emp_no
+    
+#차량정보
+ mtr.query.filter_TBL_CARINFO= \
+    select   ROWNUM AS no,a.* \
+    from    TBL_carInfo a \
+    where   a.company_no = '@companyNo' \
+    order by a.car_regno
+
+#운전자정보
+ mtr.query.filter_TBL_DRIVERINFO= \
+    select   ROWNUM AS no,a.* \
+    from    TBL_DRIVERINFO a \
+    where   a.company_no = '@companyNo' \
+    order by a.emp_no
+    
+#노선정보
+ mtr.query.filter_TBL_ROUTEINFO= \
+    select   ROWNUM AS no,a.* \
+    from    TBL_ROUTEINFO a \
+    where   a.company_no = '@companyNo' \
+    order by a.lno
+    
+#SP기사정보
+ mtr.query.filter_TBL_DRIVERINFO_SP= \
+	SELECT decode(ROUTE_NM,'@routeNm','0'||ROUTE_NM,'1'||ROUTE_NM)   AS ord,ROUTE_NM ,EMP_NM ,BIRTH_YMD ,ENTER_DATE, HOBONG \
+	FROM TBL_DRIVERINFO td \
+	WHERE COMPANY_NO ='@companyNo' \
+	AND SP_GB  = 'SP' \
+	AND ACTIVE_STATUS ='재직' \
+	ORDER BY 1,BIRTH_YMD  
+    
+        
+# 배차 상세
+# 휴가는 @로 표시하며
+# 최종적으로 '-':대차, '*:휴무', '@:휴가' 가 아닌경우 '@'를 붙혀 조회한다. 
+ mtr.h2.BUS_monthArrangeDetail= \
+ WITH offInfo as ( \
+	SELECT	a.EMP_Nm \
+		,max(CASE		WHEN b.D1  BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D1  \
+		,max(CASE		WHEN b.D2  BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D2  \
+		,max(CASE		WHEN b.D3  BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D3  \
+		,max(CASE		WHEN b.D4  BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D4  \
+		,max(CASE		WHEN b.D5  BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D5  \
+		,max(CASE		WHEN b.D6  BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D6  \
+		,max(CASE		WHEN b.D7  BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D7  \
+		,max(CASE		WHEN b.D8  BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D8  \
+		,max(CASE		WHEN b.D9  BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D9  \
+		,max(CASE		WHEN b.D10 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D10 \
+		,max(CASE		WHEN b.D11 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D11 \
+		,max(CASE		WHEN b.D12 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D12 \
+		,max(CASE		WHEN b.D13 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D13 \
+		,max(CASE		WHEN b.D14 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D14 \
+		,max(CASE		WHEN b.D15 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D15 \
+		,max(CASE		WHEN b.D16 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D16 \
+		,max(CASE		WHEN b.D17 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D17 \
+		,max(CASE		WHEN b.D18 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D18 \
+		,max(CASE		WHEN b.D19 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D19 \
+		,max(CASE		WHEN b.D20 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D20 \
+		,max(CASE		WHEN b.D21 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D21 \
+		,max(CASE		WHEN b.D22 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D22 \
+		,max(CASE		WHEN b.D23 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D23 \
+		,max(CASE		WHEN b.D24 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D24 \
+		,max(CASE		WHEN b.D25 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D25 \
+		,max(CASE		WHEN b.D26 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D26 \
+		,max(CASE		WHEN b.D27 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D27 \
+		,max(CASE		WHEN b.D28 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D28 \
+		,max(CASE		WHEN b.D29 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D29 \
+		,max(CASE		WHEN b.D30 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D30 \
+		,max(CASE		WHEN b.D31 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D31 \
+	FROM 	TBM_DRIVER_Attendance_INFO a,TBL_MONTH_ARRANGE_DETAIL b \
+	WHERE 	a.company_no = '@companyNo' \
+	AND     a.delete_yn  = 'N' \
+	AND 	(a.START_DATE LIKE '@baseYm%' or a.END_DATE LIKE '@baseYm%') \
+	AND  	a.company_no = b.COMPANY_NO \
+	AND 	b.BASE_YM ='@baseYm' \
+	AND 	b.DISPATCH_SEQ =0 \
+	AND 	b.ROUTE_NM ='@routeNm' \
+	AND     '@offIncludeYn' = 'Y' \
+	GROUP BY a.EMP_NM \
+ ) \
+ SELECT b.CAR_REGNO,b.emp_nm , 0 AS tot_work_date\
+/*     , DAY(DATEADD(DAY,-1,DATEADD(MONTH ,1,date'@baseFirstYmd') ) ) \
+    	- LENGTH (REGEXP_REPLACE(b.D1||b.D2||b.D3||b.D4||b.D5||b.D6||b.D7||b.D8||b.D9||b.D10||b.D11||b.D12||b.D13||b.D14||b.D15||b.D16||b.D17||b.D18||b.D19||b.D20||b.D21||b.D22||b.D23||b.D24||b.D25||b.D26||b.D27||b.D28||b.D29||b.D30||b.D31,'[a-zA-Z0-9]','') ) AS tot_work_date */ \
+    ,b.D1  || CASE WHEN REGEXP_LIKE(b.D1 , '[-*@]', 'i')  THEN '' ELSE nvl(f.D1 ,'') END as D1  \
+	,b.D2  || CASE WHEN REGEXP_LIKE(b.D2 , '[-*@]', 'i')  THEN '' ELSE nvl(f.D2 ,'') END as D2  \
+	,b.D3  || CASE WHEN REGEXP_LIKE(b.D3 , '[-*@]', 'i')  THEN '' ELSE nvl(f.D3 ,'') END as D3  \
+	,b.D4  || CASE WHEN REGEXP_LIKE(b.D4 , '[-*@]', 'i')  THEN '' ELSE nvl(f.D4 ,'') END as D4  \
+	,b.D5  || CASE WHEN REGEXP_LIKE(b.D5 , '[-*@]', 'i')  THEN '' ELSE nvl(f.D5 ,'') END as D5  \
+	,b.D6  || CASE WHEN REGEXP_LIKE(b.D6 , '[-*@]', 'i')  THEN '' ELSE nvl(f.D6 ,'') END as D6  \
+	,b.D7  || CASE WHEN REGEXP_LIKE(b.D7 , '[-*@]', 'i')  THEN '' ELSE nvl(f.D7 ,'') END as D7  \
+	,b.D8  || CASE WHEN REGEXP_LIKE(b.D8 , '[-*@]', 'i')  THEN '' ELSE nvl(f.D8 ,'') END as D8  \
+	,b.D9  || CASE WHEN REGEXP_LIKE(b.D9 , '[-*@]', 'i')  THEN '' ELSE nvl(f.D9 ,'') END as D9  \
+	,b.D10 || CASE WHEN REGEXP_LIKE(b.D10, '[-*@]', 'i')  THEN '' ELSE nvl(f.D10,'') END as D10 \
+	,b.D11 || CASE WHEN REGEXP_LIKE(b.D11, '[-*@]', 'i')  THEN '' ELSE nvl(f.D11,'') END as D11 \
+	,b.D12 || CASE WHEN REGEXP_LIKE(b.D12, '[-*@]', 'i')  THEN '' ELSE nvl(f.D12,'') END as D12 \
+	,b.D13 || CASE WHEN REGEXP_LIKE(b.D13, '[-*@]', 'i')  THEN '' ELSE nvl(f.D13,'') END as D13 \
+	,b.D14 || CASE WHEN REGEXP_LIKE(b.D14, '[-*@]', 'i')  THEN '' ELSE nvl(f.D14,'') END as D14 \
+	,b.D15 || CASE WHEN REGEXP_LIKE(b.D15, '[-*@]', 'i')  THEN '' ELSE nvl(f.D15,'') END as D15 \
+	,b.D16 || CASE WHEN REGEXP_LIKE(b.D16, '[-*@]', 'i')  THEN '' ELSE nvl(f.D16,'') END as D16 \
+	,b.D17 || CASE WHEN REGEXP_LIKE(b.D17, '[-*@]', 'i')  THEN '' ELSE nvl(f.D17,'') END as D17 \
+	,b.D18 || CASE WHEN REGEXP_LIKE(b.D18, '[-*@]', 'i')  THEN '' ELSE nvl(f.D18,'') END as D18 \
+	,b.D19 || CASE WHEN REGEXP_LIKE(b.D19, '[-*@]', 'i')  THEN '' ELSE nvl(f.D19,'') END as D19 \
+	,b.D20 || CASE WHEN REGEXP_LIKE(b.D20, '[-*@]', 'i')  THEN '' ELSE nvl(f.D20,'') END as D20 \
+	,b.D21 || CASE WHEN REGEXP_LIKE(b.D21, '[-*@]', 'i')  THEN '' ELSE nvl(f.D21,'') END as D21 \
+	,b.D22 || CASE WHEN REGEXP_LIKE(b.D22, '[-*@]', 'i')  THEN '' ELSE nvl(f.D22,'') END as D22 \
+	,b.D23 || CASE WHEN REGEXP_LIKE(b.D23, '[-*@]', 'i')  THEN '' ELSE nvl(f.D23,'') END as D23 \
+	,b.D24 || CASE WHEN REGEXP_LIKE(b.D24, '[-*@]', 'i')  THEN '' ELSE nvl(f.D24,'') END as D24 \
+	,b.D25 || CASE WHEN REGEXP_LIKE(b.D25, '[-*@]', 'i')  THEN '' ELSE nvl(f.D25,'') END as D25 \
+	,b.D26 || CASE WHEN REGEXP_LIKE(b.D26, '[-*@]', 'i')  THEN '' ELSE nvl(f.D26,'') END as D26 \
+	,b.D27 || CASE WHEN REGEXP_LIKE(b.D27, '[-*@]', 'i')  THEN '' ELSE nvl(f.D27,'') END as D27 \
+	,b.D28 || CASE WHEN REGEXP_LIKE(b.D28, '[-*@]', 'i')  THEN '' ELSE nvl(f.D28,'') END as D28 \
+	,b.D29 || CASE WHEN REGEXP_LIKE(b.D29, '[-*@]', 'i')  THEN '' ELSE nvl(f.D29,'') END as D29 \
+	,b.D30 || CASE WHEN REGEXP_LIKE(b.D30, '[-*@]', 'i')  THEN '' ELSE nvl(f.D30,'') END as D30 \
+	,b.D31 || CASE WHEN REGEXP_LIKE(b.D31, '[-*@]', 'i')  THEN '' ELSE nvl(f.D31,'') END as D31 \
+	,CASE when	LENGTH (nvl(f.D1||f.D2||f.D3||f.D4||f.D5||f.D6||f.D7||f.D8||f.D9||f.D10||f.D11||f.D12||f.D13||f.D14||f.D15||f.D16||f.D17||f.D18||f.D19||f.D20||f.D21||f.D22||f.D23||f.D24||f.D25||f.D26||f.D27||f.D28||f.D29||f.D30||f.D31,'')) > 0 THEN 'Y' ELSE 'N' end AS bit \
+ FROM 	TBL_MONTH_ARRANGE_DETAIL b LEFT OUTER JOIN offInfo f ON b.EMP_NM  = f.emp_nm \
+ WHERE 	b.company_no = '@companyNo' \
+ AND 	b.route_nm = '@routeNm' \
+ AND    b.init_seq = @initSeq \
+ AND    b.BASE_YM = '@baseYm' \
+ AND    b.DISPATCH_SEQ = 5 \
+ AND    b.CAR_REGNO not like 'SP%' \
+ order by b.dispatch_seq,b.CAR_REGNO ,b.ampm_gubun,b.prev_daily_seq
+		
+# 배차상세 요일		
+ mtr.h2.BUS_monthArrangeDetail2= \
+ SELECT '[@routeNm] @baseYm월'|| ' 배차현황' as CAR_REGNO,b.emp_nm,0 AS tot_work_date \
+	, b.D1    , b.D2    , b.D3    , b.D4    , b.D5    , b.D6    , b.D7    , b.D8    , b.D9    , b.D10 \
+    , b.D11    , b.D12    , b.D13    , b.D14    , b.D15    , b.D16    , b.D17    , b.D18    , b.D19    , b.D20 \
+    , b.D21    , b.D22    , b.D23    , b.D24    , b.D25    , b.D26    , b.D27    , b.D28    , b.D29    , b.D30 \
+    , b.D31 ,'N' as bit \
+ FROM 	TBL_MONTH_ARRANGE_DETAIL b \
+ WHERE 	b.company_no = '@companyNo' \
+ AND 	b.route_nm = '@routeNm' \
+ AND    b.init_seq = @initSeq \
+ AND    b.BASE_YM = '@baseYm' \
+ AND    b.DISPATCH_SEQ = 1
+ 
+# sp배차정보(사용안함)
+#     , DAY(DATEADD(DAY,-1,DATEADD(MONTH ,1,date'@baseYm01') ) ) \
+ mtr.h2.BUS_monthArrangeSP= \
+ SELECT b.CAR_REGNO,b.emp_nm \
+    , LENGTH (REGEXP_REPLACE(b.D1||b.D2||b.D3||b.D4||b.D5||b.D6||b.D7||b.D8||b.D9||b.D10||b.D11||b.D12||b.D13||b.D14||b.D15||b.D16||b.D17||b.D18||b.D19||b.D20||b.D21||b.D22||b.D23||b.D24||b.D25||b.D26||b.D27||b.D28||b.D29||b.D30||b.D31,'[0-9# ]','') ) AS tot_work_date \
+	, b.D1    , b.D2    , b.D3    , b.D4    , b.D5    , b.D6    , b.D7    , b.D8    , b.D9    , b.D10 \
+    , b.D11    , b.D12    , b.D13    , b.D14    , b.D15    , b.D16    , b.D17    , b.D18    , b.D19    , b.D20 \
+    , b.D21    , b.D22    , b.D23    , b.D24    , b.D25    , b.D26    , b.D27    , b.D28    , b.D29    , b.D30 \
+    , b.D31 ,'N' as bit \
+ FROM 	TBL_MONTH_ARRANGE_DETAIL b \
+ WHERE 	b.company_no = '@companyNo' \
+ AND 	b.route_nm = '@routeNm' \
+ AND    b.init_seq = @initSeq \
+ AND    b.BASE_YM = '@baseYm' \
+ AND    b.DISPATCH_SEQ = 5 \
+ AND    b.CAR_REGNO like 'SP%' \
+ order by b.prev_daily_seq
+ 
+# 타노선 SP추가후 조회   
+#		/*,	LENGTH (REGEXP_REPLACE(b.D1||b.D2||b.D3||b.D4||b.D5||b.D6||b.D7||b.D8||b.D9||b.D10||b.D11||b.D12||b.D13||b.D14||b.D15||b.D16||b.D17||b.D18||b.D19||b.D20||b.D21||b.D22||b.D23||b.D24||b.D25||b.D26||b.D27||b.D28||b.D29||b.D30||b.D31,'[0-9# ]','') ) AS tot_work_date */ \
+ mtr.h2.BUS_monthArrangeSP_other= \
+	 WITH offInfo as ( \
+		SELECT	a.EMP_Nm \
+			,max(CASE		WHEN b.D1  BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D1  \
+			,max(CASE		WHEN b.D2  BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D2  \
+			,max(CASE		WHEN b.D3  BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D3  \
+			,max(CASE		WHEN b.D4  BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D4  \
+			,max(CASE		WHEN b.D5  BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D5  \
+			,max(CASE		WHEN b.D6  BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D6  \
+			,max(CASE		WHEN b.D7  BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D7  \
+			,max(CASE		WHEN b.D8  BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D8  \
+			,max(CASE		WHEN b.D9  BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D9  \
+			,max(CASE		WHEN b.D10 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D10 \
+			,max(CASE		WHEN b.D11 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D11 \
+			,max(CASE		WHEN b.D12 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D12 \
+			,max(CASE		WHEN b.D13 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D13 \
+			,max(CASE		WHEN b.D14 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D14 \
+			,max(CASE		WHEN b.D15 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D15 \
+			,max(CASE		WHEN b.D16 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D16 \
+			,max(CASE		WHEN b.D17 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D17 \
+			,max(CASE		WHEN b.D18 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D18 \
+			,max(CASE		WHEN b.D19 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D19 \
+			,max(CASE		WHEN b.D20 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D20 \
+			,max(CASE		WHEN b.D21 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D21 \
+			,max(CASE		WHEN b.D22 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D22 \
+			,max(CASE		WHEN b.D23 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D23 \
+			,max(CASE		WHEN b.D24 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D24 \
+			,max(CASE		WHEN b.D25 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D25 \
+			,max(CASE		WHEN b.D26 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D26 \
+			,max(CASE		WHEN b.D27 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D27 \
+			,max(CASE		WHEN b.D28 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D28 \
+			,max(CASE		WHEN b.D29 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D29 \
+			,max(CASE		WHEN b.D30 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D30 \
+			,max(CASE		WHEN b.D31 BETWEEN START_DATE AND END_DATE THEN '@'		ELSE ''	END ) AS D31 \
+		FROM 	TBM_DRIVER_Attendance_INFO a,TBL_MONTH_ARRANGE_DETAIL b \
+		WHERE 	a.company_no = '@companyNo' \
+		AND		a.delete_yn  = 'N' \
+		AND 	(a.START_DATE LIKE '@baseYm%' or a.END_DATE LIKE '@baseYm%') \
+		AND  	a.company_no = b.COMPANY_NO \
+		AND 	b.BASE_YM ='@baseYm' \
+		AND 	b.DISPATCH_SEQ =0 \
+		AND 	b.ROUTE_NM ='@routeNm' \
+		AND     '@offIncludeYn' = 'Y' \
+		GROUP BY a.EMP_NM \
+	 ) , sp_maxinfo AS ( \
+		SELECT  b.CAR_REGNO,b.EMP_NM \
+		       ,nvl(max(CASE WHEN nvl(b.D1 ,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D1   ELSE '#' || b.D1  end),' ') as D1 \
+		       ,nvl(max(CASE WHEN nvl(b.D2 ,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' tHEN b.D2   ELSE '#' || b.D2  end),' ') as D2 \
+		       ,nvl(max(CASE WHEN nvl(b.D3 ,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D3   ELSE '#' || b.D3   end),' ') as D3 \
+		       ,nvl(max(CASE WHEN nvl(b.D4 ,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D4   ELSE '#' || b.D4   end),' ') as D4 \
+		       ,nvl(max(CASE WHEN nvl(b.D5 ,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D5   ELSE '#' || b.D5   end),' ') as D5 \
+		       ,nvl(max(CASE WHEN nvl(b.D6 ,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D6   ELSE '#' || b.D6   end),' ') as D6 \
+		       ,nvl(max(CASE WHEN nvl(b.D7 ,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D7   ELSE '#' || b.D7   end),' ') as D7 \
+		       ,nvl(max(CASE WHEN nvl(b.D8 ,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D8   ELSE '#' || b.D8   end),' ') as D8 \
+		       ,nvl(max(CASE WHEN nvl(b.D9 ,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D9   ELSE '#' || b.D9   end),' ') as D9 \
+		       ,nvl(max(CASE WHEN nvl(b.D10,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D10  ELSE '#' || b.D10  end),' ') as D10 \
+		       ,nvl(max(CASE WHEN nvl(b.D11,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D11  ELSE '#' || b.D11  end),' ') as D11 \
+		       ,nvl(max(CASE WHEN nvl(b.D12,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D12  ELSE '#' || b.D12  end),' ') as D12 \
+		       ,nvl(max(CASE WHEN nvl(b.D13,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D13  ELSE '#' || b.D13  end),' ') as D13 \
+		       ,nvl(max(CASE WHEN nvl(b.D14,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D14  ELSE '#' || b.D14  end),' ') as D14 \
+		       ,nvl(max(CASE WHEN nvl(b.D15,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D15  ELSE '#' || b.D15  end),' ') as D15 \
+		       ,nvl(max(CASE WHEN nvl(b.D16,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D16  ELSE '#' || b.D16  end),' ') as D16 \
+		       ,nvl(max(CASE WHEN nvl(b.D17,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D17  ELSE '#' || b.D17  end),' ') as D17 \
+		       ,nvl(max(CASE WHEN nvl(b.D18,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D18  ELSE '#' || b.D18  end),' ') as D18 \
+		       ,nvl(max(CASE WHEN nvl(b.D19,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D19  ELSE '#' || b.D19  end),' ') as D19 \
+		       ,nvl(max(CASE WHEN nvl(b.D20,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D20  ELSE '#' || b.D20  end),' ') as D20 \
+		       ,nvl(max(CASE WHEN nvl(b.D21,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D21  ELSE '#' || b.D21  end),' ') as D21 \
+		       ,nvl(max(CASE WHEN nvl(b.D22,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D22  ELSE '#' || b.D22  end),' ') as D22 \
+		       ,nvl(max(CASE WHEN nvl(b.D23,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D23  ELSE '#' || b.D23  end),' ') as D23 \
+		       ,nvl(max(CASE WHEN nvl(b.D24,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D24  ELSE '#' || b.D24  end),' ') as D24 \
+		       ,nvl(max(CASE WHEN nvl(b.D25,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D25  ELSE '#' || b.D25  end),' ') as D25 \
+		       ,nvl(max(CASE WHEN nvl(b.D26,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D26  ELSE '#' || b.D26  end),' ') as D26 \
+		       ,nvl(max(CASE WHEN nvl(b.D27,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D27  ELSE '#' || b.D27  end),' ') as D27 \
+		       ,nvl(max(CASE WHEN nvl(b.D28,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D28  ELSE '#' || b.D28  end),' ') as D28 \
+		       ,nvl(max(CASE WHEN nvl(b.D29,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D29  ELSE '#' || b.D29  end),' ') as D29 \
+		       ,nvl(max(CASE WHEN nvl(b.D30,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D30  ELSE '#' || b.D30  end),' ') as D30 \
+		       ,nvl(max(CASE WHEN nvl(b.D31,' ') = ' ' THEN ' ' WHEN b.route_nm = '@routeNm' THEN b.D31  ELSE '#' || b.D31  end),' ') as D31 \
+			 FROM 	TBL_MONTH_ARRANGE_DETAIL b \
+			where 	b.company_no = '@companyNo' \
+					AND b.BASE_YM = '@baseYm' \
+			  	 	and b.DISPATCH_SEQ = 5 \
+				 	AND b.CAR_REGNO LIKE  'SP%' \
+				 	GROUP BY b.CAR_REGNO,b.emp_nm \
+	) \
+	SELECT b.* \
+		, 0 as tot_work_date \
+	FROM ( \
+		SELECT  a.prev_daily_seq \
+			,	b.CAR_REGNO,b.EMP_NM \
+		,	decode(f.d1  , null, b.d1  ,'' , b.d1 ,'@') as d1  \
+		,	decode(f.D2  , null, b.D2  ,'' , b.D2 ,'@') as D2  \
+		,	decode(f.D3  , null, b.D3  ,'' , b.D3 ,'@') as D3  \
+		,	decode(f.D4  , null, b.D4  ,'' , b.D4 ,'@') as D4  \
+		,	decode(f.D5  , null, b.D5  ,'' , b.D5 ,'@') as D5  \
+		,	decode(f.D6  , null, b.D6  ,'' , b.D6 ,'@') as D6  \
+		,	decode(f.D7  , null, b.D7  ,'' , b.D7 ,'@') as D7  \
+		,	decode(f.D8  , null, b.D8  ,'' , b.D8 ,'@') as D8  \
+		,	decode(f.D9  , null, b.D9  ,'' , b.D9 ,'@') as D9  \
+		,	decode(f.D10 , null, b.D10 ,'' , b.D10,'@') as D10 \
+		,	decode(f.D11 , null, b.D11 ,'' , b.D11,'@') as D11 \
+		,	decode(f.D12 , null, b.D12 ,'' , b.D12,'@') as D12 \
+		,	decode(f.D13 , null, b.D13 ,'' , b.D13,'@') as D13 \
+		,	decode(f.D14 , null, b.D14 ,'' , b.D14,'@') as D14 \
+		,	decode(f.D15 , null, b.D15 ,'' , b.D15,'@') as D15 \
+		,	decode(f.D16 , null, b.D16 ,'' , b.D16,'@') as D16 \
+		,	decode(f.D17 , null, b.D17 ,'' , b.D17,'@') as D17 \
+		,	decode(f.D18 , null, b.D18 ,'' , b.D18,'@') as D18 \
+		,	decode(f.D19 , null, b.D19 ,'' , b.D19,'@') as D19 \
+		,	decode(f.D20 , null, b.D20 ,'' , b.D20,'@') as D20 \
+		,	decode(f.D21 , null, b.D21 ,'' , b.D21,'@') as D21 \
+		,	decode(f.D22 , null, b.D22 ,'' , b.D22,'@') as D22 \
+		,	decode(f.D23 , null, b.D23 ,'' , b.D23,'@') as D23 \
+		,	decode(f.D24 , null, b.D24 ,'' , b.D24,'@') as D24 \
+		,	decode(f.D25 , null, b.D25 ,'' , b.D25,'@') as D25 \
+		,	decode(f.D26 , null, b.D26 ,'' , b.D26,'@') as D26 \
+		,	decode(f.D27 , null, b.D27 ,'' , b.D27,'@') as D27 \
+		,	decode(f.D28 , null, b.D28 ,'' , b.D28,'@') as D28 \
+		,	decode(f.D29 , null, b.D29 ,'' , b.D29,'@') as D29 \
+		,	decode(f.D30 , null, b.D30 ,'' , b.D30,'@') as D30 \
+		,	decode(f.D31 , null, b.D31 ,'' , b.D31,'@') as D31 \
+		, CASE when	LENGTH (nvl(f.D1||f.D2||f.D3||f.D4||f.D5||f.D6||f.D7||f.D8||f.D9||f.D10||f.D11||f.D12||f.D13||f.D14||f.D15||f.D16||f.D17||f.D18||f.D19||f.D20||f.D21||f.D22||f.D23||f.D24||f.D25||f.D26||f.D27||f.D28||f.D29||f.D30||f.D31,'')) > 0 THEN 'Y' ELSE 'N' end AS bit \
+		FROM 	TBL_MONTH_ARRANGE_DETAIL a LEFT OUTER JOIN sp_maxinfo b \
+			ON	a.emp_nm = b.EMP_NM \
+		   AND  a.car_regno = b.CAR_REGNO \
+		   			LEFT OUTER JOIN offInfo f ON a.EMP_NM  = f.emp_nm \
+		where 	a.company_no = '@companyNo' \
+			AND a.BASE_YM = '@baseYm' \
+	  	 	and a.DISPATCH_SEQ = 5 \
+		 	AND a.CAR_REGNO LIKE  'SP%' \
+		 	AND a.emp_nm = decode('@empNm','',a.emp_nm,'@empNm') \
+		 	AND a.route_nm = '@routeNm' \
+	) b \
+	ORDER BY b.prev_daily_seq
+
+# 노선정보
+ mtr.h2.BUS_getRouteNmInfo= SELECT ROUTE_NM  FROM TBL_ROUTEINFO ORDER BY 1
+
+ 
+# 배차 기본
+ mtr.h2.BUS_monthArrangeBasic= \
+ WITH carInfo AS ( \
+	SELECT '감차후 총 차량댓수' as CAR_REGNO,b.emp_nm,0 AS tot_work_date \
+		, b.D1    , b.D2    , b.D3    , b.D4    , b.D5    , b.D6    , b.D7    , b.D8    , b.D9    , b.D10 \
+	    , b.D11    , b.D12    , b.D13    , b.D14    , b.D15    , b.D16    , b.D17    , b.D18    , b.D19    , b.D20 \
+	    , b.D21    , b.D22    , b.D23    , b.D24    , b.D25    , b.D26    , b.D27    , b.D28    , b.D29    , b.D30 \
+	    , b.D31 \
+	 FROM 	TBL_MONTH_ARRANGE_BASIC b \
+	 WHERE 	b.company_no = '@companyNo' \
+	 AND 	b.route_nm = '@routeNm' \
+	 AND    b.init_seq = @initSeq \
+	 AND    b.BASE_YM = '@baseYm' \
+	 AND    b.DISPATCH_SEQ = 2  \
+	 AND	b.CAR_REGNO  = '-' \
+), allocateInfo AS ( \
+	SELECT  '기사 배정 건수' as CAR_REGNO,'-' emp_nm,0 AS tot_work_date \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D1 ,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D1 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D2 ,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D2 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D3 ,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D3 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D4 ,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D4 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D5 ,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D5 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D6 ,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D6 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D7 ,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D7 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D8 ,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D8 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D9 ,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D9 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D10,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D10 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D11,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D11 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D12,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D12 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D13,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D13 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D14,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D14 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D15,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D15 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D16,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D16 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D17,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D17 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D18,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D18 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D19,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D19 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D20,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D20 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D21,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D21 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D22,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D22 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D23,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D23 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D24,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D24 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D25,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D25 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D26,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D26 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D27,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D27 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.D28,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) D28 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.d29,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) d29 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.d30,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) d30 \
+		,sum(CASE WHEN instr(REGEXP_REPLACE(b.d31,'[#!]','*') ,'*') > 0 THEN 0 ELSE 1 END) d31 \
+	 FROM 	TBL_MONTH_ARRANGE_DETAIL b \
+	 WHERE 	b.company_no = '@companyNo' \
+	 AND 	b.route_nm = '@routeNm' \
+	 AND    b.init_seq = @initSeq \
+	 AND    b.BASE_YM = '@baseYm' \
+	 AND    b.DISPATCH_SEQ = 5  \
+	 AND 	CAR_REGNO not like 'SP%' \
+) \
+ SELECT * FROM carInfo \
+ union all \
+  SELECT '감차후 총 운행횟수' as CAR_REGNO,b.emp_nm,0 AS tot_work_date \
+	, b.D1 *2   , b.D2 *2    , b.D3  *2   , b.D4 *2    , b.D5 *2    , b.D6 *2    , b.D7 *2    , b.D8 *2    , b.D9 *2    , b.D10 *2 \
+    , b.D11 *2    , b.D12 *2    , b.D13 *2    , b.D14 *2    , b.D15 *2    , b.D16 *2    , b.D17 *2    , b.D18 *2    , b.D19 *2    , b.D20 *2 \
+    , b.D21 *2    , b.D22 *2    , b.D23 *2    , b.D24 *2    , b.D25 *2    , b.D26 *2    , b.D27 *2    , b.D28 *2    , b.D29 *2    , b.D30 *2 \
+    , b.D31 *2 \
+ FROM 	carInfo b \
+ union all \
+ SELECT  * FROM 	allocateInfo b \
+ union all \
+ SELECT  '기사 미배정 건수' as CAR_REGNO,'-' emp_nm,0 AS tot_work_date \
+	,(a.d1  *2)- b.d1 \
+	,(a.D2  *2)- b.D2 \
+	,(a.D3  *2)- b.D3 \
+	,(a.D4  *2)- b.D4 \
+	,(a.D5  *2)- b.D5 \
+	,(a.D6  *2)- b.D6 \
+	,(a.D7  *2)- b.D7 \
+	,(a.D8  *2)- b.D8 \
+	,(a.D9  *2)- b.D9 \
+	,(a.D10 *2)- b.D10 \
+	,(a.D11 *2)- b.D11 \
+	,(a.D12 *2)- b.D12 \
+	,(a.D13 *2)- b.D13 \
+	,(a.D14 *2)- b.D14 \
+	,(a.D15 *2)- b.D15 \
+	,(a.D16 *2)- b.D16 \
+	,(a.D17 *2)- b.D17 \
+	,(a.D18 *2)- b.D18 \
+	,(a.D19 *2)- b.D19 \
+	,(a.D20 *2)- b.D20 \
+	,(a.D21 *2)- b.D21 \
+	,(a.D22 *2)- b.D22 \
+	,(a.D23 *2)- b.D23 \
+	,(a.D24 *2)- b.D24 \
+	,(a.D25 *2)- b.D25 \
+	,(a.D26 *2)- b.D26 \
+	,(a.D27 *2)- b.D27 \
+	,(a.D28 *2)- b.D28 \
+	,(a.d29 *2)- b.d29 \
+	,(a.d30 *2)- b.d30 \
+	,(a.d31 *2)- b.d31 \
+ FROM 	allocateInfo b,carInfo a
+ 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="main/java"/>
+	<classpathentry kind="src" path="test/java"/>
+	<classpathentry kind="lib" path="main/webapp/WEB-INF/lib/commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="main/webapp/WEB-INF/lib/commons-collections4-4.1.jar"/>
+	<classpathentry kind="lib" path="main/webapp/WEB-INF/lib/jsqlparser-4.4.jar"/>
+	<classpathentry kind="lib" path="main/webapp/WEB-INF/lib/jtapi.jar"/>
+	<classpathentry kind="lib" path="main/webapp/WEB-INF/lib/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="main/webapp/WEB-INF/lib/oracle/ojdbc/1.0/jdbc-oracle.jar"/>
+	<classpathentry kind="lib" path="main/webapp/WEB-INF/lib/oracle/ojdbc/jdbc-oracle.jar"/>
+	<classpathentry kind="lib" path="main/webapp/WEB-INF/lib/org.json.jar"/>
+	<classpathentry kind="lib" path="main/webapp/WEB-INF/lib/poi-3.17.jar"/>
+	<classpathentry kind="lib" path="main/webapp/WEB-INF/lib/poi-ooxml-3.17.jar"/>
+	<classpathentry kind="lib" path="main/webapp/WEB-INF/lib/poi-ooxml-schemas-3.17.jar"/>
+	<classpathentry kind="lib" path="main/webapp/WEB-INF/lib/uiadapter17-spring5-core-1.0.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="main/webapp/WEB-INF/lib/xmlbeans-2.6.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

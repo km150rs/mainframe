@@ -1,0 +1,7 @@
+2023-06-03 00:03:37.201 WARN  [H2 housekeeper] [com.zaxxer.hikari.pool.HikariPool] - H2 - Thread starvation or clock leap detected (housekeeper delta=19m20s449ms945µs200ns).
+2023-06-03 00:05:48.598 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - updateUserCloseTime p00139 
+2023-06-03 00:05:48.599 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - currentSessionUserList ->  true
+2023-06-03 00:05:48.599 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - currentSessionUserList -> userId p00139 
+2023-06-03 00:05:48.599 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - updateUserCloseTime p00139 
+2023-06-03 00:05:48.599 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - currentSessionUserList ->  true
+2023-06-03 00:05:48.600 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - currentSessionUserList -> userId p00139 

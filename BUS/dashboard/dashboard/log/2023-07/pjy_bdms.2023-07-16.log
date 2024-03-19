@@ -1,0 +1,4 @@
+2023-07-16 09:22:26.444 WARN  [H2 housekeeper] [com.zaxxer.hikari.pool.HikariPool] - H2 - Thread starvation or clock leap detected (housekeeper delta=19h2m21s932ms134µs600ns).
+2023-07-16 13:30:55.913 WARN  [H2 housekeeper] [com.zaxxer.hikari.pool.HikariPool] - H2 - Thread starvation or clock leap detected (housekeeper delta=3h28s393ms622µs300ns).
+2023-07-16 18:58:24.802 WARN  [H2 housekeeper] [com.zaxxer.hikari.pool.HikariPool] - H2 - Thread starvation or clock leap detected (housekeeper delta=5h27m37s349ms631µs200ns).
+2023-07-16 22:46:38.485 WARN  [H2 housekeeper] [com.zaxxer.hikari.pool.HikariPool] - H2 - Thread starvation or clock leap detected (housekeeper delta=3h13s12ms406µs800ns).

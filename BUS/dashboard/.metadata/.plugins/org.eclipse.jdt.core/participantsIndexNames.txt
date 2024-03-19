@@ -1,0 +1,5 @@
+INDEX VERSION 1.134
+C:\Users\ITSMART\Downloads\BUS\dashboard\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1314790577.index
+\dashboard\src\main\resources
+C:\Users\ITSMART\Downloads\BUS\dashboard\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3301499368.index
+\dashboard\src\main\resources

@@ -1,0 +1,420 @@
+
+		h2설치후 connect 테스트할때 61 version 오류시 MY_FAVORATE 등 DBeaver에서 create 한 function 삭제할것
+
+		start.sh / pwkey
+
+2023-06-13 오후 11:09:07
+
+        https://codepen.io/huyddo/details/bOMyaw
+        
+        https://github.com/6pac/SlickGrid/wiki/Examples
+        https://github.com/6pac/SlickGrid/wiki
+        
+        
+2023-06-12 오후 11:51:03
+
+
+        swal.fire 사진등록 관련 blog
+        https://inpa.tistory.com/entry/SweetAlert2-%F0%9F%93%9A-%EC%84%A4%EC%B9%98-%EC%82%AC%EC%9A%A9
+        
+        
+2023-06-09 오전 8:25:29
+
+        datetimepicker download
+        https://github.com/nhn/tui.date-picker/releases
+        https://nhn.github.io/tui.date-picker/latest/tutorial-example01-basic
+
+
+2023-06-08 오전 10:40:20
+
+    messagebox password autocomplete는 css로 해결 
+    <style>
+    .secure-font{
+        -webkit-text-security:disc;
+    }
+    </style>
+
+2023-06-05 오후 1:44:25
+
+        -- 배포전 주의
+        common.properties 수정할것
+        #spring.datasource.hikari.h2.jdbcUrl=jdbc:h2:tcp://localhost/~/pjy_bdms;AUTO_SERVER=TRUE
+        spring.datasource.hikari.h2.jdbcUrl=jdbc:h2:~/pjy/pjy_bdms;AUTO_SERVER=TRUE
+        
+        SHUTDOWN IMMEDIATELY        	
+        
+        itsmart.iptime.org:10010/qwer12#$56
+        
+        
+2023-06-05 오후 2:00:55
+
+        h2 설치 :
+            ./h2.sh -webAllowOthers -tcpAllowOthers
+            h2-1.4.200.jar
+            
+            
+	copy  D:\BUS\dashboard\dashboard\*.*                          e:\BUS2\dashboard\dashboard\*.*
+	xcopy d:\bus\dashboard\dashboard\src\main\java                e:\bus2\dashboard\dashboard\src\main\java /s /y
+	xcopy D:\BUS\dashboard\dashboard\src\main\resources           e:\BUS2\dashboard\dashboard\src\main\resources /s /y
+	copy  D:\BUS\dashboard\dashboard\src\main\webapp\*.*          e:\BUS2\dashboard\dashboard\src\main\webapp 
+	xcopy D:\BUS\dashboard\dashboard\src\main\webapp\WEB-INF\jsp  e:\BUS2\dashboard\dashboard\src\main\webapp\WEB-INF\jsp /s /y
+	
+	xcopy D:\BUS\dashboard\dashboard\src\main\webapp\monitor      e:\BUS2\dashboard\dashboard\src\main\webapp\obfuscator /s /y
+	
+	copy  E:\bus2\dashboard\dashboard\src\main\resources\application_real.properties E:\bus2\dashboard\dashboard\src\main\resources\application.properties /y
+	copy  E:\bus2\dashboard\dashboard\src\main\resources\common_real.properties      E:\bus2\dashboard\dashboard\src\main\resources\common.properties /y
+	
+	javascript-obfuscator E:\bus2\dashboard\dashboard\src\main\webapp\obfuscator --output E:\bus2\dashboard\dashboard\src\main\webapp\monitor
+	
+
+--------------	
+	datatables input popup 으로 입력
+	https://editor.datatables.net/examples/bubble-editing/simple.html
+    // Activate the bubble editor on click of a table cell
+    $('#example').on( 'click', 'tbody td:not(:first-child)', function (e) {
+        editor.bubble( this );
+    } );
+    
+------------
+	rowsGroup 에 관한 고찰
+	1. row를 한줄 추가해 그룹을 구분하는경우에는 rowGroup 을 사용할것 (dataSrc)
+	2. row를 통합해 그룹을 구분하는경우에는 rowsGroup을 사용 
+		1) <script src="https://cdn.rawgit.com/ashl1/datatables-rowsgroup/v2.0.0/dataTables.rowsGroup.js"></script>
+		2) option= rowsGroup: [0],
+		3) data 출력후 table.rowsgroup.update();
+	
+------------
+
+CREATE ALIAS PUBLIC.MY_FAVORITE AS $$
+
+ResultSet  getTableContent(final  Connection con,String user_id,String group_cd,String boardId) throws Exception {
+    String resultValue=null;
+    StringBuffer sql = new StringBuffer();
+    sql.append(" SELECT  c.seq,a.종목코드||'' as item_cd,a.종목한글약명 || '' as item, a.전일종가+0 as prev, nvl(b.체결가격,0) as price,nvl(b.체결가격 - a.전일종가,0) as gap          ");
+    sql.append("        ,nvl(trunc(1.0 * (b.체결가격 - a.전일종가)  / a.전일종가 * 100,2),0) AS rate                           ");    
+    sql.append("        ,nvl(d.매도호가잔량1,0) as sqty ");
+    sql.append("        ,nvl(d.매도호가1,0) as shoga     ");
+    sql.append("        ,case when b.체결가격 >= b.매도1호가 then '&#9664;' else ' ' end as s   ");
+    sql.append("        ,case when b.체결가격 <= b.매수1호가 then '&#9654;' else ' ' end as b   ");
+    sql.append("        ,nvl(d.매수호가1,0) as bhoga  ");
+    sql.append("        ,nvl(d.매수호가잔량1,0) as bqty  ");    
+    sql.append("        ,nvl(b.누적체결수량+0,0) AS qty            ");
+	sql.append("        ,nvl(b.시가+0,0) as open "); 
+	sql.append("        ,nvl(b.고가+0,0) as high "); 
+	sql.append("        ,nvl(b.저가+0,0) as low "); 
+	sql.append("        ,nvl(b.누적매수수량,0) as bWeight "); 
+	sql.append("        ,nvl(b.누적매도수량,0) as sWeight ");
+	sql.append("        ,nvl(trim(a.업종id),'') as upjongId ");
+	sql.append("        ,nvl(trim(u.UPKRNAME),'') as upkrname ");
+	sql.append("        ,nvl(a.전일누적체결수량+0,0) as prevQty ");
+    sql.append(" FROM   SISE_FAVORATES_INFO c ,A0_STAN_UPCD u, a0 a left outer join A3_MAST b");
+    sql.append("        on    a.종목코드 = b.종목코드 and b.보드id ='" + boardId + "' LEFT OUTER JOIN B6 d  on a.종목코드 = d.종목코드 and d.보드id = '" + boardId + "'");
+    sql.append(" WHERE  c.USER_ID = '" + user_id.toUpperCase() + "'       ");
+    sql.append(" AND    c.group_cd = '" + group_cd + "'       ");
+    sql.append(" AND    c.ITEM_CD  = a.종목코드                ");
+    sql.append(" AND    trim(a.업종id)  = u.stanUpCd          ");
+    sql.append(" order by c.seq                             ");
+   
+     ResultSet rs = con.createStatement().executeQuery(sql.toString());
+   
+    return rs;
+}
+$$
+
+
+	ALTER TABLE MAGI.TBL_XML_CTI_LOG
+	 DROP PRIMARY KEY CASCADE;
+	
+	DROP TABLE MAGI.TBL_XML_CTI_LOG CASCADE CONSTRAINTS;
+	
+	CREATE TABLE MAGI.TBL_XML_CTI_LOG
+	(
+	  PROC_YMD      VARCHAR2(8 BYTE),
+	  SERVER_IP     VARCHAR2(20 BYTE),
+	  LOG_ID        VARCHAR2(50 BYTE),
+	  SVC_ID        VARCHAR2(50 BYTE),
+	  PID           VARCHAR2(50 BYTE),
+	  LOG_TIME      VARCHAR2(12 BYTE),
+	  ACTION        VARCHAR2(5 BYTE),
+	  END_TIME      VARCHAR2(12 BYTE),
+	  ERROR_MSG     VARCHAR2(1000 BYTE),
+	  ELAPSED_TIME  VARCHAR2(20 BYTE),
+	  MEMO          VARCHAR2(200 BYTE)
+	)
+	TABLESPACE TBS_TBL_TDM
+	RESULT_CACHE (MODE DEFAULT)
+	PCTUSED    0
+	PCTFREE    10
+	INITRANS   1
+	MAXTRANS   255
+	STORAGE    (
+	            INITIAL          64K
+	            NEXT             1M
+	            MINEXTENTS       1
+	            MAXEXTENTS       UNLIMITED
+	            PCTINCREASE      0
+	            BUFFER_POOL      DEFAULT
+	            FLASH_CACHE      DEFAULT
+	            CELL_FLASH_CACHE DEFAULT
+	           )
+	LOGGING 
+	NOCOMPRESS 
+	NOCACHE
+	NOPARALLEL
+	MONITORING;
+	
+	COMMENT ON TABLE MAGI.TBL_XML_CTI_LOG IS 'MTR+ CTI CALL 로그';
+	
+	
+	
+	CREATE UNIQUE INDEX MAGI.TBL_XML_CTI_LOG_PK ON MAGI.TBL_XML_CTI_LOG
+	(PROC_YMD, SERVER_IP, LOG_ID, SVC_ID, PID, 
+	LOG_TIME, ACTION)
+	LOGGING
+	TABLESPACE TBS_IDX_TDM
+	PCTFREE    10
+	INITRANS   2
+	MAXTRANS   255
+	STORAGE    (
+	            INITIAL          5M
+	            NEXT             5M
+	            MINEXTENTS       1
+	            MAXEXTENTS       UNLIMITED
+	            PCTINCREASE      0
+	            BUFFER_POOL      DEFAULT
+	            FLASH_CACHE      DEFAULT
+	            CELL_FLASH_CACHE DEFAULT
+	           )
+	NOPARALLEL;
+	
+	
+	ALTER TABLE MAGI.TBL_XML_CTI_LOG ADD (
+	  CONSTRAINT TBL_XML_CTI_LOG_PK
+	  PRIMARY KEY
+	  (PROC_YMD, SERVER_IP, LOG_ID, SVC_ID, PID, LOG_TIME, ACTION)
+	  USING INDEX MAGI.TBL_XML_CTI_LOG_PK
+	  ENABLE VALIDATE);
+	
+
+
+
+2022-06-30
+	ctiCallService 와 CtiCallHandler 연동 주의
+	: handler에서 userResponsed 체크함.
+	: lib(jtapi.jar) 
+	1.	문자메시지는  02-3774-5918 로 발송됩니다.  (nfoss_real 1)
+    2.	전화는 02-6390-8304 로 호출됩니다.       
+    3.  log 저장은 nfoss_dev
+	
+	
+
+2022-02-24
+
+	표준산업코드 download
+	https://data.koscom.co.kr/kor/bbs/B0000026/list.do?menuNo=200014
+
+2022-02-09
+
+	- 컴파일 오류 : JPA metamodel must not be empty
+
+		JPA를 쓰고 있었다면 JPA에 문제가 있구나라고 하겠지만,
+		이 프로젝트는 jdbc로 구현된 API 입니다.
+		
+		또, 오랜만에 gradle이 아닌 maven을 만나서 헤매기도 했습니다.
+		pom.xml에서 jpa 관련된 것이 있는지 확인해봤지만, 그런 dependency는 존재하지 않아서 난항을 겪던 중
+		
+		repositoryController 이 녀석이 어디 있는지 따라 들어가 보니
+		spring-boot-starter-data-rest에 있더군요.
+		
+		버전 종속성 없이 아래와 같이 선언되어 있었습니다.
+		
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-data-rest</artifactId>
+		</dependency>
+		
+		개발 당시에는 spring-boot-starter-data-rest에 jpa 설정이 없었으나,
+		버전이 올라가며 추가된 것으로 추정되어
+		EnableAutoConfiguration에서 자동 설정이 되지 않도록 제외시켰습니다.
+		@EnableAutoConfiguration (exclude = { JpaRepositoriesAutoConfiguration.class })
+		추가로 EnableAutoConfiguration은 SpringBootApplication에 포함되어 있어,
+		
+		SpringBootApplication에서 선언할 경우 아래와 같이 사용해야 합니다.
+		@SpringBootApplication(exclude = {JpaRepositoriesAutoConfiguration.class})
+
+		출처: https://halfstorage.tistory.com/63 [halfStorage]
+
+
+2022-02-09 console창 cmd 한글 깨질때
+
+	@chcp 65001 1> NUL 2> NUL
+
+
+2022-01-25 h2 procedure 생성 및 호출
+
+	CALL MY_favorite();
+	;
+	DROP ALIAS IF EXISTS MY_favorite;
+	CREATE ALIAS MY_favorite AS $$
+	ResultSet  getTableContent(java.sql.Connection con) throws Exception {
+	    String resultValue=null;
+	    java.sql.ResultSet rs = con.createStatement().executeQuery(
+	    " SELECT a.종목한글약명 || '' as item, a.전일종가 , b.체결가격 ,b.체결가격 - a.전일종가 as gap"  +
+	        	",trunc(1.0 * (b.체결가격 - a.전일종가)  / a.전일종가 * 100,2) AS rate" +
+	            ",b.매도1호가+0 as sell, case when b.체결가격 >= b.매도1호가 then '&#9664;' else ' ' end as s " +
+	            ",b.매수1호가+0 as buy , case when b.체결가격 <= b.매수1호가 then '&#9664;' else ' ' end  as b" + 
+	        	",b.누적체결수량+0 AS qty"+
+				",case when b.고가 = b.저가 then ' '" + 
+		         "     when b.시가 = 0 then ' ' "+
+	              "    else rpad(rpad('▶',trunc((b.체결가격-b.저가) / ((b.고가-b.저가)/20)),'▶'),20,' ') || round((b.체결가격-b.저가) / ((b.고가-b.저가)/10),2)"+ 
+	               "   end as pos "       	+
+	        " FROM a0 a,A3_MAST b" +
+	        " WHERE ( "+
+	        	"  	(a. 종목한글약명 LIKE '카카오%')"+
+	        	 " 	OR (a. 종목한글약명 IN ('기업은행','한국전력','세명전기','하나금융지주','삼성전자','SK하이닉스','메리츠화재'))"+
+	        	")"+
+	        " AND a.종목코드 = b.종목코드");
+	    return rs;
+	}
+	$$;
+
+
+
+2021-07-06 오전 11:34:40
+
+
+
+        https://grafana.com/grafana/download?platform=windows
+                windows 버전 download
+                install
+                http://localhost:3000/
+
+
+        https://jongmin92.github.io/2019/12/04/Spring/prometheus/
+                windows 버전 download
+                https://prometheus.io/download/#prometheus
+                http://localhost:9090/
+
+2021-07-06 오전 11:34:42
+
+	koscom header
+	apframe/kfoss/sise/appl/include
+	/apframe/kfoss/sise/appl/table
+
+
+2021-03-10 오전 9:37:17
+
+    JavaScript Minifier
+        http://javascriptcompressor.com/
+        https://javascript-minifier.com/
+
+2021-03-03 오전 9:39:16
+
+    navigator.mediaDevices undefined 해결
+    원인
+        최신 크롬에선 안전하지 않을경우, 즉 https가 아닐경우
+        mediaDevices 객체를 제공하지 않는다고 한다.
+    
+    해결법
+        chrome://flags/#unsafely-treat-insecure-origin-as-secure
+    
+        위 링크에 들어가, 보안 정책을 무시할려는 주소를 적고 재시작한다
+    
+        포트가 있을경우, 포트까지 적어준다
+
+        chrome://flags/#unsafely-treat-insecure-origin-as-secure
+        
+        http://172.16.112.54:10010
+         버튼 변경 (disable->enable)
+
+2021-03-02 오후 12:51:24
+    사용안함
+    password 암호화 확인
+    D:\81.java_sample\workspace-spring-tool-suite-4-4.5.1.RELEASE\install\jasypt-1.9.3
+    
+    $ ./encrypt.bat input=fvtx93lg! password=key 
+    $ ./decrypt.bat input=n7Rgj+MGlqC77lqgaFzq9A== password=pjy 
+      출처: https://qhdrl.tistory.com/32 [Develop]
+
+	암호화는 jasypt 설정시 자동으로 application.properties내 ENC 로 된놈을 해석해줌
+	    https://juntcom.tistory.com/127
+
+----------------
+	구글 smtp메일 설정
+	
+	앱 비밀번호 설정 ( * 전용 비밀번호임 : 설정 -> 보안 -> 2단계인증 아래 )
+	앱 비밀번호 설정을 시작하면 어떤 앱에서 사용할 것인지, 기기는 어떤 것인지 선택하는 화면이 나옵니다.
+	메일, 캘린더, 연락처, Youtube 등이 있는데 저희는 Smtp를 할 것이기 때문에 기타(맞춤 이름)을 선택합니다.
+
+	https://docs.3rdeyesys.com/etc/etc_smtp_auth_to_google_gmail_account.html
+----------------
+	메일전송시
+	spring.mail.host=ENC(H8dAfilb5MslRYU0PLiH49CZiYYNiqXa)
+	spring.mail.port=ENC(b7zSFj8VGcCX8c8esK8mXA==)
+	spring.mail.username=ENC(+80rb93n+kY8t6Br6ywDCMfYZS66U3xecwKx7GIdOdA=)
+	spring.mail.password=ENC(L+H8YYtHdviyprw93UyhW6c/DRrbkHGz)
+	spring.mail.properties.mail.smtp.auth=true
+	spring.mail.properties.mail.smtp.starttls.enable=true
+
+	javamail에서 위 property를 읽어서 처리함
+
+npm install --save jbox
+   : 폴더 자동검색 (zip 아무데나)
+
+2020-09-02 ���� 2:15:22
+  1. �����Ұ�
+  - jar �� �����ϸ� url (html) ���� �ȵ�.
+  
+  2. pom.xml 'war' 
+  
+  	<groupId>com.example</groupId>
+	<artifactId>dashboard</artifactId> 
+	<version>0.0.1-SNAPSHOT</version>
+	<name>pjy</name>
+	<description>Demo project for Spring Boot</description>
+	<packaging>war</packaging>
+	
+
+  3. ojdbc
+  
+     ORA-01460 error ����( oracle ����������)
+     
+		<dependency>
+		    <groupId>com.oracle</groupId>
+		    <artifactId>ojdbc5</artifactId>
+		    <version>1.0</version>
+		</dependency>
+		
+		������ ���� copy
+		D:\81.java_sample\workspace-spring-tool-suite-4-4.5.1.RELEASE\pjy\lib\oracle\ojdbc\1.0
+				jdbc-oracle.jar  	
+	
+	    build-path external jar �߰��� �ʿ����.		
+	    
+    4. war ����
+    
+       java -Dfile.encoding=UTF-8 -jar dashboard-0.0.2-SNAPSHOT.war
+       
+       http://172.16.112.54:10010/monitor/main.html#
+       
+       command 창 실행시 마우스 커스 안눌리도록 주의할것. 눌리면 로그 안올라감~
+       
+       
+    5. 외부 jar 추가
+    
+			프로젝트에 추가한 lib 폴더를 우측 Add Folder 버튼을 이용해서 추가해주고,
+			Output folder: 를 선택 후, 우측에 활성화된 Edit 버튼을 이용해서 해당 프로젝트의
+			project/target/WEB-INF/lib 를 선택하고
+			Apply로 적용해 주면 설정 끝.
+    
+    
+    
+    --------------------
+        
+mkdir WEB-INF\classes\properties
+copy env.properties WEB-INF\classes\properties
+jar uvf Web.war WEB-INF/classes/properties/env.properties      
+klpjhompa12   
+
+
+h2 sa/a1-6

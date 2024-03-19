@@ -1,0 +1,20 @@
+@media print {
+.Printable {
+    display: block;
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 15px;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.Printable .Content {
+    height: auto;
+    overflow: auto;
+    width: 100%; /* my specific requirement */
+    margin: 0;
+    padding: 15px;
+}}

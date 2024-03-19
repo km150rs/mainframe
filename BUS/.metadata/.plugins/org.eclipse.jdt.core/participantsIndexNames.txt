@@ -1,0 +1,9 @@
+INDEX VERSION 1.132
+D:\BUS\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3301499368.index
+\dashboard\src\main\resources
+D:\BUS\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\210039709.index
+\dashboard\src\main\resources
+D:\BUS\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1314790577.index
+\dashboard\src\main\resources
+D:\BUS\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\95294375.index
+\dashboard\src\main\resources

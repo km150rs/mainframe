@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pjy.dashboard.mapper.h2.h2Mapper3">
+
+
+<!-- ISC 운전횟수 노선별,기사별,일간 합계   --> 
+ <insert id="insert_TBB_DRIVING_RECORD_DAY" parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+			MERGE INTO TBB_DRIVING_RECORD_DAY KEY (COMPANY_NO,work_date,route_nm,emp_nm)
+			SELECT 	a.COMPANY_NO
+				, 	a.WORK_DATE 
+				,	a.ROUTE_NM 
+				,	b.EMP_NM 
+				,	sum(tot_min) 
+				,	sum(bms_km) 
+				,	'batch'
+				, 	TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss')
+				,	a.driver_id
+			FROM 	TBL_DRIVING_RECORD a JOIN TBL_ISC_DRIVER_INFO b ON a.COMPANY_NO = b.COMPANY_NO AND a.driver_id = b.DRIVER_ID 
+			WHERE 	a.COMPANY_NO  = '${companyNo}'
+			AND 	a.WORK_DATE like '${baseYm}' || '%'
+			AND 	a.DRIVER_ID > 0
+			GROUP BY a.ROUTE_NM ,b.EMP_NM , a.WORK_DATE 
+  </insert>    
+  
+<!-- ISC 운전횟수 노선별,기사별,일간 합계 delte  --> 
+ <delete id="delete_TBB_DRIVING_RECORD_DAY" parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+			delete 	
+			FROM 	TBB_DRIVING_RECORD_DAY a
+			WHERE 	a.COMPANY_NO  = '${companyNo}'
+			AND 	a.WORK_DATE like '${baseYm}' || '%'
+  </delete>    
+  
+  
+ <delete id="delete_TBL_DRIVING_RECORD_dup" parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  	DELETE TBL_DRIVING_RECORD k
+	WHERE (COMPANY_NO,BASE_YM,WORK_DATE,DRIVER_ID) in
+	(	SELECT  a.COMPANY_NO ,substring(a.WORK_DATE,1,7),a.WORK_DATE ,nvl(a.DRIVER_ID ,0)
+				FROM TBB_DRIVING_RECORD_DAY a
+				WHERE a.COMPANY_NO ='${companyNo}'
+				AND 	a.work_date like '${baseYm}' || '%' 
+		GROUP BY a.WORK_DATE ,a.EMP_NM 
+		HAVING count(a.ROUTE_NM) > 1
+	)
+  </delete>    
+  
+ <delete id="delete_TBB_DRIVING_RECORD_DAY_dup" parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  	DELETE TBB_DRIVING_RECORD_DAY k
+	WHERE (COMPANY_NO,WORK_DATE,DRIVER_ID) in
+	(	SELECT  a.COMPANY_NO ,a.WORK_DATE ,nvl(a.DRIVER_ID ,0)
+				FROM TBB_DRIVING_RECORD_DAY a
+				WHERE a.COMPANY_NO ='${companyNo}'
+				AND 	a.work_date like '${baseYm}' || '%' 
+		GROUP BY a.WORK_DATE ,a.EMP_NM 
+		HAVING count(a.ROUTE_NM) > 1
+	)
+  </delete>    
+	
+  
+<!-- 오픈후 정시성위반율 소수점 3자리만 유지하도록 update   -->
+ <update id="update_TBM_EMP_WORKING_LOG_rate" parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  	UPDATE TBM_EMP_WORKING_LOG
+		set			DETAIL_DESC = round(CONVERT(DETAIL_DESC ,number),3)
+	WHERE code_type2 = '정시성 위반율'
+  </update>     
+  
+ <select id="select_TBB_DRIVING_RECORD_baseYm"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+			SELECT 	DISTINCT SUBSTRING(work_date,1,7) 	as base_ym
+			from	TBL_DRIVING_RECORD
+			WHERE 	WORK_DATE LIKE  TO_CHAR( SYSDATE,'yyyy') || '%'
+  	]]>
+  </select>
+
+ <select id="select_validationCheck_empNm"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="integer">
+  <![CDATA[
+	SELECT 	count(*) 
+	FROM 	TBL_EMPLOYEEINFO 
+	WHERE 	COMPANY_NO = '${companyNo}'
+	AND 	emp_nm = '${empNm}'
+  	]]>
+  </select>
+
+ <select id="select_validationCheck_carNo"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="integer">
+  <![CDATA[
+	SELECT 	count(*) 
+	FROM 	TBL_CARINFO 
+	WHERE 	COMPANY_NO = '${companyNo}'
+	AND 	car_no = '${carNo}'
+  	]]>
+  </select>
+
+ <select id="select_validationCheck_routeNm"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="integer">
+  <![CDATA[
+	SELECT 	count(*) 
+	FROM 	TBL_ROUTEINFO 
+	WHERE 	COMPANY_NO = '${companyNo}'
+	AND 	route_nm = '${routeNm}'
+  	]]>
+  </select>
+  
+<!-- 인사평가자료 기준일 삭제 -->  
+ <delete id="delete_TBM_EMP_POINT_INFO" parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  	DELETE TBM_EMP_POINT_INFO a
+	WHERE 	a.COMPANY_NO =  '${companyNo}'
+	AND 	a.from_date = '${fromDate}' 
+	AND 	a.to_date = '${toDate}' 
+  </delete>    
+  
+<!-- 인사평가자료 생성 -->  
+ <insert id="insert_TBM_EMP_POINT_INFO" parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+	WITH codeInfo AS (
+		SELECT 	b.emp_nm,a.* FROM TBM_COMMON_CODE_INFO a,TBL_EMPLOYEEINFO b
+		WHERE 	a.COMPANY_NO = '${companyNo}' 
+		AND 	a.CODE_GB  = '인사평가배점'
+		AND		a.USE_YN   = 'Y'
+		AND 	a.COMPANY_NO = b.company_no
+	), workingInfo AS (
+		SELECT 	a.EMP_NM ,a.code_type1
+			, 	count(a.WORK_DATE ) AS point
+		FROM 	TBM_EMP_WORKING_LOG a JOIN TBM_COMMON_CODE_INFO b ON a.COMPANY_NO = b.COMPANY_NO AND a.code_type1 = b.code_nm AND b.code_gb = '인사평가배점' AND b.USE_YN = 'Y' AND b.code_id LIKE '2%'
+		WHERE 	a.COMPANY_NO ='${companyNo}'
+		AND 	a.WORK_DATE BETWEEN '${fromDate}' AND '${toDate}' 
+		GROUP BY a.EMP_NM , a.code_type1
+		UNION
+		SELECT 	a.EMP_NM ,'행정민원'
+			, 	count(a.comp_DATE ) 
+		FROM 	TBL_PUBLIC_COMPLAINT_INFO a 
+		WHERE 	a.COMPANY_NO ='${companyNo}'
+		AND 	a.comp_DATE BETWEEN '${fromDate}' AND '${toDate}' 
+		GROUP BY a.EMP_NM
+		UNION
+		SELECT 	a.EMP_NM ,'사고'
+			, 	count(a.acc_DATE ) 
+		FROM 	TBM_ACCIDENT_INFO a 
+		WHERE 	a.COMPANY_NO ='${companyNo}'
+		AND 	a.acc_DATE BETWEEN '${fromDate}' AND '${toDate}' 
+		GROUP BY a.EMP_NM
+		UNION
+		SELECT 	a.EMP_NM ,'사고금액'
+			, 	trunc(sum(a.OUT_TOT_AMT) / 1000000,0)
+		FROM 	TBM_ACCIDENT_INFO a 
+		WHERE 	a.COMPANY_NO ='${companyNo}'
+		AND 	a.acc_DATE BETWEEN '${fromDate}' AND '${toDate}' 
+		GROUP BY a.EMP_NM
+		UNION 
+		select  a.EMP_NM ,'배차정시성'
+			,	round(sum(a.TERM_WIBAN_CNT*1.0) / sum(a.TOTAL_STATION_CNT) * 10.0,1) AS wibanRate
+		from    TBL_ARRANGE_PUNCTUALITY_ANALIZE a 
+		where   a.company_no = '${companyNo}' 
+		AND 	a.BASE_YMD BETWEEN  '${fromDate}' AND '${toDate}' 
+		AND 	a.emp_nm <> '-'
+		GROUP BY  a.EMP_NM 
+		UNION 
+		SELECT	b.emp_nm,'위험운전지수'
+			,	round(avg(decode(b.danger_level,'매우위험',5,'위험',4,'주의',3,'보통',2,'양호',1,0)) ,1) AS danger_level_no 
+		FROM	TBL_DANGER_DRIVING_INFO b
+		WHERE	b.company_no = '${companyNo}'
+		AND 	b.base_ym BETWEEN substring('${fromDate}',1,7) AND substring('${toDate}',1,7) 
+		GROUP BY b.EMP_NM 	
+		UNION 
+		SELECT 	m.emp_nm,'근무협조도'
+			,	round(PERCENT_RANK() OVER (ORDER BY m.work_Avg) * 10,1) AS workRate
+		FROM (
+			SELECT k.emp_nm, avg(k.work_cnt) AS work_avg
+			FROM (
+				SELECT  a.EMP_NM 
+						,substring(a.work_date,1,7) AS work_ym
+						,count(a.work_Date) AS work_cnt
+				FROM TBB_DRIVING_RECORD_DAY a
+				WHERE a.COMPANY_NO ='${companyNo}'
+				AND 	a.work_date BETWEEN  '${fromDate}' AND '${toDate}' 
+				GROUP BY a.EMP_NM ,substring(a.work_date,1,7)
+			)k
+			GROUP BY k.emp_nm
+		) m
+	) 
+	INSERT INTO TBM_EMP_POINT_INFO
+	SELECT 	a.COMPANY_NO 
+		,	'${fromDate}'
+		,	'${toDate}' 
+		,	a.emp_nm
+		,	a.code_gb
+		,	a.CODE_ID 
+		,	a.code_nm
+		, 	a.MEMO 
+		,	a.CODE_VALUE 
+		,	a.code_max
+		,	a.code_min
+		,	nvl(b.point,0) AS point
+		, 	a.code_value + (nvl(b.point,0) * a.code_min ) AS tot_point
+		,	'batch'
+		,	to_char(SYSDATE,'yyyy-MM-dd hh:mi:ss')
+	FROM  codeInfo a LEFT OUTER JOIN workingInfo b ON  a.emp_nm = b.emp_nm and a.code_nm = b.CODE_TYPE1  
+  	]]>
+  </insert>    
+
+<!-- 인사평가자료 조회 -->  
+ <select id="select_TBM_EMP_POINT_INFO"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	SELECT k.*
+	FROM (
+		SELECT 	ROW_NUMBER() over(ORDER BY sum(a.tot_point) desc) AS seq
+			,	a.emp_nm
+			,	b.sp_gb
+			,	b.route_nm
+			,	listagg(a.code_nm,'/') WITHIN GROUP (ORDER BY a.code_id)   AS codeList
+			,	listagg(a.tot_point,'/') WITHIN GROUP (ORDER BY a.code_id) AS pointList
+			,	listagg(a.point,'/') WITHIN GROUP (ORDER BY a.code_id) AS cntList
+			,	listagg(a.code_max,'/') WITHIN GROUP (ORDER BY a.code_id) AS maxList
+			,	sum(a.tot_point) AS tot_point
+			,	nvl(to_char(datediff(DAY,b.enter_date,to_char(SYSDATE,'yyyy-mm-dd'))),0) AS totWorkingDay
+			,	substring(b.birth_ymd,1,2) as birth_year
+		FROM  TBM_EMP_POINT_INFO a join TBL_DRIVERINFO b on a.company_no = b.company_no AND a.emp_nm = b.emp_nm
+		WHERE	a.company_no = '${companyNo}'
+		AND	 	a.from_date = '${fromDate}' 
+		AND 	a.to_date = '${toDate}' 
+		AND 	b.route_nm = decode('${routeNm}','',b.route_nm,'${routeNm}') 
+		AND 	b.sp_gb = decode('${filterText}','ALL',b.sp_gb,'${filterText}')
+		GROUP BY a.emp_nm
+		ORDER BY 1
+	) K
+	WHERE 	k.emp_nm = decode ('${empNm}','',k.emp_nm,'${empNm}')
+	AND		round(k.totWorkingDay/365,0) >= ${dayValue}
+  	]]>
+  </select>
+
+  
+</mapper>

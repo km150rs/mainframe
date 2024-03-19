@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  "WEB-INF/lib/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="common.properties" />
+     <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="cacheEnabled" value="false"/>
+        <setting name="localCacheScope" value="STATEMENT"/>
+        <setting name="jdbcTypeForNull" value="NULL"/>
+    </settings> 
+    
+<!--
+	1. mybatis sql log 출력하고자할경우 사용 	
+	<plugins>
+		<plugin interceptor="com.pjy.dashboard.interceptor.MybatisLogInterceptor"></plugin>
+	</plugins>  
+	<plugins>
+		<plugin interceptor="com.pjy.dashboard.interceptor.AddParamInterceptor"></plugin>
+	</plugins>  
+
+   <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="oracle.jdbc.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@172.21.12.118:9502:nfoss2"/>
+        <property name="username" value="nfoss"/>
+        <property name="password" value="nfoss"/>
+      </dataSource>
+    </environment>
+  </environments>
+ -->
+
+<!--
+  <mappers>
+    	<mapper resource="mapper/nfoss.xml"/>
+    	<mapper resource="mapper/nfoss2.xml"/>
+  </mappers>
+ -->  
+</configuration>

@@ -1,0 +1,1580 @@
+2023-07-08 01:37:25.050 WARN  [H2 housekeeper] [com.zaxxer.hikari.pool.HikariPool] - H2 - Thread starvation or clock leap detected (housekeeper delta=3h28s685ms481µs700ns).
+2023-07-08 14:41:25.112 WARN  [H2 housekeeper] [com.zaxxer.hikari.pool.HikariPool] - H2 - Thread starvation or clock leap detected (housekeeper delta=13h4m8s318ms790µs700ns).
+2023-07-08 14:44:28.702 INFO  [pjy-task-pool-1] [c.pjy.dashboard.schedule.DailyScheduler] - DailyScheduler insert_TBB_DRIVING_RECORD_DAY start...
+2023-07-08 14:44:28.703 DEBUG [pjy-task-pool-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+56. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 14:44:28.797 DEBUG [pjy-task-pool-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+56. SELECT 	DISTINCT SUBSTRING(work_date,1,7) 	as base_ym
+			from	TBL_DRIVING_RECORD
+			WHERE 	WORK_DATE LIKE  TO_CHAR( SYSDATE,'yyyy') || '%'
+ {executed in 93 msec}
+2023-07-08 14:44:30.343 DEBUG [pjy-task-pool-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+56. MERGE INTO TBB_DRIVING_RECORD_DAY KEY (COMPANY_NO,work_date,route_nm,emp_nm)
+			SELECT 	a.COMPANY_NO
+				, 	a.WORK_DATE 
+				,	a.ROUTE_NM 
+				,	b.EMP_NM 
+				,	sum(tot_min) 
+				,	sum(bms_km) 
+				,	'batch'
+				, 	TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss')
+			FROM 	TBL_DRIVING_RECORD a JOIN TBL_ISC_DRIVER_INFO b ON a.COMPANY_NO = b.COMPANY_NO AND a.driver_id = b.DRIVER_ID 
+			WHERE 	a.COMPANY_NO  = '100'
+			AND 	a.WORK_DATE like '2023-03' || '%'
+			AND 	a.DRIVER_ID > 0
+			GROUP BY a.ROUTE_NM ,b.EMP_NM , a.WORK_DATE
+ {executed in 1540 msec}
+2023-07-08 14:44:30.344 DEBUG [pjy-task-pool-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+56. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 14:44:31.938 DEBUG [pjy-task-pool-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+56. MERGE INTO TBB_DRIVING_RECORD_DAY KEY (COMPANY_NO,work_date,route_nm,emp_nm)
+			SELECT 	a.COMPANY_NO
+				, 	a.WORK_DATE 
+				,	a.ROUTE_NM 
+				,	b.EMP_NM 
+				,	sum(tot_min) 
+				,	sum(bms_km) 
+				,	'batch'
+				, 	TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss')
+			FROM 	TBL_DRIVING_RECORD a JOIN TBL_ISC_DRIVER_INFO b ON a.COMPANY_NO = b.COMPANY_NO AND a.driver_id = b.DRIVER_ID 
+			WHERE 	a.COMPANY_NO  = '100'
+			AND 	a.WORK_DATE like '2023-04' || '%'
+			AND 	a.DRIVER_ID > 0
+			GROUP BY a.ROUTE_NM ,b.EMP_NM , a.WORK_DATE
+ {executed in 1593 msec}
+2023-07-08 14:44:31.939 INFO  [pjy-task-pool-1] [c.pjy.dashboard.schedule.DailyScheduler] - DailyScheduler insert_TBB_DRIVING_RECORD_DAY end...
+2023-07-08 15:48:34.616 WARN  [H2 housekeeper] [com.zaxxer.hikari.pool.HikariPool] - H2 - Thread starvation or clock leap detected (housekeeper delta=5m38s616ms879µs700ns).
+2023-07-08 15:57:41.914 INFO  [http-nio-10010-exec-8] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-07-08 15:57:41.914 INFO  [http-nio-10010-exec-8] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-07-08 15:57:41.915 INFO  [http-nio-10010-exec-8] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-07-08 15:57:41.915 INFO  [http-nio-10010-exec-8] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-07-08 15:57:41.915 INFO  [http-nio-10010-exec-8] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-07-08 15:57:41.992 ERROR [http-nio-10010-exec-8] [o.a.c.c.C.[Tomcat].[localhost].[/].[jsp]] - Servlet.service() for servlet [jsp] threw exception
+java.lang.IllegalStateException: Cannot create a session after the response has been committed
+	at org.apache.catalina.connector.Request.doGetSession(Request.java:2993)
+	at org.apache.catalina.connector.Request.getSession(Request.java:2432)
+	at org.apache.catalina.connector.RequestFacade.getSession(RequestFacade.java:908)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:244)
+	at org.apache.catalina.core.ApplicationHttpRequest.getSession(ApplicationHttpRequest.java:582)
+	at org.apache.catalina.core.ApplicationHttpRequest.getSession(ApplicationHttpRequest.java:527)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at org.apache.jasper.runtime.PageContextImpl.initialize(PageContextImpl.java:133)
+	at org.apache.jasper.runtime.JspFactoryImpl.internalGetPageContext(JspFactoryImpl.java:109)
+	at org.apache.jasper.runtime.JspFactoryImpl.getPageContext(JspFactoryImpl.java:60)
+	at org.apache.jsp.WEB_002dINF.jsp.home_jsp._jspService(home_jsp.java:121)
+	at org.apache.jasper.runtime.HttpJspBase.service(HttpJspBase.java:70)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:477)
+	at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:385)
+	at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:329)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.ApplicationDispatcher.invoke(ApplicationDispatcher.java:712)
+	at org.apache.catalina.core.ApplicationDispatcher.doInclude(ApplicationDispatcher.java:580)
+	at org.apache.catalina.core.ApplicationDispatcher.include(ApplicationDispatcher.java:516)
+	at org.springframework.security.web.header.HeaderWriterFilter$HeaderWriterRequestDispatcher.include(HeaderWriterFilter.java:149)
+	at org.springframework.web.servlet.view.InternalResourceView.renderMergedOutputModel(InternalResourceView.java:163)
+	at org.springframework.web.servlet.view.AbstractView.render(AbstractView.java:317)
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1372)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1118)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1057)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:64)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.web.trace.servlet.HttpTraceFilter.doFilterInternal(HttpTraceFilter.java:88)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:320)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:127)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:137)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:111)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:170)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.www.BasicAuthenticationFilter.doFilterInternal(BasicAuthenticationFilter.java:158)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.ConcurrentSessionFilter.doFilter(ConcurrentSessionFilter.java:155)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:200)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:97)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:74)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:105)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:56)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:215)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:178)
+	at org.springframework.security.web.FilterChainProxy$$FastClassBySpringCGLIB$$f101c706.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:88)
+	at com.pjy.dashboard.aop.LogAspect.handleRequestRejectedException(LogAspect.java:147)
+	at jdk.internal.reflect.GeneratedMethodAccessor150.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:644)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:633)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:93)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:689)
+	at org.springframework.security.web.FilterChainProxy$$EnhancerBySpringCGLIB$$bffff549.doFilter(<generated>)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:358)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:271)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:94)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.filterAndRecordMetrics(WebMvcMetricsFilter.java:114)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:104)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:526)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1591)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2023-07-08 15:57:41.999 ERROR [http-nio-10010-exec-8] [o.a.c.c.C.[.[.[/].[dispatcherServlet]] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [javax.servlet.ServletException: java.lang.IllegalStateException: Cannot create a session after the response has been committed] with root cause
+java.lang.IllegalStateException: Cannot create a session after the response has been committed
+	at org.apache.catalina.connector.Request.doGetSession(Request.java:2993)
+	at org.apache.catalina.connector.Request.getSession(Request.java:2432)
+	at org.apache.catalina.connector.RequestFacade.getSession(RequestFacade.java:908)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:244)
+	at org.apache.catalina.core.ApplicationHttpRequest.getSession(ApplicationHttpRequest.java:582)
+	at org.apache.catalina.core.ApplicationHttpRequest.getSession(ApplicationHttpRequest.java:527)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at org.apache.jasper.runtime.PageContextImpl.initialize(PageContextImpl.java:133)
+	at org.apache.jasper.runtime.JspFactoryImpl.internalGetPageContext(JspFactoryImpl.java:109)
+	at org.apache.jasper.runtime.JspFactoryImpl.getPageContext(JspFactoryImpl.java:60)
+	at org.apache.jsp.WEB_002dINF.jsp.home_jsp._jspService(home_jsp.java:121)
+	at org.apache.jasper.runtime.HttpJspBase.service(HttpJspBase.java:70)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:477)
+	at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:385)
+	at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:329)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.ApplicationDispatcher.invoke(ApplicationDispatcher.java:712)
+	at org.apache.catalina.core.ApplicationDispatcher.doInclude(ApplicationDispatcher.java:580)
+	at org.apache.catalina.core.ApplicationDispatcher.include(ApplicationDispatcher.java:516)
+	at org.springframework.security.web.header.HeaderWriterFilter$HeaderWriterRequestDispatcher.include(HeaderWriterFilter.java:149)
+	at org.springframework.web.servlet.view.InternalResourceView.renderMergedOutputModel(InternalResourceView.java:163)
+	at org.springframework.web.servlet.view.AbstractView.render(AbstractView.java:317)
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1372)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1118)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1057)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:64)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.web.trace.servlet.HttpTraceFilter.doFilterInternal(HttpTraceFilter.java:88)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:320)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:127)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:137)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:111)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:170)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.www.BasicAuthenticationFilter.doFilterInternal(BasicAuthenticationFilter.java:158)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.ConcurrentSessionFilter.doFilter(ConcurrentSessionFilter.java:155)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:200)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:97)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:74)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:105)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:56)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:215)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:178)
+	at org.springframework.security.web.FilterChainProxy$$FastClassBySpringCGLIB$$f101c706.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:88)
+	at com.pjy.dashboard.aop.LogAspect.handleRequestRejectedException(LogAspect.java:147)
+	at jdk.internal.reflect.GeneratedMethodAccessor150.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:644)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:633)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:93)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:689)
+	at org.springframework.security.web.FilterChainProxy$$EnhancerBySpringCGLIB$$bffff549.doFilter(<generated>)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:358)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:271)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:94)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.filterAndRecordMetrics(WebMvcMetricsFilter.java:114)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:104)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:526)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1591)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2023-07-08 15:57:42.003 INFO  [http-nio-10010-exec-8] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-07-08 15:57:42.003 INFO  [http-nio-10010-exec-8] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-07-08 15:57:42.003 INFO  [http-nio-10010-exec-8] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /error
+2023-07-08 15:57:42.003 INFO  [http-nio-10010-exec-8] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-07-08 15:57:42.003 INFO  [http-nio-10010-exec-8] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /error
+2023-07-08 15:57:42.628 ERROR [http-nio-10010-exec-8] [o.a.c.c.C.[Tomcat].[localhost].[/].[jsp]] - Servlet.service() for servlet [jsp] threw exception
+java.lang.IllegalStateException: Cannot create a session after the response has been committed
+	at org.apache.catalina.connector.Request.doGetSession(Request.java:2993)
+	at org.apache.catalina.connector.Request.getSession(Request.java:2432)
+	at org.apache.catalina.connector.RequestFacade.getSession(RequestFacade.java:908)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:244)
+	at org.apache.catalina.core.ApplicationHttpRequest.getSession(ApplicationHttpRequest.java:582)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:244)
+	at org.apache.catalina.core.ApplicationHttpRequest.getSession(ApplicationHttpRequest.java:582)
+	at org.apache.catalina.core.ApplicationHttpRequest.getSession(ApplicationHttpRequest.java:527)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at org.apache.jasper.runtime.PageContextImpl.initialize(PageContextImpl.java:133)
+	at org.apache.jasper.runtime.JspFactoryImpl.internalGetPageContext(JspFactoryImpl.java:109)
+	at org.apache.jasper.runtime.JspFactoryImpl.getPageContext(JspFactoryImpl.java:60)
+	at org.apache.jsp.WEB_002dINF.jsp.error_jsp._jspService(error_jsp.java:107)
+	at org.apache.jasper.runtime.HttpJspBase.service(HttpJspBase.java:70)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:477)
+	at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:385)
+	at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:329)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.ApplicationDispatcher.invoke(ApplicationDispatcher.java:712)
+	at org.apache.catalina.core.ApplicationDispatcher.doInclude(ApplicationDispatcher.java:580)
+	at org.apache.catalina.core.ApplicationDispatcher.include(ApplicationDispatcher.java:516)
+	at org.springframework.web.servlet.view.InternalResourceView.renderMergedOutputModel(InternalResourceView.java:163)
+	at org.springframework.web.servlet.view.AbstractView.render(AbstractView.java:317)
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1372)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1118)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1057)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:64)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:320)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:116)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:84)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:111)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:170)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:103)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.ConcurrentSessionFilter.doFilter(ConcurrentSessionFilter.java:155)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:200)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:103)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:103)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:105)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:103)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:215)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:178)
+	at org.springframework.security.web.FilterChainProxy$$FastClassBySpringCGLIB$$f101c706.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:88)
+	at com.pjy.dashboard.aop.LogAspect.handleRequestRejectedException(LogAspect.java:147)
+	at jdk.internal.reflect.GeneratedMethodAccessor150.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:644)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:633)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:93)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:689)
+	at org.springframework.security.web.FilterChainProxy$$EnhancerBySpringCGLIB$$bffff549.doFilter(<generated>)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:358)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:271)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.ApplicationDispatcher.invoke(ApplicationDispatcher.java:712)
+	at org.apache.catalina.core.ApplicationDispatcher.processRequest(ApplicationDispatcher.java:461)
+	at org.apache.catalina.core.ApplicationDispatcher.doForward(ApplicationDispatcher.java:384)
+	at org.apache.catalina.core.ApplicationDispatcher.forward(ApplicationDispatcher.java:312)
+	at org.apache.catalina.core.StandardHostValve.custom(StandardHostValve.java:394)
+	at org.apache.catalina.core.StandardHostValve.status(StandardHostValve.java:253)
+	at org.apache.catalina.core.StandardHostValve.throwable(StandardHostValve.java:348)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:173)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1591)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2023-07-08 15:57:42.630 ERROR [http-nio-10010-exec-8] [o.a.c.c.C.[.[.[/].[dispatcherServlet]] - Servlet.service() for servlet [dispatcherServlet] threw exception
+java.lang.IllegalStateException: Cannot create a session after the response has been committed
+	at org.apache.catalina.connector.Request.doGetSession(Request.java:2993)
+	at org.apache.catalina.connector.Request.getSession(Request.java:2432)
+	at org.apache.catalina.connector.RequestFacade.getSession(RequestFacade.java:908)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:244)
+	at org.apache.catalina.core.ApplicationHttpRequest.getSession(ApplicationHttpRequest.java:582)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:244)
+	at org.apache.catalina.core.ApplicationHttpRequest.getSession(ApplicationHttpRequest.java:582)
+	at org.apache.catalina.core.ApplicationHttpRequest.getSession(ApplicationHttpRequest.java:527)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at org.apache.jasper.runtime.PageContextImpl.initialize(PageContextImpl.java:133)
+	at org.apache.jasper.runtime.JspFactoryImpl.internalGetPageContext(JspFactoryImpl.java:109)
+	at org.apache.jasper.runtime.JspFactoryImpl.getPageContext(JspFactoryImpl.java:60)
+	at org.apache.jsp.WEB_002dINF.jsp.error_jsp._jspService(error_jsp.java:107)
+	at org.apache.jasper.runtime.HttpJspBase.service(HttpJspBase.java:70)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:477)
+	at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:385)
+	at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:329)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.ApplicationDispatcher.invoke(ApplicationDispatcher.java:712)
+	at org.apache.catalina.core.ApplicationDispatcher.doInclude(ApplicationDispatcher.java:580)
+	at org.apache.catalina.core.ApplicationDispatcher.include(ApplicationDispatcher.java:516)
+	at org.springframework.web.servlet.view.InternalResourceView.renderMergedOutputModel(InternalResourceView.java:163)
+	at org.springframework.web.servlet.view.AbstractView.render(AbstractView.java:317)
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1372)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1118)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1057)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:64)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:320)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:116)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:84)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:111)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:170)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:103)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.ConcurrentSessionFilter.doFilter(ConcurrentSessionFilter.java:155)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:200)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:103)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:103)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:105)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:103)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:215)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:178)
+	at org.springframework.security.web.FilterChainProxy$$FastClassBySpringCGLIB$$f101c706.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:88)
+	at com.pjy.dashboard.aop.LogAspect.handleRequestRejectedException(LogAspect.java:147)
+	at jdk.internal.reflect.GeneratedMethodAccessor150.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:644)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:633)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:93)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:689)
+	at org.springframework.security.web.FilterChainProxy$$EnhancerBySpringCGLIB$$bffff549.doFilter(<generated>)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:358)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:271)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.ApplicationDispatcher.invoke(ApplicationDispatcher.java:712)
+	at org.apache.catalina.core.ApplicationDispatcher.processRequest(ApplicationDispatcher.java:461)
+	at org.apache.catalina.core.ApplicationDispatcher.doForward(ApplicationDispatcher.java:384)
+	at org.apache.catalina.core.ApplicationDispatcher.forward(ApplicationDispatcher.java:312)
+	at org.apache.catalina.core.StandardHostValve.custom(StandardHostValve.java:394)
+	at org.apache.catalina.core.StandardHostValve.status(StandardHostValve.java:253)
+	at org.apache.catalina.core.StandardHostValve.throwable(StandardHostValve.java:348)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:173)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1591)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2023-07-08 15:57:42.631 ERROR [http-nio-10010-exec-8] [o.a.c.c.C.[Tomcat].[localhost]] - Exception Processing ErrorPage[errorCode=0, location=/error]
+org.apache.jasper.JasperException: javax.servlet.ServletException: java.lang.IllegalStateException: Cannot create a session after the response has been committed
+	at org.apache.jasper.servlet.JspServletWrapper.handleJspException(JspServletWrapper.java:639)
+	at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:500)
+	at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:385)
+	at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:329)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.ApplicationDispatcher.invoke(ApplicationDispatcher.java:712)
+	at org.apache.catalina.core.ApplicationDispatcher.doInclude(ApplicationDispatcher.java:580)
+	at org.apache.catalina.core.ApplicationDispatcher.include(ApplicationDispatcher.java:516)
+	at org.springframework.web.servlet.view.InternalResourceView.renderMergedOutputModel(InternalResourceView.java:163)
+	at org.springframework.web.servlet.view.AbstractView.render(AbstractView.java:317)
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1372)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1118)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1057)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:64)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:320)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:116)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:84)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:111)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:170)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:103)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.ConcurrentSessionFilter.doFilter(ConcurrentSessionFilter.java:155)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:200)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:103)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:103)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:105)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:103)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:215)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:178)
+	at org.springframework.security.web.FilterChainProxy$$FastClassBySpringCGLIB$$f101c706.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:88)
+	at com.pjy.dashboard.aop.LogAspect.handleRequestRejectedException(LogAspect.java:147)
+	at jdk.internal.reflect.GeneratedMethodAccessor150.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:644)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:633)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:93)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:689)
+	at org.springframework.security.web.FilterChainProxy$$EnhancerBySpringCGLIB$$bffff549.doFilter(<generated>)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:358)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:271)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.ApplicationDispatcher.invoke(ApplicationDispatcher.java:712)
+	at org.apache.catalina.core.ApplicationDispatcher.processRequest(ApplicationDispatcher.java:461)
+	at org.apache.catalina.core.ApplicationDispatcher.doForward(ApplicationDispatcher.java:384)
+	at org.apache.catalina.core.ApplicationDispatcher.forward(ApplicationDispatcher.java:312)
+	at org.apache.catalina.core.StandardHostValve.custom(StandardHostValve.java:394)
+	at org.apache.catalina.core.StandardHostValve.status(StandardHostValve.java:253)
+	at org.apache.catalina.core.StandardHostValve.throwable(StandardHostValve.java:348)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:173)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1591)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: javax.servlet.ServletException: java.lang.IllegalStateException: Cannot create a session after the response has been committed
+	at org.apache.jsp.WEB_002dINF.jsp.error_jsp._jspService(error_jsp.java:144)
+	at org.apache.jasper.runtime.HttpJspBase.service(HttpJspBase.java:70)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:477)
+	... 97 common frames omitted
+Caused by: java.lang.IllegalStateException: Cannot create a session after the response has been committed
+	at org.apache.catalina.connector.Request.doGetSession(Request.java:2993)
+	at org.apache.catalina.connector.Request.getSession(Request.java:2432)
+	at org.apache.catalina.connector.RequestFacade.getSession(RequestFacade.java:908)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:244)
+	at org.apache.catalina.core.ApplicationHttpRequest.getSession(ApplicationHttpRequest.java:582)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:244)
+	at org.apache.catalina.core.ApplicationHttpRequest.getSession(ApplicationHttpRequest.java:582)
+	at org.apache.catalina.core.ApplicationHttpRequest.getSession(ApplicationHttpRequest.java:527)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at javax.servlet.http.HttpServletRequestWrapper.getSession(HttpServletRequestWrapper.java:253)
+	at org.apache.jasper.runtime.PageContextImpl.initialize(PageContextImpl.java:133)
+	at org.apache.jasper.runtime.JspFactoryImpl.internalGetPageContext(JspFactoryImpl.java:109)
+	at org.apache.jasper.runtime.JspFactoryImpl.getPageContext(JspFactoryImpl.java:60)
+	at org.apache.jsp.WEB_002dINF.jsp.error_jsp._jspService(error_jsp.java:107)
+	... 100 common frames omitted
+2023-07-08 15:57:42.696 INFO  [http-nio-10010-exec-2] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-07-08 15:57:42.697 INFO  [http-nio-10010-exec-2] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-07-08 15:57:42.697 INFO  [http-nio-10010-exec-2] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /error
+2023-07-08 15:57:42.697 INFO  [http-nio-10010-exec-2] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-07-08 15:57:42.697 INFO  [http-nio-10010-exec-2] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /error
+2023-07-08 15:57:45.147 DEBUG [http-nio-10010-exec-5] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+86. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 15:57:45.149 DEBUG [http-nio-10010-exec-5] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+86. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-07-08 15:57:45.153 INFO  [http-nio-10010-exec-5] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-07-08 15:57:45.244 INFO  [http-nio-10010-exec-5] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$4iGLOM3TL2LOTomQoIarkONyF32j1Fuf0bNhID23YsX3B/IzDs1m.
+2023-07-08 15:57:45.337 INFO  [http-nio-10010-exec-5] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-07-08 15:58:07.346 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+86. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 15:58:07.348 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+87. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 15:58:07.353 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+87. SELECT	/* select_EmpWorkingLogInputOption : 근태등록 칼럼별 option값 */ 	
+			(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원대분류') AS code_type1
+		,	(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원중분류') AS code_type2
+		,	(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원소분류') AS code_type3
+		,	(SELECT listagg(DISTINCT(car_no),'/') FROM TBL_CARINFO a where 	a.company_no = '100') AS car_no
+		,	(SELECT listagg(ROUTE_NM,'/')  FROM TBL_ROUTEINFO a where 	a.company_no = '100' ORDER BY 1) AS route_nm
+		,	(SELECT listagg(EMP_NM,'/')  FROM TBL_EMPLOYEEINFO a where 	a.company_no = '100' ORDER BY 1) AS emp_nm
+	FROM dual
+ {executed in 3 msec}
+2023-07-08 15:58:09.328 INFO  [http-nio-10010-exec-2] [c.p.dashboard.controller.TestController] - com.pjy.dashboard.domain.CommonCodeVo@6a2635e1
+2023-07-08 15:58:09.328 INFO  [http-nio-10010-exec-2] [c.p.dashboard.service.DynamicSqlService] - filterType={TBM_COMMON_CODE_INFO_complaints} 
+2023-07-08 15:58:09.336 INFO  [http-nio-10010-exec-2] [c.p.dashboard.service.DynamicSqlService] - properties mtr.query.sql : SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+2023-07-08 15:58:09.337 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+87. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 15:58:09.340 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+87. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 1 msec}
+2023-07-08 15:58:09.341 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+87. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 1 msec}
+2023-07-08 15:58:12.553 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+87. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 15:58:12.555 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+88. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 15:58:12.558 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+88. SELECT	/* select_EmpWorkingLogInputOption : 근태등록 칼럼별 option값 */ 	
+			(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원대분류') AS code_type1
+		,	(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원중분류') AS code_type2
+		,	(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원소분류') AS code_type3
+		,	(SELECT listagg(DISTINCT(car_no),'/') FROM TBL_CARINFO a where 	a.company_no = '100') AS car_no
+		,	(SELECT listagg(ROUTE_NM,'/')  FROM TBL_ROUTEINFO a where 	a.company_no = '100' ORDER BY 1) AS route_nm
+		,	(SELECT listagg(EMP_NM,'/')  FROM TBL_EMPLOYEEINFO a where 	a.company_no = '100' ORDER BY 1) AS emp_nm
+	FROM dual
+ {executed in 1 msec}
+2023-07-08 15:58:19.872 INFO  [http-nio-10010-exec-3] [c.p.dashboard.controller.TestController] - com.pjy.dashboard.domain.CommonCodeVo@6a2635e1
+2023-07-08 15:58:19.873 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.DynamicSqlService] - filterType={TBM_COMMON_CODE_INFO_complaints} 
+2023-07-08 15:58:19.873 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.DynamicSqlService] - properties mtr.query.sql : SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+2023-07-08 15:58:19.874 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+88. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 15:58:19.875 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+88. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 0 msec}
+2023-07-08 15:58:19.876 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+88. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 1 msec}
+2023-07-08 15:58:25.942 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+88. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 15:58:25.948 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeUpdate(ProxyStatement.java:120)
+88. DELETE FROM TBM_COMMON_CODE_INFO WHERE company_no = '100'
+ {executed in 0 msec}
+2023-07-08 15:58:25.955 INFO  [http-nio-10010-exec-7] [com.pjy.dashboard.dao.DynamicSqlDao] - insert sql : INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , :code_gb , :code_id , :code_nm , :memo , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+2023-07-08 15:58:25.961 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+89. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 15:58:25.976 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeBatch(ProxyStatement.java:128)
+89. batching 26 statements:
+ 1:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원대분류' , '결원' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+ 2:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원대분류' , '교육' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+ 3:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원대분류' , '면담' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+ 4:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원대분류' , '승진' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+ 5:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원대분류' , '위반' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+ 6:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원대분류' , '지각' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+ 7:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원대분류' , '퇴사' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+ 8:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원대분류' , '표창' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+ 9:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원대분류' , '항의' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+10:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원대분류' , '휴가' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+11:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원중분류' , 'tet111' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+12:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원중분류' , '기절' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+13:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원중분류' , '반성' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+14:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원중분류' , '법규위반' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+15:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원중분류' , '시민항의' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+16:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원중분류' , '정규직전환' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+17:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원중분류' , '정년퇴임' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+18:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원중분류' , '정신과상담' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+19:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원중분류' , '차량교육' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+20:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원소분류' , 'test222' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+21:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원소분류' , '공황장애' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+22:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원소분류' , '난폭운전' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+23:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원소분류' , '노조가입' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+24:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원소분류' , '상금' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+25:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원소분류' , '음주운전' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+26:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원소분류' , '포상휴가' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+ {executed in 8 msec}
+2023-07-08 15:58:25.987 INFO  [http-nio-10010-exec-9] [c.p.dashboard.controller.TestController] - com.pjy.dashboard.domain.CommonCodeVo@6a2635e1
+2023-07-08 15:58:25.987 INFO  [http-nio-10010-exec-9] [c.p.dashboard.service.DynamicSqlService] - filterType={TBM_COMMON_CODE_INFO_complaints} 
+2023-07-08 15:58:25.988 INFO  [http-nio-10010-exec-9] [c.p.dashboard.service.DynamicSqlService] - properties mtr.query.sql : SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+2023-07-08 15:58:25.989 DEBUG [http-nio-10010-exec-9] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+89. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 1 msec}
+2023-07-08 15:58:25.992 DEBUG [http-nio-10010-exec-9] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+89. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 1 msec}
+2023-07-08 15:58:34.181 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+89. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 15:58:34.182 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeUpdate(ProxyStatement.java:120)
+89. DELETE FROM TBM_COMMON_CODE_INFO WHERE company_no = '100'
+ {executed in 0 msec}
+2023-07-08 15:58:34.188 INFO  [http-nio-10010-exec-1] [com.pjy.dashboard.dao.DynamicSqlDao] - insert sql : INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , :code_gb , :code_id , :code_nm , :memo , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+2023-07-08 15:58:34.189 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+90. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 15:58:34.196 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeBatch(ProxyStatement.java:128)
+90. batching 24 statements:
+ 1:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원대분류' , '결원' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+ 2:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원대분류' , '교육' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+ 3:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원대분류' , '면담' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+ 4:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원대분류' , '승진' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+ 5:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원대분류' , '위반' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+ 6:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원대분류' , '지각' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+ 7:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원대분류' , '퇴사' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+ 8:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원대분류' , '표창' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+ 9:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원대분류' , '항의' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+10:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원대분류' , '휴가' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+11:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원중분류' , '기절' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+12:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원중분류' , '반성' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+13:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원중분류' , '법규위반' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+14:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원중분류' , '시민항의' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+15:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원중분류' , '정규직전환' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+16:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원중분류' , '정년퇴임' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+17:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원중분류' , '정신과상담' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+18:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원중분류' , '차량교육' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+19:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원소분류' , '공황장애' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+20:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원소분류' , '난폭운전' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+21:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원소분류' , '노조가입' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+22:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원소분류' , '상금' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+23:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원소분류' , '음주운전' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+24:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date) values ( '100' , '민원소분류' , '포상휴가' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'))
+ {executed in 6 msec}
+2023-07-08 15:58:34.206 INFO  [http-nio-10010-exec-4] [c.p.dashboard.controller.TestController] - com.pjy.dashboard.domain.CommonCodeVo@6a2635e1
+2023-07-08 15:58:34.206 INFO  [http-nio-10010-exec-4] [c.p.dashboard.service.DynamicSqlService] - filterType={TBM_COMMON_CODE_INFO_complaints} 
+2023-07-08 15:58:34.206 INFO  [http-nio-10010-exec-4] [c.p.dashboard.service.DynamicSqlService] - properties mtr.query.sql : SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+2023-07-08 15:58:34.208 DEBUG [http-nio-10010-exec-4] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+90. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 1 msec}
+2023-07-08 15:58:34.209 DEBUG [http-nio-10010-exec-4] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+90. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 1 msec}
+2023-07-08 15:58:39.274 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+90. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 15:58:39.276 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+91. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 15:58:39.278 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+91. SELECT	/* select_EmpWorkingLogInputOption : 근태등록 칼럼별 option값 */ 	
+			(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원대분류') AS code_type1
+		,	(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원중분류') AS code_type2
+		,	(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원소분류') AS code_type3
+		,	(SELECT listagg(DISTINCT(car_no),'/') FROM TBL_CARINFO a where 	a.company_no = '100') AS car_no
+		,	(SELECT listagg(ROUTE_NM,'/')  FROM TBL_ROUTEINFO a where 	a.company_no = '100' ORDER BY 1) AS route_nm
+		,	(SELECT listagg(EMP_NM,'/')  FROM TBL_EMPLOYEEINFO a where 	a.company_no = '100' ORDER BY 1) AS emp_nm
+	FROM dual
+ {executed in 1 msec}
+2023-07-08 16:13:48.149 INFO  [http-nio-10010-exec-7] [c.p.dashboard.controller.TestController] - com.pjy.dashboard.domain.CommonCodeVo@6a2635e1
+2023-07-08 16:13:48.149 INFO  [http-nio-10010-exec-7] [c.p.dashboard.service.DynamicSqlService] - filterType={TBM_COMMON_CODE_INFO_complaints} 
+2023-07-08 16:13:48.156 INFO  [http-nio-10010-exec-7] [c.p.dashboard.service.DynamicSqlService] - properties mtr.query.sql : SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+2023-07-08 16:13:48.157 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+96. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 16:13:48.158 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+96. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 1 msec}
+2023-07-08 16:13:48.160 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+96. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 1 msec}
+2023-07-08 16:14:16.743 DEBUG [http-nio-10010-exec-9] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+96. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 16:14:16.744 DEBUG [http-nio-10010-exec-9] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeUpdate(ProxyStatement.java:120)
+96. DELETE FROM TBM_COMMON_CODE_INFO WHERE company_no = '100'
+ {executed in 1 msec}
+2023-07-08 16:14:16.752 INFO  [http-nio-10010-exec-9] [com.pjy.dashboard.dao.DynamicSqlDao] - insert sql : INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , :code_gb , :code_id , :code_nm , :memo , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), :code_value , :code_max , :code_min )
+2023-07-08 16:14:16.753 DEBUG [http-nio-10010-exec-9] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+97. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 16:14:16.758 ERROR [http-nio-10010-exec-9] [c.p.d.core.error.GlobalExceptionHandler] - handleEntityNotFoundException
+org.springframework.dao.InvalidDataAccessApiUsageException: No value supplied for the SQL parameter 'code_value': No value registered for key 'code_value'
+	at org.springframework.jdbc.core.namedparam.NamedParameterUtils.buildValueArray(NamedParameterUtils.java:355)
+	at org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate$2.setValues(NamedParameterJdbcTemplate.java:371)
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$batchUpdate$2(JdbcTemplate.java:944)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:617)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:647)
+	at org.springframework.jdbc.core.JdbcTemplate.batchUpdate(JdbcTemplate.java:936)
+	at org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate.batchUpdate(NamedParameterJdbcTemplate.java:366)
+	at com.pjy.dashboard.dao.DynamicSqlDao.batchInsert(DynamicSqlDao.java:737)
+	at com.pjy.dashboard.dao.DynamicSqlDao$$FastClassBySpringCGLIB$$8af24191.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:685)
+	at com.pjy.dashboard.dao.DynamicSqlH2Dao$$EnhancerBySpringCGLIB$$b8a8a06e.batchInsert(<generated>)
+	at com.pjy.dashboard.service.DynamicSqlService.insertInfo(DynamicSqlService.java:709)
+	at com.pjy.dashboard.controller.TestController.BUS_insertInfo(TestController.java:399)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:105)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:893)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:798)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:64)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.web.trace.servlet.HttpTraceFilter.doFilterInternal(HttpTraceFilter.java:88)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:320)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:127)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:137)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:111)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:170)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.www.BasicAuthenticationFilter.doFilterInternal(BasicAuthenticationFilter.java:158)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.ConcurrentSessionFilter.doFilter(ConcurrentSessionFilter.java:155)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:200)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:97)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:74)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:105)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:56)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:215)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:178)
+	at org.springframework.security.web.FilterChainProxy$$FastClassBySpringCGLIB$$f101c706.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:88)
+	at com.pjy.dashboard.aop.LogAspect.handleRequestRejectedException(LogAspect.java:147)
+	at jdk.internal.reflect.GeneratedMethodAccessor150.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:644)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:633)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:93)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:689)
+	at org.springframework.security.web.FilterChainProxy$$EnhancerBySpringCGLIB$$bffff549.doFilter(<generated>)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:358)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:271)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:94)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.filterAndRecordMetrics(WebMvcMetricsFilter.java:114)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:104)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:526)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1591)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2023-07-08 16:14:16.775 WARN  [http-nio-10010-exec-9] [o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver] - Resolved [org.springframework.dao.InvalidDataAccessApiUsageException: No value supplied for the SQL parameter 'code_value': No value registered for key 'code_value']
+2023-07-08 16:15:51.699 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+97. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 16:15:51.701 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+98. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 16:15:51.703 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+98. SELECT	/* select_EmpWorkingLogInputOption : 근태등록 칼럼별 option값 */ 	
+			(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원대분류') AS code_type1
+		,	(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원중분류') AS code_type2
+		,	(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원소분류') AS code_type3
+		,	(SELECT listagg(DISTINCT(car_no),'/') FROM TBL_CARINFO a where 	a.company_no = '100') AS car_no
+		,	(SELECT listagg(ROUTE_NM,'/')  FROM TBL_ROUTEINFO a where 	a.company_no = '100' ORDER BY 1) AS route_nm
+		,	(SELECT listagg(EMP_NM,'/')  FROM TBL_EMPLOYEEINFO a where 	a.company_no = '100' ORDER BY 1) AS emp_nm
+	FROM dual
+ {executed in 1 msec}
+2023-07-08 16:15:56.572 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+98. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 16:15:56.573 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+98. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-07-08 16:15:56.575 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-07-08 16:15:56.671 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$b9jgN0uCjVCpOYkSywKW7uao2av39r.1ApkWOZVG1/R1zqbsI16k.
+2023-07-08 16:15:56.761 INFO  [http-nio-10010-exec-3] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-07-08 16:15:58.745 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+98. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 16:15:58.746 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+99. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 16:15:58.748 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+99. SELECT	/* select_EmpWorkingLogInputOption : 근태등록 칼럼별 option값 */ 	
+			(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원대분류') AS code_type1
+		,	(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원중분류') AS code_type2
+		,	(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원소분류') AS code_type3
+		,	(SELECT listagg(DISTINCT(car_no),'/') FROM TBL_CARINFO a where 	a.company_no = '100') AS car_no
+		,	(SELECT listagg(ROUTE_NM,'/')  FROM TBL_ROUTEINFO a where 	a.company_no = '100' ORDER BY 1) AS route_nm
+		,	(SELECT listagg(EMP_NM,'/')  FROM TBL_EMPLOYEEINFO a where 	a.company_no = '100' ORDER BY 1) AS emp_nm
+	FROM dual
+ {executed in 1 msec}
+2023-07-08 16:16:07.101 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+99. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 16:16:07.103 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+99. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-07-08 16:16:07.105 INFO  [http-nio-10010-exec-2] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-07-08 16:16:07.200 INFO  [http-nio-10010-exec-2] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$AWx4TRk9G/rJSPBpt3QqlOwsqBSMlLsSjM/GLXTCvj6ejkbDgfEba
+2023-07-08 16:16:07.292 INFO  [http-nio-10010-exec-2] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-07-08 16:16:09.924 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+99. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 16:16:09.925 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+100. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 16:16:09.926 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+100. SELECT	/* select_EmpWorkingLogInputOption : 근태등록 칼럼별 option값 */ 	
+			(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원대분류') AS code_type1
+		,	(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원중분류') AS code_type2
+		,	(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원소분류') AS code_type3
+		,	(SELECT listagg(DISTINCT(car_no),'/') FROM TBL_CARINFO a where 	a.company_no = '100') AS car_no
+		,	(SELECT listagg(ROUTE_NM,'/')  FROM TBL_ROUTEINFO a where 	a.company_no = '100' ORDER BY 1) AS route_nm
+		,	(SELECT listagg(EMP_NM,'/')  FROM TBL_EMPLOYEEINFO a where 	a.company_no = '100' ORDER BY 1) AS emp_nm
+	FROM dual
+ {executed in 0 msec}
+2023-07-08 17:06:41.935 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - updateUserCloseTime p00139 
+2023-07-08 17:06:41.935 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - currentSessionUserList ->  true
+2023-07-08 17:06:41.935 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - currentSessionUserList -> userId p00139 
+2023-07-08 17:06:41.935 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - updateUserCloseTime p00139 
+2023-07-08 17:06:41.935 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - currentSessionUserList ->  true
+2023-07-08 17:06:41.935 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - currentSessionUserList -> userId p00139 
+2023-07-08 20:10:04.442 WARN  [H2 housekeeper] [com.zaxxer.hikari.pool.HikariPool] - H2 - Thread starvation or clock leap detected (housekeeper delta=3h28s610ms840µs600ns).
+2023-07-08 22:01:32.593 WARN  [H2 housekeeper] [com.zaxxer.hikari.pool.HikariPool] - H2 - Thread starvation or clock leap detected (housekeeper delta=1h51m36s207ms739µs).
+2023-07-08 22:04:51.152 INFO  [http-nio-10010-exec-4] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-07-08 22:04:51.152 INFO  [http-nio-10010-exec-4] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-07-08 22:04:51.152 INFO  [http-nio-10010-exec-4] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /error
+2023-07-08 22:04:51.152 INFO  [http-nio-10010-exec-4] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-07-08 22:04:51.152 INFO  [http-nio-10010-exec-4] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /error
+2023-07-08 22:04:52.632 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+146. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 22:04:52.634 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+146. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-07-08 22:04:52.636 INFO  [http-nio-10010-exec-6] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-07-08 22:04:52.733 INFO  [http-nio-10010-exec-6] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$/Hhxt9JgDCUp2mvB9G11EuHHDgKBlTWFuJ7kIVJY.1xZZj679d4zu
+2023-07-08 22:04:52.830 INFO  [http-nio-10010-exec-6] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-07-08 22:08:10.099 DEBUG [http-nio-10010-exec-5] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+146. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 22:08:10.101 DEBUG [http-nio-10010-exec-5] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+147. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 22:08:10.104 DEBUG [http-nio-10010-exec-5] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+147. SELECT	/* select_EmpWorkingLogInputOption : 근태등록 칼럼별 option값 */ 	
+			(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원대분류') AS code_type1
+		,	(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원중분류') AS code_type2
+		,	(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원소분류') AS code_type3
+		,	(SELECT listagg(DISTINCT(car_no),'/') FROM TBL_CARINFO a where 	a.company_no = '100') AS car_no
+		,	(SELECT listagg(ROUTE_NM,'/')  FROM TBL_ROUTEINFO a where 	a.company_no = '100' ORDER BY 1) AS route_nm
+		,	(SELECT listagg(EMP_NM,'/')  FROM TBL_EMPLOYEEINFO a where 	a.company_no = '100' ORDER BY 1) AS emp_nm
+	FROM dual
+ {executed in 1 msec}
+2023-07-08 22:08:50.625 INFO  [http-nio-10010-exec-3] [c.p.dashboard.controller.TestController] - com.pjy.dashboard.domain.CommonCodeVo@6a2635e1
+2023-07-08 22:08:50.625 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.DynamicSqlService] - filterType={TBM_COMMON_CODE_INFO_complaints} 
+2023-07-08 22:08:50.625 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.DynamicSqlService] - properties mtr.query.sql : SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+2023-07-08 22:08:50.626 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+147. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 22:08:50.628 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+147. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 2 msec}
+2023-07-08 22:08:50.629 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+147. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 1 msec}
+2023-07-08 22:09:08.680 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+147. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 22:09:08.681 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeUpdate(ProxyStatement.java:120)
+147. DELETE FROM TBM_COMMON_CODE_INFO WHERE company_no = '100'
+ {executed in 1 msec}
+2023-07-08 22:09:08.694 INFO  [http-nio-10010-exec-6] [com.pjy.dashboard.dao.DynamicSqlDao] - insert sql : INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , :code_gb , :code_id , :code_nm , :memo , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), :code_value , :code_max , :code_min )
+2023-07-08 22:09:08.696 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+148. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 22:09:08.708 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeBatch(ProxyStatement.java:128)
+148. batching 24 statements:
+ 1:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '결근' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 2:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '결원' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 3:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '교육' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 4:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '면담' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 5:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '승진' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 6:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '위반' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 7:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '지각' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 8:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '퇴사' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 9:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '표창' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+10:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '민원' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+11:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '휴가' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+12:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '10년근속' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+13:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '법규위반' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+14:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '시민항의' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+15:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '정규직전환' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+16:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '정년퇴임' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+17:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '정신과상담' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+18:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '차량교육' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+19:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '공황장애' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+20:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '난폭운전' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+21:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '노조가입' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+22:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '상금' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+23:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '음주운전' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+24:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '포상휴가' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ {executed in 7 msec}
+2023-07-08 22:09:08.723 INFO  [http-nio-10010-exec-10] [c.p.dashboard.controller.TestController] - com.pjy.dashboard.domain.CommonCodeVo@6a2635e1
+2023-07-08 22:09:08.723 INFO  [http-nio-10010-exec-10] [c.p.dashboard.service.DynamicSqlService] - filterType={TBM_COMMON_CODE_INFO_complaints} 
+2023-07-08 22:09:08.723 INFO  [http-nio-10010-exec-10] [c.p.dashboard.service.DynamicSqlService] - properties mtr.query.sql : SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+2023-07-08 22:09:08.725 DEBUG [http-nio-10010-exec-10] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+148. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 1 msec}
+2023-07-08 22:09:08.727 DEBUG [http-nio-10010-exec-10] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+148. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 0 msec}
+2023-07-08 22:10:22.263 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+148. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 22:10:22.264 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeUpdate(ProxyStatement.java:120)
+148. DELETE FROM TBM_COMMON_CODE_INFO WHERE company_no = '100'
+ {executed in 1 msec}
+2023-07-08 22:10:22.275 INFO  [http-nio-10010-exec-1] [com.pjy.dashboard.dao.DynamicSqlDao] - insert sql : INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , :code_gb , :code_id , :code_nm , :memo , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), :code_value , :code_max , :code_min )
+2023-07-08 22:10:22.276 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+149. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 22:10:22.284 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeBatch(ProxyStatement.java:128)
+149. batching 21 statements:
+ 1:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '결원' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 2:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '교육' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 3:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '면담' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 4:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '민원' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 5:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '승진' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 6:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '위반' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 7:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '지각' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 8:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '퇴사' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 9:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '표창' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+10:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '휴가' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+11:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '법규위반' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+12:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '시민항의' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+13:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '정규직전환' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+14:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '정년퇴임' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+15:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '정신과상담' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+16:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '차량교육' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+17:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '난폭운전' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+18:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '노조가입' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+19:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '상금' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+20:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '음주운전' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+21:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '포상휴가' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ {executed in 4 msec}
+2023-07-08 22:10:22.295 INFO  [http-nio-10010-exec-3] [c.p.dashboard.controller.TestController] - com.pjy.dashboard.domain.CommonCodeVo@6a2635e1
+2023-07-08 22:10:22.295 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.DynamicSqlService] - filterType={TBM_COMMON_CODE_INFO_complaints} 
+2023-07-08 22:10:22.295 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.DynamicSqlService] - properties mtr.query.sql : SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+2023-07-08 22:10:22.297 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+149. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 2 msec}
+2023-07-08 22:10:22.299 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+149. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 1 msec}
+2023-07-08 22:10:26.545 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+149. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 22:10:26.547 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+150. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 22:10:26.550 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+150. SELECT	/* select_EmpWorkingLogInputOption : 근태등록 칼럼별 option값 */ 	
+			(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원대분류') AS code_type1
+		,	(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원중분류') AS code_type2
+		,	(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원소분류') AS code_type3
+		,	(SELECT listagg(DISTINCT(car_no),'/') FROM TBL_CARINFO a where 	a.company_no = '100') AS car_no
+		,	(SELECT listagg(ROUTE_NM,'/')  FROM TBL_ROUTEINFO a where 	a.company_no = '100' ORDER BY 1) AS route_nm
+		,	(SELECT listagg(EMP_NM,'/')  FROM TBL_EMPLOYEEINFO a where 	a.company_no = '100' ORDER BY 1) AS emp_nm
+	FROM dual
+ {executed in 1 msec}
+2023-07-08 22:10:41.829 INFO  [http-nio-10010-exec-3] [c.p.dashboard.controller.TestController] - com.pjy.dashboard.domain.CommonCodeVo@6a2635e1
+2023-07-08 22:10:41.829 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.DynamicSqlService] - filterType={TBM_COMMON_CODE_INFO_complaints} 
+2023-07-08 22:10:41.829 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.DynamicSqlService] - properties mtr.query.sql : SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+2023-07-08 22:10:41.830 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+150. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 22:10:41.832 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+150. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 2 msec}
+2023-07-08 22:10:41.833 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+150. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 1 msec}
+2023-07-08 22:10:49.092 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+150. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 22:10:49.093 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeUpdate(ProxyStatement.java:120)
+150. DELETE FROM TBM_COMMON_CODE_INFO WHERE company_no = '100'
+ {executed in 1 msec}
+2023-07-08 22:10:49.102 INFO  [http-nio-10010-exec-6] [com.pjy.dashboard.dao.DynamicSqlDao] - insert sql : INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , :code_gb , :code_id , :code_nm , :memo , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), :code_value , :code_max , :code_min )
+2023-07-08 22:10:49.103 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+151. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 22:10:49.109 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeBatch(ProxyStatement.java:128)
+151. batching 21 statements:
+ 1:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '결원' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 2:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '교육' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 3:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '면담' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 4:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '민원' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 5:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '승진' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 6:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '교통법규위반' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 7:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '지각' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 8:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '퇴사' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 9:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '표창' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+10:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '휴가' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+11:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '법규위반' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+12:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '시민항의' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+13:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '정규직전환' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+14:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '정년퇴임' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+15:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '정신과상담' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+16:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '차량교육' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+17:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '난폭운전' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+18:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '노조가입' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+19:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '상금' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+20:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '음주운전' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+21:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '포상휴가' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ {executed in 3 msec}
+2023-07-08 22:10:49.119 INFO  [http-nio-10010-exec-10] [c.p.dashboard.controller.TestController] - com.pjy.dashboard.domain.CommonCodeVo@6a2635e1
+2023-07-08 22:10:49.119 INFO  [http-nio-10010-exec-10] [c.p.dashboard.service.DynamicSqlService] - filterType={TBM_COMMON_CODE_INFO_complaints} 
+2023-07-08 22:10:49.120 INFO  [http-nio-10010-exec-10] [c.p.dashboard.service.DynamicSqlService] - properties mtr.query.sql : SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+2023-07-08 22:10:49.121 DEBUG [http-nio-10010-exec-10] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+151. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 1 msec}
+2023-07-08 22:10:49.122 DEBUG [http-nio-10010-exec-10] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+151. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 0 msec}
+2023-07-08 22:11:49.876 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+151. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 22:11:49.877 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeUpdate(ProxyStatement.java:120)
+151. DELETE FROM TBM_COMMON_CODE_INFO WHERE company_no = '100'
+ {executed in 0 msec}
+2023-07-08 22:11:49.886 INFO  [http-nio-10010-exec-1] [com.pjy.dashboard.dao.DynamicSqlDao] - insert sql : INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , :code_gb , :code_id , :code_nm , :memo , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), :code_value , :code_max , :code_min )
+2023-07-08 22:11:49.887 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+152. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 22:11:49.890 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeBatch(ProxyStatement.java:128)
+152. batching 21 statements:
+ 1:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '결원' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 2:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '교육' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 3:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '교통법규위반' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 4:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '면담' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 5:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '민원' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 6:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '승진' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 7:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '지각' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 8:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '퇴사' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 9:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '표창' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+10:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '인사이동' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+11:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '법규위반' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+12:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '시민항의' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+13:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '정규직전환' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+14:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '정년퇴임' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+15:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '정신과상담' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+16:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '차량교육' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+17:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '난폭운전' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+18:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '노조가입' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+19:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '상금' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+20:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '음주운전' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+21:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '포상휴가' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ {executed in 3 msec}
+2023-07-08 22:11:49.899 INFO  [http-nio-10010-exec-3] [c.p.dashboard.controller.TestController] - com.pjy.dashboard.domain.CommonCodeVo@6a2635e1
+2023-07-08 22:11:49.900 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.DynamicSqlService] - filterType={TBM_COMMON_CODE_INFO_complaints} 
+2023-07-08 22:11:49.900 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.DynamicSqlService] - properties mtr.query.sql : SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+2023-07-08 22:11:49.901 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+152. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 1 msec}
+2023-07-08 22:11:49.903 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+152. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 1 msec}
+2023-07-08 22:12:08.255 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+152. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 22:12:08.256 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeUpdate(ProxyStatement.java:120)
+152. DELETE FROM TBM_COMMON_CODE_INFO WHERE company_no = '100'
+ {executed in 1 msec}
+2023-07-08 22:12:08.263 INFO  [http-nio-10010-exec-6] [com.pjy.dashboard.dao.DynamicSqlDao] - insert sql : INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , :code_gb , :code_id , :code_nm , :memo , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), :code_value , :code_max , :code_min )
+2023-07-08 22:12:08.264 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+153. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 22:12:08.271 ERROR [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeBatch(ProxyStatement.java:128)
+153. batching 20 statements:
+ 1:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '배차' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 2:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '교육' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 3:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '교통법규위반' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 4:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '면담' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 5:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '민원' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 6:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '승진' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 7:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '인사이동' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 8:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '지각' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ 9:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '퇴사' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+10:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '표창' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+11:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원대분류' , '배차' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+12:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '시민항의' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+13:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '정규직전환' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+14:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '정년퇴임' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+15:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '정신과상담' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+16:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원중분류' , '차량교육' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+17:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '노조가입' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+18:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '상금' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+19:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '음주운전' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+20:  INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , '민원소분류' , '포상휴가' , '' , '' , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), 0.0 , 0.0 , 0.0 )
+ {FAILED after 6 msec}
+org.h2.jdbc.JdbcBatchUpdateException: Unique index or primary key violation: "PUBLIC.PRIMARY_KEY_BD ON PUBLIC.TBM_COMMON_CODE_INFO(COMPANY_NO, CODE_GB, CODE_ID) VALUES 136"; SQL statement:
+INSERT INTO TBM_COMMON_CODE_INFO (company_no,code_gb,code_id,code_nm,memo,last_chg_user,last_chg_date,code_value,code_max,code_min) values ( '100' , ? , ? , ? , ? , 'p00139' , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss'), ? , ? , ? ) [23505-200]
+	at org.h2.jdbc.JdbcPreparedStatement.executeBatch(JdbcPreparedStatement.java:1235)
+	at net.sf.log4jdbc.sql.jdbcapi.StatementSpy.executeBatch(StatementSpy.java:571)
+	at com.zaxxer.hikari.pool.ProxyStatement.executeBatch(ProxyStatement.java:128)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeBatch(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$batchUpdate$2(JdbcTemplate.java:950)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:617)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:647)
+	at org.springframework.jdbc.core.JdbcTemplate.batchUpdate(JdbcTemplate.java:936)
+	at org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate.batchUpdate(NamedParameterJdbcTemplate.java:366)
+	at com.pjy.dashboard.dao.DynamicSqlDao.batchInsert(DynamicSqlDao.java:737)
+	at com.pjy.dashboard.dao.DynamicSqlDao$$FastClassBySpringCGLIB$$8af24191.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:685)
+	at com.pjy.dashboard.dao.DynamicSqlH2Dao$$EnhancerBySpringCGLIB$$b8a8a06e.batchInsert(<generated>)
+	at com.pjy.dashboard.service.DynamicSqlService.insertInfo(DynamicSqlService.java:709)
+	at com.pjy.dashboard.controller.TestController.BUS_insertInfo(TestController.java:399)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:105)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:893)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:798)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.servlet.resource.ResourceUrlEncodingFilter.doFilter(ResourceUrlEncodingFilter.java:64)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.web.trace.servlet.HttpTraceFilter.doFilterInternal(HttpTraceFilter.java:88)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:320)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:127)
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:91)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:137)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:111)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:170)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.www.BasicAuthenticationFilter.doFilterInternal(BasicAuthenticationFilter.java:158)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.session.ConcurrentSessionFilter.doFilter(ConcurrentSessionFilter.java:155)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:200)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:97)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:74)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:105)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:56)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:334)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:215)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:178)
+	at org.springframework.security.web.FilterChainProxy$$FastClassBySpringCGLIB$$f101c706.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:88)
+	at com.pjy.dashboard.aop.LogAspect.handleRequestRejectedException(LogAspect.java:147)
+	at jdk.internal.reflect.GeneratedMethodAccessor150.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:644)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:633)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:93)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:689)
+	at org.springframework.security.web.FilterChainProxy$$EnhancerBySpringCGLIB$$bffff549.doFilter(<generated>)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:358)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:271)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:94)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.filterAndRecordMetrics(WebMvcMetricsFilter.java:114)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:104)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:526)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1591)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2023-07-08 22:12:08.914 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+153. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-07-08 22:12:08.923 INFO  [http-nio-10010-exec-10] [c.p.dashboard.controller.TestController] - com.pjy.dashboard.domain.CommonCodeVo@6a2635e1
+2023-07-08 22:12:08.923 INFO  [http-nio-10010-exec-10] [c.p.dashboard.service.DynamicSqlService] - filterType={TBM_COMMON_CODE_INFO_complaints} 
+2023-07-08 22:12:08.923 INFO  [http-nio-10010-exec-10] [c.p.dashboard.service.DynamicSqlService] - properties mtr.query.sql : SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+2023-07-08 22:12:08.925 DEBUG [http-nio-10010-exec-10] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+153. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 2 msec}
+2023-07-08 22:12:08.926 DEBUG [http-nio-10010-exec-10] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+153. SELECT  k.NO,'N' as bit, max(k.type1) as code_type1,max(k.type2) as code_type2,max(k.type3) as code_type3 FROM ( SELECT ROWNUM AS no,code_id AS type1,'' AS type2,	'' AS type3 FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원대분류' UNION SELECT ROWNUM AS no,'',	code_id,'' FROM TBM_COMMON_CODE_INFO WHERE COMPANY_NO  ='100'	AND code_gb ='민원중분류' UNION SELECT ROWNUM AS no, '','',code_id FROM TBM_COMMON_CODE_INFO	WHERE COMPANY_NO  ='100' AND code_gb ='민원소분류') k GROUP BY k.no
+ {executed in 0 msec}
+2023-07-08 22:12:14.676 DEBUG [http-nio-10010-exec-9] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+153. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 22:12:14.678 DEBUG [http-nio-10010-exec-9] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+154. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-07-08 22:12:14.680 DEBUG [http-nio-10010-exec-9] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+154. SELECT	/* select_EmpWorkingLogInputOption : 근태등록 칼럼별 option값 */ 	
+			(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원대분류') AS code_type1
+		,	(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원중분류') AS code_type2
+		,	(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원소분류') AS code_type3
+		,	(SELECT listagg(DISTINCT(car_no),'/') FROM TBL_CARINFO a where 	a.company_no = '100') AS car_no
+		,	(SELECT listagg(ROUTE_NM,'/')  FROM TBL_ROUTEINFO a where 	a.company_no = '100' ORDER BY 1) AS route_nm
+		,	(SELECT listagg(EMP_NM,'/')  FROM TBL_EMPLOYEEINFO a where 	a.company_no = '100' ORDER BY 1) AS emp_nm
+	FROM dual
+ {executed in 1 msec}
+2023-07-08 23:02:28.966 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - updateUserCloseTime p00139 
+2023-07-08 23:02:28.966 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - currentSessionUserList ->  true
+2023-07-08 23:02:28.966 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - currentSessionUserList -> userId p00139 
+2023-07-08 23:02:28.966 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - updateUserCloseTime p00139 
+2023-07-08 23:02:28.966 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - currentSessionUserList ->  true
+2023-07-08 23:02:28.966 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - currentSessionUserList -> userId p00139 

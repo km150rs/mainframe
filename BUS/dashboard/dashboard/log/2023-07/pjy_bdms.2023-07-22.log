@@ -1,0 +1,13 @@
+2023-07-22 15:46:40.520 INFO  [http-nio-10010-exec-5] [c.pjy.dashboard.listener.SessionListener] - sessionDestroyed 실행
+2023-07-22 15:46:40.545 INFO  [http-nio-10010-exec-5] [c.pjy.dashboard.listener.SessionListener] - sessionDestroyed 실행
+2023-07-22 15:46:43.698 INFO  [http-nio-10010-exec-9] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-07-22 15:46:43.698 INFO  [http-nio-10010-exec-9] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-07-22 15:47:04.719 WARN  [H2 housekeeper] [com.zaxxer.hikari.pool.HikariPool] - H2 - Thread starvation or clock leap detected (housekeeper delta=1d13h24m31s125ms281µs800ns).
+2023-07-22 15:52:07.433 WARN  [H2 housekeeper] [com.zaxxer.hikari.pool.HikariPool] - H2 - Thread starvation or clock leap detected (housekeeper delta=1m2s671ms533µs).
+2023-07-22 18:02:47.736 INFO  [http-nio-10010-exec-4] [c.pjy.dashboard.listener.SessionListener] - sessionDestroyed 실행
+2023-07-22 18:02:47.736 INFO  [http-nio-10010-exec-4] [c.pjy.dashboard.listener.SessionListener] - sessionDestroyed 실행
+2023-07-22 18:02:47.796 INFO  [http-nio-10010-exec-10] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-07-22 18:02:47.796 INFO  [http-nio-10010-exec-10] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-07-22 18:03:09.090 WARN  [H2 housekeeper] [com.zaxxer.hikari.pool.HikariPool] - H2 - Thread starvation or clock leap detected (housekeeper delta=2h4m31s597ms519µs400ns).
+2023-07-22 21:32:55.193 WARN  [H2 housekeeper] [com.zaxxer.hikari.pool.HikariPool] - H2 - Thread starvation or clock leap detected (housekeeper delta=3h15s708ms195µs800ns).
+2023-07-22 21:33:03.384 INFO  [Catalina-utility-1] [c.pjy.dashboard.listener.SessionListener] - sessionDestroyed 실행

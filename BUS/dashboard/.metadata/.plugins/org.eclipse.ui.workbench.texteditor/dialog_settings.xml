@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="selection" value="mybatis"/>
+		<item key="wrap" value="true"/>
+		<item key="casesensitive" value="false"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<list key="findhistory">
+			<item value="mybatis"/>
+			<item value="h2DbMapper"/>
+			<item value="btnPunctuality"/>
+			<item value="btnDangerView"/>
+			<item value="btnDanger"/>
+			<item value="btnAccident"/>
+			<item value="btnEmployeeCard"/>
+			<item value="btnDrivingOrderAll"/>
+			<item value="btnDrivingOrder"/>
+			<item value="btnArrange"/>
+			<item value="btnHoliday"/>
+			<item value="btnVacationManagement"/>
+			<item value="btnIscDriverInfo"/>
+			<item value="btnDrivingRecord"/>
+			<item value="event"/>
+		</list>
+		<list key="replacehistory">
+			<item value="/webjars/jquery/3.5.1/jquery.min.js"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="1220"/>
+		<item key="DIALOG_Y_ORIGIN" value="176"/>
+		<item key="DIALOG_WIDTH" value="323"/>
+		<item key="DIALOG_HEIGHT" value="391"/>
+		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
+	</section>
+</section>

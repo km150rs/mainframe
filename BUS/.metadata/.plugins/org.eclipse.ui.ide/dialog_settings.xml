@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<list key="installedFeatures">
+		<item value="org.eclipse.buildship:3.1.8.v20231117-1658"/>
+		<item value="org.eclipse.egit.gitflow.feature:6.8.0.202311291450-r"/>
+		<item value="org.eclipse.egit:6.8.0.202311291450-r"/>
+		<item value="org.eclipse.emf.common:2.30.0.v20230916-0637"/>
+		<item value="org.eclipse.emf.ecore:2.36.0.v20231002-1156"/>
+		<item value="org.eclipse.epp.mpc:1.10.2.v20231116-1812"/>
+		<item value="org.eclipse.help:2.3.1600.v20231201-0110"/>
+		<item value="org.eclipse.jdt:3.19.300.v20231201-0110"/>
+		<item value="org.eclipse.jgit.gpg.bc:6.8.0.202311291450-r"/>
+		<item value="org.eclipse.jgit.http.apache:6.8.0.202311291450-r"/>
+		<item value="org.eclipse.jgit.lfs:6.8.0.202311291450-r"/>
+		<item value="org.eclipse.jgit.ssh.apache:6.8.0.202311291450-r"/>
+		<item value="org.eclipse.jgit:6.8.0.202311291450-r"/>
+		<item value="org.eclipse.jst.common.fproj.enablement.jdt:3.29.0.v202308161955"/>
+		<item value="org.eclipse.justj.openjdk.hotspot.jre.full:17.0.9.v20231028-0858"/>
+		<item value="org.eclipse.m2e.feature:2.4.200.20231119-0901"/>
+		<item value="org.eclipse.m2e.logback.feature:2.2.1.20231113-2319"/>
+		<item value="org.eclipse.m2e.wtp.feature:1.6.1.20231024-1618"/>
+		<item value="org.eclipse.mylyn.wikitext.editors_feature:3.0.48.202308291007"/>
+		<item value="org.eclipse.pde:3.15.200.v20231201-0110"/>
+		<item value="org.eclipse.platform:4.30.0.v20231201-0512"/>
+		<item value="org.eclipse.rcp:4.30.0.v20231201-0512"/>
+		<item value="org.eclipse.tm.terminal.connector.ssh.feature:11.4.0.202309142347"/>
+		<item value="org.eclipse.tm.terminal.control.feature:11.4.0.202311142253"/>
+		<item value="org.eclipse.tm.terminal.feature:11.4.0.202309142347"/>
+		<item value="org.eclipse.tm.terminal.view.feature:11.4.0.202311142324"/>
+		<item value="org.eclipse.userstorage:1.2.0.v20210517-0327"/>
+		<item value="org.eclipse.wst.common.fproj:3.7.4.v202308161955"/>
+		<item value="org.jboss.tools.m2e.wro4j.feature:1.2.1.202301111328"/>
+		<item value="org.sonatype.m2e.egit.feature:0.17.0.202209271423"/>
+	</list>
+	<section name="SmartImportWizard">
+		<item key="SmartImportRootWizardPage.STORE_HIDE_ALREADY_OPEN" value="false"/>
+		<item key="SmartImportRootWizardPage.STORE_CLOSE_IMPORTED" value="false"/>
+		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
+		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
+		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="D:\BUS\dashboard"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.dialogs.FilteredResourcesSelectionDialog">
+		<item key="ShowStatusLine" value="true"/>
+		<item key="History" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#x0D;&#x0A;&lt;History&gt;&#x0D;&#x0A;&lt;historyRootNode&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/WEB-INF/jsp/arrangePunctualityAnalyze.jsp&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/monitor/empWorkingLog.js&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/WEB-INF/jsp/empWorkingTimeView.jsp&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/java/com/pjy/dashboard/domain/CommonCodeVo.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/monitor/arrangePunctualityAnalyze.js&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/monitor/dangerDrivingAnalyze.js&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/WEB-INF/jsp/allEmpPointView.jsp&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/monitor/popupPointManage.js&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/monitor/popupPointManage.html&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/resources/static/js/pjy_extend/percentageBars.js&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/monitor/iscDriverInfo.js&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/WEB-INF/jsp/employeeInfo.jsp&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/WEB-INF/jsp/home.jsp&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/monitor/allEmpPointView.js&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/WEB-INF/jsp/employeeCard.jsp&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/monitor/employeeCard.js&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/resources/common.properties&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/resources/memo.txt&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/monitor/dangerDrivingInfo.js&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/WEB-INF/jsp/dangerDrivingInfo.jsp&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/monitor/publicComplaint.js&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/WEB-INF/jsp/publicComplaint.jsp&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/WEB-INF/jsp/accidentInfo.jsp&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/resources/static/js/pjy_extend/shortcut.js&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/WEB-INF/jsp/nav.jsp&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/pom.xml&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/monitor/common.js&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/resources/mapper/h3.xml&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/java/com/pjy/dashboard/mapper/h2/h2Mapper3.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/monitor/iscDrivingRecord.js&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/monitor/popupDynamic.html&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/monitor/popupOrderTempleteInfo.html&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/monitor/drivingOrder.js&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/WEB-INF/jsp/arrangePunctuality.jsp&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/java/com/pjy/dashboard/domain/oauth/NaverOAuthToken.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/java/com/pjy/dashboard/aop/LogAspect.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/java/com/pjy/dashboard/service/FileService.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/monitor/arrangeBus.js&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/WEB-INF/jsp/arrangeBus.jsp&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/main.css&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/resources/mapper/h2.xml&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/java/com/pjy/dashboard/service/DynamicSqlService.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/WEB-INF/jsp/drivingOrderAll.jsp&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/monitor/arrangeBusView.js&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/WEB-INF/jsp/arrangeBusView.jsp&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/resources/mtr.properties&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/monitor/nav.js&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/java/com/pjy/dashboard/controller/ChatController.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/java/com/pjy/dashboard/listener/SessionListener.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/java/com/pjy/dashboard/core/error/GlobalExceptionHandler.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/resources/application.properties&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/java/com/pjy/dashboard/service/MemberServiceImpl.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/java/com/pjy/dashboard/configuration/SecurityConfig.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/java/com/pjy/dashboard/interceptor/LoggerInterceptor.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/java/com/pjy/dashboard/service/CustomAuthenticationProvider.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/java/com/pjy/dashboard/schedule/DailyScheduler.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/webapp/WEB-INF/jsp/updateInfo.jsp&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/java/com/pjy/dashboard/core/domain/security/MemberVo.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/java/com/pjy/dashboard/controller/TestController.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/dashboard/src/main/java/com/pjy/dashboard/controller/JspController.java&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;/historyRootNode&gt;&#x0D;&#x0A;&lt;/History&gt;"/>
+		<item key="ShowDerived" value="false"/>
+		<item key="FilterByLocation" value="false"/>
+		<item key="WorkingSet" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#x0D;&#x0A;&lt;workingSet workingSetName=&quot;&quot;/&gt;"/>
+		<section name="DialogBoundsSettings">
+			<item key="DIALOG_HEIGHT" value="523"/>
+			<item key="DIALOG_WIDTH" value="493"/>
+			<item key="DIALOG_X_ORIGIN" value="351"/>
+			<item key="DIALOG_Y_ORIGIN" value="429"/>
+			<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
+		</section>
+	</section>
+	<section name="ChooseWorkspaceDialogSettings">
+		<item key="DIALOG_X_ORIGIN" value="967"/>
+		<item key="DIALOG_Y_ORIGIN" value="517"/>
+	</section>
+	<section name="WORKBENCH_SETTINGS">
+		<list key="ENABLED_TRANSFERS">
+		</list>
+	</section>
+</section>

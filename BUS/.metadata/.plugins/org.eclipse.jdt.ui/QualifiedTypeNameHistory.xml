@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="org.springframework.data.repository.query.Param"/>
+    <fullyQualifiedTypeName name="java.nio.file.Files"/>
+    <fullyQualifiedTypeName name="java.nio.file.Paths"/>
+    <fullyQualifiedTypeName name="java.nio.file.Path"/>
+    <fullyQualifiedTypeName name="com.pjy.dashboard.util.DateUtil"/>
+    <fullyQualifiedTypeName name="java.io.FilenameFilter"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.util.Map"/>
+    <fullyQualifiedTypeName name="java.util.Date"/>
+    <fullyQualifiedTypeName name="org.springframework.web.util.UriUtils"/>
+    <fullyQualifiedTypeName name="java.nio.charset.StandardCharsets"/>
+    <fullyQualifiedTypeName name="java.net.MalformedURLException"/>
+    <fullyQualifiedTypeName name="org.springframework.http.HttpHeaders"/>
+    <fullyQualifiedTypeName name="ch.qos.logback.classic.spi.LoggingEvent"/>
+    <fullyQualifiedTypeName name="org.slf4j.event.LoggingEvent"/>
+    <fullyQualifiedTypeName name="ch.qos.logback.core.filter.Filter"/>
+    <fullyQualifiedTypeName name="ch.qos.logback.core.spi.FilterReply"/>
+    <fullyQualifiedTypeName name="ch.qos.logback.classic.spi.ILoggingEvent"/>
+    <fullyQualifiedTypeName name="com.pjy.dashboard.service.DynamicSqlBatch"/>
+    <fullyQualifiedTypeName name="com.pjy.dashboard.mapper.h2.h2Mapper3"/>
+    <fullyQualifiedTypeName name="com.pjy.dashboard.core.error.exception.ApiSessionExpiredException"/>
+    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+    <fullyQualifiedTypeName name="org.springframework.security.core.context.SecurityContextHolder"/>
+    <fullyQualifiedTypeName name="com.pjy.dashboard.listener.SessionListener"/>
+</qualifiedTypeNameHistroy>

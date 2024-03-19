@@ -1,0 +1,7 @@
+2023-05-17 17:21:53.181 INFO  [MessageBroker-7] [o.s.w.s.c.WebSocketMessageBrokerStats] - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 13, active threads = 1, queued tasks = 0, completed tasks = 12]
+2023-05-17 17:41:32.207 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - updateUserCloseTime p00139 
+2023-05-17 17:41:32.211 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - currentSessionUserList ->  false
+2023-05-17 17:41:32.211 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - updateUserCloseTime p00139 
+2023-05-17 17:41:32.211 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - currentSessionUserList ->  false
+2023-05-17 17:41:32.292 INFO  [UserConnection-1] [com.pjy.dashboard.service.ChatService] - # sise thread stop # 사용자접속정보 없음
+2023-05-17 17:41:32.292 INFO  [UserConnection-1] [com.pjy.dashboard.service.ChatService] - ## thread end sise . UserConnection-1[97]

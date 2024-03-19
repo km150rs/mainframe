@@ -1,0 +1,1270 @@
+2023-10-25 10:44:07.692 INFO  [restartedMain] [com.pjy.dashboard.PjyApplication] - Starting PjyApplication on DESKTOP-QJPD93S with PID 1676 (D:\BUS\dashboard\dashboard\target\classes started by admin in D:\BUS\dashboard\dashboard)
+2023-10-25 10:44:07.705 INFO  [restartedMain] [com.pjy.dashboard.PjyApplication] - The following profiles are active: oauth
+2023-10-25 10:44:07.759 INFO  [restartedMain] [o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor] - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-10-25 10:44:07.759 INFO  [restartedMain] [o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor] - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-10-25 10:44:09.020 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-10-25 10:44:09.020 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-25 10:44:09.174 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 142ms. Found 3 JPA repository interfaces.
+2023-10-25 10:44:09.540 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-10-25 10:44:09.540 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2023-10-25 10:44:09.590 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationExtensionSupport] - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.pjy.dashboard.core.dao.jpa.h2.FileRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-10-25 10:44:09.591 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationExtensionSupport] - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.pjy.dashboard.core.dao.jpa.h2.MemberRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-10-25 10:44:09.592 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationExtensionSupport] - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.pjy.dashboard.core.dao.jpa.h2.RememberMeRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-10-25 10:44:09.592 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 52ms. Found 0 JDBC repository interfaces.
+2023-10-25 10:44:10.040 INFO  [restartedMain] [c.u.j.c.EnableEncryptablePropertiesBeanFactoryPostProcessor] - Post-processing PropertySource instances
+2023-10-25 10:44:10.113 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource configurationProperties [org.springframework.boot.context.properties.source.ConfigurationPropertySourcesPropertySource] to AOP Proxy
+2023-10-25 10:44:10.113 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource commandLineArgs [org.springframework.core.env.SimpleCommandLinePropertySource] to EncryptableEnumerablePropertySourceWrapper
+2023-10-25 10:44:10.113 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource servletConfigInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2023-10-25 10:44:10.114 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource servletContextInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2023-10-25 10:44:10.114 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource systemProperties [org.springframework.core.env.PropertiesPropertySource] to EncryptableMapPropertySourceWrapper
+2023-10-25 10:44:10.114 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource systemEnvironment [org.springframework.boot.env.SystemEnvironmentPropertySourceEnvironmentPostProcessor$OriginAwareSystemEnvironmentPropertySource] to EncryptableSystemEnvironmentPropertySourceWrapper
+2023-10-25 10:44:10.114 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource random [org.springframework.boot.env.RandomValuePropertySource] to EncryptablePropertySourceWrapper
+2023-10-25 10:44:10.115 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource applicationConfig: [classpath:/application-oauth.properties] [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+2023-10-25 10:44:10.115 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource applicationConfig: [classpath:/application.properties] [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+2023-10-25 10:44:10.115 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource devtools [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2023-10-25 10:44:10.115 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource class path resource [pjy.properties] [org.springframework.core.env.CompositePropertySource] to EncryptableEnumerablePropertySourceWrapper
+2023-10-25 10:44:10.115 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource class path resource [common.properties] [org.springframework.core.io.support.ResourcePropertySource] to EncryptableMapPropertySourceWrapper
+2023-10-25 10:44:10.179 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'asyncConfiguration' of type [com.pjy.dashboard.configuration.AsyncConfiguration$$EnhancerBySpringCGLIB$$dba93367] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 10:44:10.230 INFO  [restartedMain] [c.u.j.filter.DefaultLazyPropertyFilter] - Property Filter custom Bean not found with name 'encryptablePropertyFilter'. Initializing Default Property Filter
+2023-10-25 10:44:10.320 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.security.config.annotation.configuration.ObjectPostProcessorConfiguration' of type [org.springframework.security.config.annotation.configuration.ObjectPostProcessorConfiguration$$EnhancerBySpringCGLIB$$c59f9794] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 10:44:10.404 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'objectPostProcessor' of type [org.springframework.security.config.annotation.configuration.AutowireBeanFactoryObjectPostProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 10:44:10.406 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@3c2fe3fa' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 10:44:10.412 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration' of type [org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration$$EnhancerBySpringCGLIB$$ea743a46] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 10:44:10.423 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.security.config.annotation.method.configuration.Jsr250MetadataSourceConfiguration' of type [org.springframework.security.config.annotation.method.configuration.Jsr250MetadataSourceConfiguration$$EnhancerBySpringCGLIB$$fc9525c] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 10:44:10.427 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'jsr250MethodSecurityMetadataSource' of type [org.springframework.security.access.annotation.Jsr250MethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 10:44:10.430 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 10:44:10.450 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$2cf1cf5a] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 10:44:10.482 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.hateoas.config.HateoasConfiguration' of type [org.springframework.hateoas.config.HateoasConfiguration$$EnhancerBySpringCGLIB$$ac721c8c] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 10:44:10.629 INFO  [restartedMain] [c.u.j.r.DefaultLazyPropertyResolver] - Property Resolver custom Bean not found with name 'encryptablePropertyResolver'. Initializing Default Property Resolver
+2023-10-25 10:44:10.635 INFO  [restartedMain] [c.u.j.d.DefaultLazyPropertyDetector] - Property Detector custom Bean not found with name 'encryptablePropertyDetector'. Initializing Default Property Detector
+2023-10-25 10:44:11.076 INFO  [restartedMain] [o.s.b.w.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port(s): 10010 (http)
+2023-10-25 10:44:11.093 INFO  [restartedMain] [o.apache.coyote.http11.Http11NioProtocol] - Initializing ProtocolHandler ["http-nio-10010"]
+2023-10-25 10:44:11.104 INFO  [restartedMain] [org.apache.catalina.core.StandardService] - Starting service [Tomcat]
+2023-10-25 10:44:11.104 INFO  [restartedMain] [org.apache.catalina.core.StandardEngine] - Starting Servlet engine: [Apache Tomcat/9.0.29]
+2023-10-25 10:44:11.486 INFO  [restartedMain] [org.apache.jasper.servlet.TldScanner] - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2023-10-25 10:44:11.498 INFO  [restartedMain] [o.a.c.c.C.[Tomcat].[localhost].[/]] - Initializing Spring embedded WebApplicationContext
+2023-10-25 10:44:11.499 INFO  [restartedMain] [o.s.web.context.ContextLoader] - Root WebApplicationContext: initialization completed in 3739 ms
+2023-10-25 10:44:12.375 INFO  [restartedMain] [c.u.j.encryptor.DefaultLazyEncryptor] - Found Custom Encryptor Bean org.jasypt.encryption.pbe.PooledPBEStringEncryptor@79c7ee56 with name: jasyptStringEncryptor
+2023-10-25 10:44:12.432 INFO  [restartedMain] [com.zaxxer.hikari.HikariDataSource] - H2 - Starting...
+2023-10-25 10:44:12.520 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.executeSql(PoolBase.java:567)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 8 msec}
+2023-10-25 10:44:12.526 INFO  [restartedMain] [com.zaxxer.hikari.HikariDataSource] - H2 - Start completed.
+2023-10-25 10:44:13.277 INFO  [restartedMain] [com.pjy.dashboard.filter.TestFilter] - init Pjy Filter
+2023-10-25 10:44:13.665 INFO  [restartedMain] [o.hibernate.jpa.internal.util.LogHelper] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2023-10-25 10:44:13.740 INFO  [restartedMain] [org.hibernate.Version] - HHH000412: Hibernate Core {5.3.14.Final}
+2023-10-25 10:44:13.742 INFO  [restartedMain] [org.hibernate.cfg.Environment] - HHH000206: hibernate.properties not found
+2023-10-25 10:44:13.902 INFO  [restartedMain] [org.hibernate.annotations.common.Version] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2023-10-25 10:44:14.144 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 10:44:14.161 INFO  [restartedMain] [org.hibernate.dialect.Dialect] - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2023-10-25 10:44:14.895 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 10:44:14.898 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+1. select SEQUENCE_CATALOG, SEQUENCE_SCHEMA, SEQUENCE_NAME, INCREMENT from information_schema.sequences
+ {executed in 1 msec}
+2023-10-25 10:44:15.000 INFO  [restartedMain] [o.s.o.j.LocalContainerEntityManagerFactoryBean] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-25 10:44:15.243 INFO  [restartedMain] [o.h.h.i.QueryTranslatorFactoryInitiator] - HHH000397: Using ASTQueryTranslatorFactory
+2023-10-25 10:44:16.375 INFO  [restartedMain] [o.s.s.concurrent.ThreadPoolTaskExecutor] - Initializing ExecutorService
+2023-10-25 10:44:16.385 INFO  [restartedMain] [o.s.s.concurrent.ThreadPoolTaskExecutor] - Initializing ExecutorService 'asyncThreadPool'
+2023-10-25 10:44:16.564 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/h2-console/**'], []
+2023-10-25 10:44:16.565 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/css/**'], []
+2023-10-25 10:44:16.565 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/js/**'], []
+2023-10-25 10:44:16.565 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/monitor/**'], []
+2023-10-25 10:44:16.565 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/img/**'], []
+2023-10-25 10:44:16.565 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/lib/**'], []
+2023-10-25 10:44:16.565 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/main.css'], []
+2023-10-25 10:44:16.565 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/common.js'], []
+2023-10-25 10:44:16.565 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/resources/**'], []
+2023-10-25 10:44:16.721 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@d8ee891, org.springframework.security.web.context.SecurityContextPersistenceFilter@7357de9c, org.springframework.security.web.header.HeaderWriterFilter@480a6437, org.springframework.web.filter.CorsFilter@2f37d14f, org.springframework.security.web.authentication.logout.LogoutFilter@5c5a1776, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@430d70f1, org.springframework.security.web.session.ConcurrentSessionFilter@58726672, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@6f84422a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4b01e53, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@665dd1fd, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5e14ea90, org.springframework.security.web.session.SessionManagementFilter@6cf43a3f, org.springframework.security.web.access.ExceptionTranslationFilter@2aedec89, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6d06ae5]
+2023-10-25 10:44:16.744 INFO  [restartedMain] [o.s.aop.framework.CglibAopProxy] - Unable to proxy interface-implementing method [public final void org.springframework.web.filter.GenericFilterBean.init(javax.servlet.FilterConfig) throws javax.servlet.ServletException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2023-10-25 10:44:17.092 WARN  [restartedMain] [o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-25 10:44:17.178 INFO  [restartedMain] [o.s.b.a.w.s.WelcomePageHandlerMapping] - Adding welcome page: ServletContext resource [/index.html]
+2023-10-25 10:44:17.597 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 10:44:18.433 INFO  [restartedMain] [o.s.b.d.a.OptionalLiveReloadServer] - LiveReload server is running on port 35729
+2023-10-25 10:44:18.462 INFO  [restartedMain] [o.s.b.a.e.web.EndpointLinksResolver] - Exposing 16 endpoint(s) beneath base path '/actuator'
+2023-10-25 10:44:18.599 INFO  [restartedMain] [o.s.s.concurrent.ThreadPoolTaskScheduler] - Initializing ExecutorService
+2023-10-25 10:44:18.607 INFO  [restartedMain] [o.apache.coyote.http11.Http11NioProtocol] - Starting ProtocolHandler ["http-nio-10010"]
+2023-10-25 10:44:18.659 INFO  [restartedMain] [o.s.b.w.embedded.tomcat.TomcatWebServer] - Tomcat started on port(s): 10010 (http) with context path ''
+2023-10-25 10:44:18.664 INFO  [restartedMain] [com.pjy.dashboard.PjyApplication] - Started PjyApplication in 11.441 seconds (JVM running for 13.137)
+2023-10-25 10:44:18.664 INFO  [restartedMain] [com.pjy.dashboard.AppStartedListener] - =====================
+2023-10-25 10:44:18.664 INFO  [restartedMain] [com.pjy.dashboard.AppStartedListener] - Application started
+2023-10-25 10:44:18.664 INFO  [restartedMain] [com.pjy.dashboard.AppStartedListener] - =====================
+2023-10-25 10:44:19.858 INFO  [RMI TCP Connection(10)-127.0.0.1] [o.a.c.c.C.[Tomcat].[localhost].[/]] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-10-25 10:44:19.858 INFO  [RMI TCP Connection(10)-127.0.0.1] [o.s.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2023-10-25 10:44:19.879 INFO  [RMI TCP Connection(10)-127.0.0.1] [o.s.web.servlet.DispatcherServlet] - Completed initialization in 20 ms
+2023-10-25 10:44:37.556 WARN  [http-nio-10010-exec-1] [o.a.catalina.util.SessionIdGeneratorBase] - Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [153] milliseconds.
+2023-10-25 10:44:37.557 INFO  [http-nio-10010-exec-1] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-10-25 10:44:37.557 INFO  [http-nio-10010-exec-1] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-10-25 10:44:41.794 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 10:44:41.804 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 10:44:41.825 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:44:41.915 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$WhPZrPM9rcq7n4yZsuLfsulWSHsvNj/TvCOwA2lT1FwPAKT4sWde6
+2023-10-25 10:44:42.007 INFO  [http-nio-10010-exec-1] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 10:44:42.016 INFO  [http-nio-10010-exec-6] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 10:44:42.017 INFO  [http-nio-10010-exec-6] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 10:44:42.017 INFO  [http-nio-10010-exec-6] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 10:44:42.017 INFO  [http-nio-10010-exec-6] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 10:44:42.017 INFO  [http-nio-10010-exec-6] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 10:44:43.501 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 10:44:43.503 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 10:44:43.504 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:44:43.597 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$oEipqkm7gZvQSB8Xw5v8P.g3v8ZdJb40st3FvKur/MZ1HVqASdULC
+2023-10-25 10:44:43.690 INFO  [http-nio-10010-exec-3] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 10:44:43.696 INFO  [http-nio-10010-exec-5] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 10:44:43.696 INFO  [http-nio-10010-exec-5] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 10:44:43.696 INFO  [http-nio-10010-exec-5] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 10:44:43.696 INFO  [http-nio-10010-exec-5] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 10:44:43.696 INFO  [http-nio-10010-exec-5] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 10:44:48.157 DEBUG [http-nio-10010-exec-9] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 10:44:48.159 DEBUG [http-nio-10010-exec-9] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 10:44:48.160 INFO  [http-nio-10010-exec-9] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:44:48.255 INFO  [http-nio-10010-exec-9] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$r.bOzkvO77GtKAMuGV4om.onCEWcx5UbUJXwaVT0BbZdBSfR/UDPO
+2023-10-25 10:44:48.348 INFO  [http-nio-10010-exec-9] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 10:44:48.353 INFO  [http-nio-10010-exec-2] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 10:44:48.354 INFO  [http-nio-10010-exec-2] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 10:44:48.354 INFO  [http-nio-10010-exec-2] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 10:44:48.354 INFO  [http-nio-10010-exec-2] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 10:44:48.354 INFO  [http-nio-10010-exec-2] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 10:45:02.432 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 10:45:02.433 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 10:45:02.435 INFO  [http-nio-10010-exec-7] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:45:02.526 INFO  [http-nio-10010-exec-7] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$2aictkujqvJ3SD2xC/mkC.MxMPpKeTN2SfJOn8Qu3fHhOOJF4g1Li
+2023-10-25 10:45:02.614 INFO  [http-nio-10010-exec-7] [c.p.d.configuration.SecurityConfig] - exception:: Bad credentials
+2023-10-25 10:45:08.051 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 10:45:08.053 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 10:45:08.054 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:45:08.145 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$jkO1e1MDnyqWeIci.ar0k.fSCxjiP8Sa79JukVLzdBIRTiWVXkj4K
+2023-10-25 10:45:08.242 INFO  [http-nio-10010-exec-1] [c.p.d.configuration.SecurityConfig] - exception:: Bad credentials
+2023-10-25 10:45:14.242 DEBUG [http-nio-10010-exec-10] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 10:45:14.244 DEBUG [http-nio-10010-exec-10] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 10:45:14.245 INFO  [http-nio-10010-exec-10] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:45:14.342 INFO  [http-nio-10010-exec-10] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$c5xRCk2kx4xM2rS5xKeMDefFi9v/Y3kSWAJn3Rx.qdHR8iwXvfdbG
+2023-10-25 10:45:14.431 INFO  [http-nio-10010-exec-10] [c.p.d.configuration.SecurityConfig] - exception:: Bad credentials
+2023-10-25 10:45:18.800 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 10:45:18.801 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'admin'
+ {executed in 1 msec}
+2023-10-25 10:45:18.802 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:45:18.897 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$iQVdL0I8e1eACu.7X/Fhi.lAeCtFDXgEOuchbuT5C8gty5JF26LDC,$2a$10$JWIF4hPYIR4ivUzxRdlA3eUktnf6MsYf696CSFVvO4JS.jzMbR5Q2
+2023-10-25 10:45:18.988 INFO  [http-nio-10010-exec-8] [c.p.d.configuration.SecurityConfig] - authentication:: admin
+2023-10-25 10:45:18.994 INFO  [http-nio-10010-exec-5] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 10:45:18.994 INFO  [http-nio-10010-exec-5] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 10:45:18.994 INFO  [http-nio-10010-exec-5] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 10:45:18.994 INFO  [http-nio-10010-exec-5] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 10:45:18.994 INFO  [http-nio-10010-exec-5] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 10:45:22.151 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 10:45:22.153 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = '박준영2'
+ {executed in 0 msec}
+2023-10-25 10:45:22.254 INFO  [http-nio-10010-exec-3] [c.p.d.configuration.SecurityConfig] - exception:: Bad credentials
+2023-10-25 10:45:35.266 DEBUG [http-nio-10010-exec-9] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 10:45:35.268 DEBUG [http-nio-10010-exec-9] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 10:45:35.269 INFO  [http-nio-10010-exec-9] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:45:35.358 INFO  [http-nio-10010-exec-9] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$yrX.VQh32M65WEP/0yhoveU0lxElaZgOWqeRpE9Q/z5lFKljRV8Vm
+2023-10-25 10:45:35.450 INFO  [http-nio-10010-exec-9] [c.p.d.configuration.SecurityConfig] - exception:: Bad credentials
+2023-10-25 10:45:41.529 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 10:45:41.531 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 10:45:41.533 INFO  [http-nio-10010-exec-6] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:45:41.625 INFO  [http-nio-10010-exec-6] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$ZH4iDPsqgVgV1IMJ6jQ58.VSVDpOfisNAxQLLKkfMah5KgwORPBTS
+2023-10-25 10:45:41.716 INFO  [http-nio-10010-exec-6] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 10:45:41.721 INFO  [http-nio-10010-exec-2] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 10:45:41.721 INFO  [http-nio-10010-exec-2] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 10:45:41.721 INFO  [http-nio-10010-exec-2] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 10:45:41.721 INFO  [http-nio-10010-exec-2] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 10:45:41.722 INFO  [http-nio-10010-exec-2] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 10:45:49.080 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 2 msec}
+2023-10-25 10:45:49.082 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 10:45:49.084 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:45:49.178 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$qp10K4.l5tdUy3lnkwGSUetOnLBDfW0HOckwZMn5YC8/XNmDZdqT.
+2023-10-25 10:45:49.269 INFO  [http-nio-10010-exec-1] [c.p.d.configuration.SecurityConfig] - exception:: Bad credentials
+2023-10-25 10:49:12.234 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 10:49:12.236 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 10:49:12.237 INFO  [http-nio-10010-exec-7] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:49:12.332 INFO  [http-nio-10010-exec-7] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$ej6d5mTsaaz2ATn048DTSeiwjFm6/kSH88Ka0HiE0AwoaKD309oiu
+2023-10-25 10:49:12.422 INFO  [http-nio-10010-exec-7] [c.p.d.configuration.SecurityConfig] - exception:: Bad credentials
+2023-10-25 10:49:18.159 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 10:49:18.161 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 10:49:18.162 INFO  [http-nio-10010-exec-6] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:49:18.253 INFO  [http-nio-10010-exec-6] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$aUwpLje74v.BpkMbTOWGY.jKMew5fIpE6gXha7GiudBytnU0veUMy
+2023-10-25 10:49:18.344 INFO  [http-nio-10010-exec-6] [c.p.d.configuration.SecurityConfig] - exception:: Bad credentials
+2023-10-25 10:49:43.366 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 10:49:43.368 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 10:49:43.370 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:49:43.462 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$bvMj4BvE8bfoiBDNfxlfCumaxHEvZHZ4OOTCXc.vebs3fONLiLWwC
+2023-10-25 10:49:43.554 INFO  [http-nio-10010-exec-1] [c.p.d.configuration.SecurityConfig] - exception:: Bad credentials
+2023-10-25 10:49:49.818 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 10:49:49.820 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 10:49:49.821 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:49:49.917 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$VWba58qHsj//kutcLiju6.k.dkYvSZwYJDS6EMIutAeo9TI5igFJO
+2023-10-25 10:49:50.004 INFO  [http-nio-10010-exec-3] [c.p.d.configuration.SecurityConfig] - exception:: Bad credentials
+2023-10-25 10:49:57.884 DEBUG [http-nio-10010-exec-10] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 10:49:57.885 DEBUG [http-nio-10010-exec-10] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 10:49:57.889 INFO  [http-nio-10010-exec-10] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:49:57.981 INFO  [http-nio-10010-exec-10] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$hCH.YaGlj7x95nMR3qyFWOwMN2vWGzuGADObiJ6lcfJo8CSXIUJqy
+2023-10-25 10:49:58.069 INFO  [http-nio-10010-exec-10] [c.p.d.configuration.SecurityConfig] - exception:: Bad credentials
+2023-10-25 10:50:04.512 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 10:50:04.513 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 10:50:04.515 INFO  [http-nio-10010-exec-2] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:50:04.612 INFO  [http-nio-10010-exec-2] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$NAqyAGlsSsBR.TeL2g7uCuPs/6gdHEN0fPEizp0Qjt9H8p6ng4UgG
+2023-10-25 10:50:04.702 INFO  [http-nio-10010-exec-2] [c.p.d.configuration.SecurityConfig] - exception:: Bad credentials
+2023-10-25 10:50:14.380 DEBUG [http-nio-10010-exec-9] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 10:50:14.382 DEBUG [http-nio-10010-exec-9] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 10:50:14.383 INFO  [http-nio-10010-exec-9] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:50:14.480 INFO  [http-nio-10010-exec-9] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$lYp3GC6Rmie0XEuFSrNdruAKwxDhcWlR41SYdMLf4iiX4niP0SL/O
+2023-10-25 10:50:14.568 INFO  [http-nio-10010-exec-9] [c.p.d.configuration.SecurityConfig] - exception:: Bad credentials
+2023-10-25 10:51:34.669 DEBUG [http-nio-10010-exec-5] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 10:51:34.671 DEBUG [http-nio-10010-exec-5] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 10:51:34.672 INFO  [http-nio-10010-exec-5] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:51:34.762 INFO  [http-nio-10010-exec-5] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$FGiEPlH6zoinejrvqZFxvO5OlU6mRT0136xHs47UCTL3Ef8BcsXty
+2023-10-25 10:51:34.853 INFO  [http-nio-10010-exec-5] [c.p.d.configuration.SecurityConfig] - exception:: Bad credentials
+2023-10-25 10:51:44.653 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 10:51:44.655 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 10:51:44.656 INFO  [http-nio-10010-exec-6] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:51:44.747 INFO  [http-nio-10010-exec-6] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$55zAb/dARUsdWs5VcphhyulrXtVCkn6ND2Hw5vjdN7ZSWV7gTRm6C
+2023-10-25 10:51:44.839 INFO  [http-nio-10010-exec-6] [c.p.d.configuration.SecurityConfig] - exception:: Bad credentials
+2023-10-25 10:51:56.054 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 10:51:56.055 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 10:51:56.056 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:51:56.147 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$ijJmfiPhvjmnL0/pW7QDiu/kKUeK.P0McJfJfKOnX/QrNfYkMVkre
+2023-10-25 10:51:56.236 INFO  [http-nio-10010-exec-8] [c.p.d.configuration.SecurityConfig] - exception:: Bad credentials
+2023-10-25 10:52:02.449 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 10:52:02.450 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 10:52:02.452 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:52:02.543 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$JjOwIutZ6fUC9J4CpfI1YeA49hAEr6TubCkjHYwAFO8B6dkBoS3/W
+2023-10-25 10:52:02.632 INFO  [http-nio-10010-exec-3] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 10:52:02.637 INFO  [http-nio-10010-exec-7] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 10:52:02.637 INFO  [http-nio-10010-exec-7] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 10:52:02.637 INFO  [http-nio-10010-exec-7] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 10:52:02.637 INFO  [http-nio-10010-exec-7] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 10:52:02.637 INFO  [http-nio-10010-exec-7] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 10:55:59.777 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 10:55:59.779 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 10:55:59.780 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:55:59.872 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$MNrQAPw.4k9j2y08eTmYEeI7oKPuaWbA97HHog.8PYep5HsRwhbae,$2a$10$LxWy4TnhdjJFt/ln4i3CceJ5lr.cm7BJ72m0DpvDRiTwZBpMPZQ5m
+2023-10-25 10:55:59.959 INFO  [http-nio-10010-exec-3] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 10:55:59.965 INFO  [http-nio-10010-exec-9] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 10:55:59.965 INFO  [http-nio-10010-exec-9] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 10:55:59.965 INFO  [http-nio-10010-exec-9] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 10:55:59.965 INFO  [http-nio-10010-exec-9] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 10:55:59.965 INFO  [http-nio-10010-exec-9] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 10:56:54.343 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 10:56:54.345 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 10:56:54.347 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:56:54.442 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$LxWy4TnhdjJFt/ln4i3CceJ5lr.cm7BJ72m0DpvDRiTwZBpMPZQ5m,$2a$10$Iywwq1ZrGR.eIf/xZkuTtuRF9R0s37ivIJk2DGufYn4GnZnylYTR6
+2023-10-25 10:56:54.534 INFO  [http-nio-10010-exec-1] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 10:56:54.539 INFO  [http-nio-10010-exec-8] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 10:56:54.539 INFO  [http-nio-10010-exec-8] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 10:56:54.540 INFO  [http-nio-10010-exec-8] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 10:56:54.540 INFO  [http-nio-10010-exec-8] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 10:56:54.540 INFO  [http-nio-10010-exec-8] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 10:58:31.724 DEBUG [http-nio-10010-exec-4] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 10:58:31.726 DEBUG [http-nio-10010-exec-4] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 10:58:31.727 INFO  [http-nio-10010-exec-4] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:58:31.823 INFO  [http-nio-10010-exec-4] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$Iywwq1ZrGR.eIf/xZkuTtuRF9R0s37ivIJk2DGufYn4GnZnylYTR6,$2a$10$43gFNmvSDQTewzFiTMSJKeJ6ODOSI/oeDLh50C7tdV2pkzAR4lLki
+2023-10-25 10:58:31.919 INFO  [http-nio-10010-exec-4] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 10:58:31.925 INFO  [http-nio-10010-exec-6] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 10:58:31.925 INFO  [http-nio-10010-exec-6] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 10:58:31.925 INFO  [http-nio-10010-exec-6] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 10:58:31.925 INFO  [http-nio-10010-exec-6] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 10:58:31.925 INFO  [http-nio-10010-exec-6] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 10:58:37.698 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 10:58:37.700 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 10:58:37.701 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 10:58:37.794 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$Iywwq1ZrGR.eIf/xZkuTtuRF9R0s37ivIJk2DGufYn4GnZnylYTR6,$2a$10$W2T4WdTXXTKFIa84fkswx.lnzUPOeK91r4.N6jzwpWsS11ViKeXLe
+2023-10-25 10:58:37.881 INFO  [http-nio-10010-exec-3] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 10:58:37.886 INFO  [http-nio-10010-exec-10] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 10:58:37.886 INFO  [http-nio-10010-exec-10] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 10:58:37.886 INFO  [http-nio-10010-exec-10] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 10:58:37.886 INFO  [http-nio-10010-exec-10] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 10:58:37.886 INFO  [http-nio-10010-exec-10] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 10:59:38.075 ERROR [http-nio-10010-exec-6] [o.a.c.c.C.[.[.[/].[dispatcherServlet]] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
+java.lang.IllegalStateException: Cannot call sendError() after the response has been committed
+	at org.apache.catalina.connector.ResponseFacade.sendError(ResponseFacade.java:472)
+	at com.pjy.dashboard.aop.LogAspect.handleRequestRejectedException(LogAspect.java:155)
+	at jdk.internal.reflect.GeneratedMethodAccessor148.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:644)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:633)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:93)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:689)
+	at org.springframework.security.web.FilterChainProxy$$EnhancerBySpringCGLIB$$f51336e0.doFilter(<generated>)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:358)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:271)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:94)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.filterAndRecordMetrics(WebMvcMetricsFilter.java:114)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:104)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:526)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1591)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2023-10-25 11:02:14.099 INFO  [Catalina-utility-1] [c.pjy.dashboard.listener.SessionListener] - sessionDestroyed 실행
+2023-10-25 11:02:14.099 INFO  [Catalina-utility-1] [c.pjy.dashboard.listener.SessionListener] - sessionDestroyed 실행
+2023-10-25 11:02:36.742 INFO  [http-nio-10010-exec-8] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-10-25 11:02:36.743 INFO  [http-nio-10010-exec-8] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-10-25 11:02:47.935 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 11:02:47.936 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 11:02:47.937 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 11:02:48.027 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$Iywwq1ZrGR.eIf/xZkuTtuRF9R0s37ivIJk2DGufYn4GnZnylYTR6,$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6
+2023-10-25 11:02:48.116 INFO  [http-nio-10010-exec-8] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 11:02:48.122 INFO  [http-nio-10010-exec-4] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 11:02:48.122 INFO  [http-nio-10010-exec-4] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 11:02:48.122 INFO  [http-nio-10010-exec-4] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 11:02:48.122 INFO  [http-nio-10010-exec-4] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 11:02:48.122 INFO  [http-nio-10010-exec-4] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 11:03:34.609 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 11:03:34.610 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 11:03:34.611 INFO  [http-nio-10010-exec-2] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 11:03:34.709 INFO  [http-nio-10010-exec-2] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$fAYKsfBFrZGiLvaggXDlkOFG3yYQnLVzVxzNRhPqKZxnaDgEdD566
+2023-10-25 11:03:34.816 INFO  [http-nio-10010-exec-2] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 11:03:34.821 INFO  [http-nio-10010-exec-6] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 11:03:34.821 INFO  [http-nio-10010-exec-6] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 11:03:34.821 INFO  [http-nio-10010-exec-6] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 11:03:34.821 INFO  [http-nio-10010-exec-6] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 11:03:34.821 INFO  [http-nio-10010-exec-6] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 11:03:52.366 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 11:03:52.367 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 11:03:52.368 INFO  [http-nio-10010-exec-7] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 11:03:52.465 INFO  [http-nio-10010-exec-7] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$S1bLKCJ7JYx5mYZC0.KfR.ZbzFzwp0e0T19oCSj9ToP9mObwrLJDy
+2023-10-25 11:03:52.553 INFO  [http-nio-10010-exec-7] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 11:03:52.558 INFO  [http-nio-10010-exec-10] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 11:03:52.558 INFO  [http-nio-10010-exec-10] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 11:03:52.558 INFO  [http-nio-10010-exec-10] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 11:03:52.558 INFO  [http-nio-10010-exec-10] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 11:03:52.558 INFO  [http-nio-10010-exec-10] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 11:04:09.643 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+3. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 11:04:09.645 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+3. select * from MEMBER where userId = '김건화'
+ {executed in 0 msec}
+2023-10-25 11:04:09.743 INFO  [http-nio-10010-exec-1] [c.p.d.configuration.SecurityConfig] - exception:: Bad credentials
+2023-10-25 11:04:27.424 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+11. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 11:04:27.426 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+11. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 11:04:27.428 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 11:04:27.517 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$3f6EWeTSZaunsfXs.lgG4O6vI7LHZojqXegNYMPMrqmcWnAAtXI8G
+2023-10-25 11:04:27.606 INFO  [http-nio-10010-exec-3] [c.p.d.configuration.SecurityConfig] - exception:: Bad credentials
+2023-10-25 11:04:37.093 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+11. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 11:04:37.095 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+11. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 11:04:37.096 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 11:04:37.188 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$iXqAgPfPCc.iLZZ2ieYLg.ltXvOx3CAdBh55VCreiS5uxXPOuzYNi
+2023-10-25 11:04:37.279 INFO  [http-nio-10010-exec-8] [c.p.d.configuration.SecurityConfig] - exception:: Bad credentials
+2023-10-25 11:07:06.970 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+11. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 11:07:06.971 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+11. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 11:07:06.972 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 11:07:47.945 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$/3vP53ZlaLKv5o1qV.nHl.uwXeuXjF.XHKXRv6BsGRNBDyfLnv2Fi
+2023-10-25 11:08:39.729 INFO  [http-nio-10010-exec-3] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 11:11:45.818 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+11. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 11:11:45.820 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+11. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 11:11:45.821 INFO  [http-nio-10010-exec-6] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 11:11:52.163 INFO  [http-nio-10010-exec-6] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$qcJsUMPdzbJMbrnmCcVU/O6gqjz7bfJ9MnO7lnZoZVCnp9aXOo64y
+2023-10-25 11:11:52.273 INFO  [http-nio-10010-exec-6] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 11:11:52.278 INFO  [http-nio-10010-exec-9] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 11:11:52.279 INFO  [http-nio-10010-exec-9] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 11:11:52.279 INFO  [http-nio-10010-exec-9] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 11:11:52.279 INFO  [http-nio-10010-exec-9] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 11:11:52.279 INFO  [http-nio-10010-exec-9] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 11:14:18.766 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+11. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 11:14:18.768 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+11. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 11:14:18.769 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 11:14:32.725 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$OfKD5k0Zm69HTLzLgk8bLeYY6ab8K.E3oNuhje6kpbpakB2kr/ltq
+2023-10-25 11:16:10.255 INFO  [http-nio-10010-exec-8] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 11:21:27.945 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+11. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 11:21:27.947 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+11. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 11:21:27.949 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 11:24:16.101 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$5IRu395XW3CJ0U/Jy0.AXOYvVKcCp2TLX.kFAQ1EQutZomAsFbtAu
+2023-10-25 11:24:16.203 INFO  [http-nio-10010-exec-1] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 11:26:06.371 DEBUG [http-nio-10010-exec-5] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+21. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 11:26:06.372 DEBUG [http-nio-10010-exec-5] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+21. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 11:26:06.374 INFO  [http-nio-10010-exec-5] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 11:28:50.407 INFO  [http-nio-10010-exec-5] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$pV1PpG67xRzJboYFUA7HdOhyU0Q48Yaxp2cZ/5vp7VpR5ZqjDna/S
+2023-10-25 11:28:50.516 INFO  [http-nio-10010-exec-5] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 11:29:53.624 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+21. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 4 msec}
+2023-10-25 11:29:53.655 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+21. select * from MEMBER where userId = 'p00139'
+ {executed in 15 msec}
+2023-10-25 11:29:53.676 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 11:30:01.066 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$dsiOd9G2c9gV6ynXv7xsiuQBpb0Dk1VpJvs3BNjQ/bRH2JZBKV8rG
+2023-10-25 11:33:04.093 INFO  [http-nio-10010-exec-8] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 11:33:52.881 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+21. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 11:33:52.882 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+21. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 11:33:52.884 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 11:33:55.741 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$FpojpWuxgQq0g3xFb7dbfOafmvZF9KieolByU0Bo2Tld5PC7vE9su
+2023-10-25 11:34:10.165 INFO  [http-nio-10010-exec-3] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 11:35:59.911 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+21. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 11:35:59.912 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+21. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 11:35:59.913 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 11:36:05.117 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$936Ecm6t8s1rAlzvqp4Q0./UacT77J2bAVDNfB65ReJqytykld7Jm
+2023-10-25 11:36:12.571 INFO  [http-nio-10010-exec-8] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 11:36:30.479 INFO  [http-nio-10010-exec-2] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 11:36:30.479 INFO  [http-nio-10010-exec-2] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 11:36:30.479 INFO  [http-nio-10010-exec-2] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 11:36:30.479 INFO  [http-nio-10010-exec-2] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 11:36:30.479 INFO  [http-nio-10010-exec-2] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 11:38:35.589 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+21. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 11:38:35.590 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+21. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 11:38:35.591 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 11:38:35.690 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$5AobipE3SL9nMgE42UFKC.EIpG8hp7KzFU7BQ8Q.1H7V17OS3Tc/C
+2023-10-25 11:38:35.786 INFO  [http-nio-10010-exec-1] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 11:41:43.272 INFO  [http-nio-10010-exec-5] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 11:41:43.273 INFO  [http-nio-10010-exec-5] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 11:41:43.274 INFO  [http-nio-10010-exec-5] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 11:41:43.275 INFO  [http-nio-10010-exec-5] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 11:41:43.276 INFO  [http-nio-10010-exec-5] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 11:42:04.836 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+21. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 11:42:04.838 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+21. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 11:42:27.725 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 11:42:59.715 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$8hfow15vAhiin.Wpx4fmUuJ4mkNy7G8zYvg3ruBD5KvGSbBO.CQ56
+2023-10-25 11:43:09.741 INFO  [http-nio-10010-exec-1] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 11:43:24.128 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+22. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 11:43:24.130 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+22. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 11:43:28.039 INFO  [http-nio-10010-exec-7] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 11:43:30.509 INFO  [http-nio-10010-exec-7] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$OFeIasfpAE339T40pgBu/O/9zsBJXvDs8TDUl71z0KFR32Tv/QJxm
+2023-10-25 11:43:30.622 INFO  [http-nio-10010-exec-7] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 12:22:28.904 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - sessionDestroyed 실행
+2023-10-25 12:22:28.904 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - sessionDestroyed 실행
+2023-10-25 12:22:33.829 WARN  [H2 housekeeper] [com.zaxxer.hikari.pool.HikariPool] - H2 - Thread starvation or clock leap detected (housekeeper delta=37m50s275ms193µs200ns).
+2023-10-25 12:22:37.165 INFO  [http-nio-10010-exec-3] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-10-25 12:22:37.165 INFO  [http-nio-10010-exec-3] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-10-25 12:30:35.954 INFO  [http-nio-10010-exec-6] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 12:30:35.956 INFO  [http-nio-10010-exec-6] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 12:30:35.957 INFO  [http-nio-10010-exec-6] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 12:30:35.957 INFO  [http-nio-10010-exec-6] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 12:30:35.958 INFO  [http-nio-10010-exec-6] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 12:30:40.148 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+41. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 12:30:40.150 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+41. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 12:30:45.512 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 12:30:47.470 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$fkzQvX7sXUVyca1fUM/5ceVW/7ESYNbrUdZ6PTJcRLewyfAobWJk6
+2023-10-25 12:30:47.575 INFO  [http-nio-10010-exec-1] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 12:31:32.033 DEBUG [http-nio-10010-exec-9] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+41. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 12:31:32.035 DEBUG [http-nio-10010-exec-9] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+41. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 12:31:36.605 INFO  [http-nio-10010-exec-9] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 12:31:38.184 INFO  [http-nio-10010-exec-9] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$kOllfzRDQkLB/m2JR2PGZ.1Z9nz2bdXgTqLpOZViBec/mKzAwpa4m
+2023-10-25 12:31:38.297 INFO  [http-nio-10010-exec-9] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 12:32:44.063 INFO  [http-nio-10010-exec-4] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 12:32:44.064 INFO  [http-nio-10010-exec-4] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 12:32:44.064 INFO  [http-nio-10010-exec-4] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 12:32:44.065 INFO  [http-nio-10010-exec-4] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 12:32:44.065 INFO  [http-nio-10010-exec-4] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 12:32:54.643 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+41. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 12:32:54.644 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+41. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 12:32:58.741 INFO  [http-nio-10010-exec-7] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 12:33:00.744 INFO  [http-nio-10010-exec-7] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$bFfvPr/PJ7taeKQVvc4b1et.gfceST9ljtl/ZxYnMFW.n00Wjj5u.
+2023-10-25 12:33:00.861 INFO  [http-nio-10010-exec-7] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 12:37:59.822 INFO  [http-nio-10010-exec-9] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 12:37:59.822 INFO  [http-nio-10010-exec-9] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 12:37:59.822 INFO  [http-nio-10010-exec-9] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 12:37:59.822 INFO  [http-nio-10010-exec-9] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 12:37:59.822 INFO  [http-nio-10010-exec-9] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 12:46:46.919 INFO  [restartedMain] [com.pjy.dashboard.PjyApplication] - Starting PjyApplication on DESKTOP-QJPD93S with PID 22248 (D:\BUS\dashboard\dashboard\target\classes started by admin in D:\BUS\dashboard\dashboard)
+2023-10-25 12:46:46.923 INFO  [restartedMain] [com.pjy.dashboard.PjyApplication] - The following profiles are active: oauth
+2023-10-25 12:46:46.981 INFO  [restartedMain] [o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor] - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-10-25 12:46:46.981 INFO  [restartedMain] [o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor] - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-10-25 12:46:48.198 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-10-25 12:46:48.199 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-25 12:46:48.349 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 142ms. Found 3 JPA repository interfaces.
+2023-10-25 12:46:48.700 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-10-25 12:46:48.700 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2023-10-25 12:46:48.748 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationExtensionSupport] - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.pjy.dashboard.core.dao.jpa.h2.FileRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-10-25 12:46:48.749 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationExtensionSupport] - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.pjy.dashboard.core.dao.jpa.h2.MemberRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-10-25 12:46:48.750 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationExtensionSupport] - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.pjy.dashboard.core.dao.jpa.h2.RememberMeRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-10-25 12:46:48.750 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 50ms. Found 0 JDBC repository interfaces.
+2023-10-25 12:46:49.218 INFO  [restartedMain] [c.u.j.c.EnableEncryptablePropertiesBeanFactoryPostProcessor] - Post-processing PropertySource instances
+2023-10-25 12:46:49.290 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource configurationProperties [org.springframework.boot.context.properties.source.ConfigurationPropertySourcesPropertySource] to AOP Proxy
+2023-10-25 12:46:49.290 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource commandLineArgs [org.springframework.core.env.SimpleCommandLinePropertySource] to EncryptableEnumerablePropertySourceWrapper
+2023-10-25 12:46:49.290 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource servletConfigInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2023-10-25 12:46:49.290 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource servletContextInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2023-10-25 12:46:49.291 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource systemProperties [org.springframework.core.env.PropertiesPropertySource] to EncryptableMapPropertySourceWrapper
+2023-10-25 12:46:49.291 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource systemEnvironment [org.springframework.boot.env.SystemEnvironmentPropertySourceEnvironmentPostProcessor$OriginAwareSystemEnvironmentPropertySource] to EncryptableSystemEnvironmentPropertySourceWrapper
+2023-10-25 12:46:49.291 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource random [org.springframework.boot.env.RandomValuePropertySource] to EncryptablePropertySourceWrapper
+2023-10-25 12:46:49.291 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource applicationConfig: [classpath:/application-oauth.properties] [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+2023-10-25 12:46:49.292 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource applicationConfig: [classpath:/application.properties] [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+2023-10-25 12:46:49.292 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource devtools [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2023-10-25 12:46:49.292 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource class path resource [pjy.properties] [org.springframework.core.env.CompositePropertySource] to EncryptableEnumerablePropertySourceWrapper
+2023-10-25 12:46:49.292 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource class path resource [common.properties] [org.springframework.core.io.support.ResourcePropertySource] to EncryptableMapPropertySourceWrapper
+2023-10-25 12:46:49.362 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'asyncConfiguration' of type [com.pjy.dashboard.configuration.AsyncConfiguration$$EnhancerBySpringCGLIB$$78556e14] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 12:46:49.417 INFO  [restartedMain] [c.u.j.filter.DefaultLazyPropertyFilter] - Property Filter custom Bean not found with name 'encryptablePropertyFilter'. Initializing Default Property Filter
+2023-10-25 12:46:49.506 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.security.config.annotation.configuration.ObjectPostProcessorConfiguration' of type [org.springframework.security.config.annotation.configuration.ObjectPostProcessorConfiguration$$EnhancerBySpringCGLIB$$624bd241] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 12:46:49.590 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'objectPostProcessor' of type [org.springframework.security.config.annotation.configuration.AutowireBeanFactoryObjectPostProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 12:46:49.593 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@3910db9a' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 12:46:49.598 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration' of type [org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration$$EnhancerBySpringCGLIB$$872074f3] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 12:46:49.609 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.security.config.annotation.method.configuration.Jsr250MetadataSourceConfiguration' of type [org.springframework.security.config.annotation.method.configuration.Jsr250MetadataSourceConfiguration$$EnhancerBySpringCGLIB$$ac758d09] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 12:46:49.613 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'jsr250MethodSecurityMetadataSource' of type [org.springframework.security.access.annotation.Jsr250MethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 12:46:49.615 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 12:46:49.639 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$c99e0a07] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 12:46:49.668 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.hateoas.config.HateoasConfiguration' of type [org.springframework.hateoas.config.HateoasConfiguration$$EnhancerBySpringCGLIB$$491e5739] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 12:46:49.814 INFO  [restartedMain] [c.u.j.r.DefaultLazyPropertyResolver] - Property Resolver custom Bean not found with name 'encryptablePropertyResolver'. Initializing Default Property Resolver
+2023-10-25 12:46:49.820 INFO  [restartedMain] [c.u.j.d.DefaultLazyPropertyDetector] - Property Detector custom Bean not found with name 'encryptablePropertyDetector'. Initializing Default Property Detector
+2023-10-25 12:46:50.285 INFO  [restartedMain] [o.s.b.w.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port(s): 10010 (http)
+2023-10-25 12:46:50.303 INFO  [restartedMain] [o.apache.coyote.http11.Http11NioProtocol] - Initializing ProtocolHandler ["http-nio-10010"]
+2023-10-25 12:46:50.313 INFO  [restartedMain] [org.apache.catalina.core.StandardService] - Starting service [Tomcat]
+2023-10-25 12:46:50.314 INFO  [restartedMain] [org.apache.catalina.core.StandardEngine] - Starting Servlet engine: [Apache Tomcat/9.0.29]
+2023-10-25 12:46:50.772 INFO  [restartedMain] [org.apache.jasper.servlet.TldScanner] - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2023-10-25 12:46:50.782 INFO  [restartedMain] [o.a.c.c.C.[Tomcat].[localhost].[/]] - Initializing Spring embedded WebApplicationContext
+2023-10-25 12:46:50.783 INFO  [restartedMain] [o.s.web.context.ContextLoader] - Root WebApplicationContext: initialization completed in 3802 ms
+2023-10-25 12:46:51.736 INFO  [restartedMain] [c.u.j.encryptor.DefaultLazyEncryptor] - Found Custom Encryptor Bean org.jasypt.encryption.pbe.PooledPBEStringEncryptor@2058134c with name: jasyptStringEncryptor
+2023-10-25 12:46:51.793 INFO  [restartedMain] [com.zaxxer.hikari.HikariDataSource] - H2 - Starting...
+2023-10-25 12:46:51.879 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.executeSql(PoolBase.java:567)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 7 msec}
+2023-10-25 12:46:51.884 INFO  [restartedMain] [com.zaxxer.hikari.HikariDataSource] - H2 - Start completed.
+2023-10-25 12:46:52.947 INFO  [restartedMain] [com.pjy.dashboard.filter.TestFilter] - init Pjy Filter
+2023-10-25 12:46:53.357 INFO  [restartedMain] [o.hibernate.jpa.internal.util.LogHelper] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2023-10-25 12:46:53.429 INFO  [restartedMain] [org.hibernate.Version] - HHH000412: Hibernate Core {5.3.14.Final}
+2023-10-25 12:46:53.431 INFO  [restartedMain] [org.hibernate.cfg.Environment] - HHH000206: hibernate.properties not found
+2023-10-25 12:46:53.632 INFO  [restartedMain] [org.hibernate.annotations.common.Version] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2023-10-25 12:46:53.904 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 12:46:53.921 INFO  [restartedMain] [org.hibernate.dialect.Dialect] - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2023-10-25 12:46:54.675 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 12:46:54.678 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+1. select SEQUENCE_CATALOG, SEQUENCE_SCHEMA, SEQUENCE_NAME, INCREMENT from information_schema.sequences
+ {executed in 2 msec}
+2023-10-25 12:46:54.745 INFO  [restartedMain] [o.s.o.j.LocalContainerEntityManagerFactoryBean] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-25 12:46:55.000 INFO  [restartedMain] [o.h.h.i.QueryTranslatorFactoryInitiator] - HHH000397: Using ASTQueryTranslatorFactory
+2023-10-25 12:46:56.137 INFO  [restartedMain] [o.s.s.concurrent.ThreadPoolTaskExecutor] - Initializing ExecutorService
+2023-10-25 12:46:56.147 INFO  [restartedMain] [o.s.s.concurrent.ThreadPoolTaskExecutor] - Initializing ExecutorService 'asyncThreadPool'
+2023-10-25 12:46:56.340 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/h2-console/**'], []
+2023-10-25 12:46:56.340 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/css/**'], []
+2023-10-25 12:46:56.340 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/js/**'], []
+2023-10-25 12:46:56.340 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/monitor/**'], []
+2023-10-25 12:46:56.340 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/img/**'], []
+2023-10-25 12:46:56.340 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/lib/**'], []
+2023-10-25 12:46:56.340 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/main.css'], []
+2023-10-25 12:46:56.341 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/common.js'], []
+2023-10-25 12:46:56.341 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/resources/**'], []
+2023-10-25 12:46:56.500 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5c035132, org.springframework.security.web.context.SecurityContextPersistenceFilter@7ab0fc38, org.springframework.security.web.header.HeaderWriterFilter@e6d1a70, org.springframework.web.filter.CorsFilter@70e2a948, org.springframework.security.web.authentication.logout.LogoutFilter@748c3c90, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@20c388d, org.springframework.security.web.session.ConcurrentSessionFilter@5c116b0c, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@2d674261, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6955b4f0, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7f0eec92, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@45fe9a3f, org.springframework.security.web.session.SessionManagementFilter@344a276e, org.springframework.security.web.access.ExceptionTranslationFilter@287dfcb8, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2c0b7896]
+2023-10-25 12:46:56.528 INFO  [restartedMain] [o.s.aop.framework.CglibAopProxy] - Unable to proxy interface-implementing method [public final void org.springframework.web.filter.GenericFilterBean.init(javax.servlet.FilterConfig) throws javax.servlet.ServletException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2023-10-25 12:46:56.898 WARN  [restartedMain] [o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-25 12:46:56.970 INFO  [restartedMain] [o.s.b.a.w.s.WelcomePageHandlerMapping] - Adding welcome page: ServletContext resource [/index.html]
+2023-10-25 12:46:57.383 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 12:46:58.201 INFO  [restartedMain] [o.s.b.d.a.OptionalLiveReloadServer] - LiveReload server is running on port 35729
+2023-10-25 12:46:58.231 INFO  [restartedMain] [o.s.b.a.e.web.EndpointLinksResolver] - Exposing 16 endpoint(s) beneath base path '/actuator'
+2023-10-25 12:46:58.378 INFO  [restartedMain] [o.s.s.concurrent.ThreadPoolTaskScheduler] - Initializing ExecutorService
+2023-10-25 12:46:58.385 INFO  [restartedMain] [o.apache.coyote.http11.Http11NioProtocol] - Starting ProtocolHandler ["http-nio-10010"]
+2023-10-25 12:46:58.440 INFO  [restartedMain] [o.s.b.w.embedded.tomcat.TomcatWebServer] - Tomcat started on port(s): 10010 (http) with context path ''
+2023-10-25 12:46:58.447 INFO  [restartedMain] [com.pjy.dashboard.PjyApplication] - Started PjyApplication in 12.029 seconds (JVM running for 13.57)
+2023-10-25 12:46:58.448 INFO  [restartedMain] [com.pjy.dashboard.AppStartedListener] - =====================
+2023-10-25 12:46:58.448 INFO  [restartedMain] [com.pjy.dashboard.AppStartedListener] - Application started
+2023-10-25 12:46:58.448 INFO  [restartedMain] [com.pjy.dashboard.AppStartedListener] - =====================
+2023-10-25 12:46:59.404 INFO  [RMI TCP Connection(9)-127.0.0.1] [o.a.c.c.C.[Tomcat].[localhost].[/]] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-10-25 12:46:59.404 INFO  [RMI TCP Connection(9)-127.0.0.1] [o.s.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2023-10-25 12:46:59.428 INFO  [RMI TCP Connection(9)-127.0.0.1] [o.s.web.servlet.DispatcherServlet] - Completed initialization in 23 ms
+2023-10-25 12:47:00.645 WARN  [http-nio-10010-exec-2] [o.a.catalina.util.SessionIdGeneratorBase] - Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [159] milliseconds.
+2023-10-25 12:47:00.647 INFO  [http-nio-10010-exec-2] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-10-25 12:47:00.647 INFO  [http-nio-10010-exec-2] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-10-25 12:47:05.083 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 12:47:05.090 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 12:47:09.891 INFO  [http-nio-10010-exec-2] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 12:47:11.348 INFO  [http-nio-10010-exec-2] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$KIreBJk4nAevLXtbgMr3pO5177zp3g3M8vMzN/o4PD1hwM6tOULPW
+2023-10-25 12:47:11.462 INFO  [http-nio-10010-exec-2] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 12:47:17.720 INFO  [http-nio-10010-exec-7] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 12:47:17.720 INFO  [http-nio-10010-exec-7] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 12:47:17.721 INFO  [http-nio-10010-exec-7] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 12:47:17.721 INFO  [http-nio-10010-exec-7] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 12:47:17.721 INFO  [http-nio-10010-exec-7] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 13:02:14.658 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 13:02:14.659 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 13:10:54.051 INFO  [Catalina-utility-1] [c.pjy.dashboard.listener.SessionListener] - sessionDestroyed 실행
+2023-10-25 13:10:54.051 INFO  [Catalina-utility-1] [c.pjy.dashboard.listener.SessionListener] - sessionDestroyed 실행
+2023-10-25 13:11:29.505 INFO  [http-nio-10010-exec-1] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-10-25 13:11:29.505 INFO  [http-nio-10010-exec-1] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-10-25 13:11:31.968 DEBUG [http-nio-10010-exec-10] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+11. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 13:11:31.969 DEBUG [http-nio-10010-exec-10] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+11. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 13:11:42.324 INFO  [http-nio-10010-exec-6] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 13:11:42.440 INFO  [http-nio-10010-exec-6] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$pGu5huVq2m4salQ1cYzOQeGXsIk0xLXq6cpj/kWGPye6Qb32p55NK
+2023-10-25 13:11:42.548 INFO  [http-nio-10010-exec-6] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-10-25 13:11:42.548 INFO  [http-nio-10010-exec-6] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-10-25 13:11:42.549 INFO  [http-nio-10010-exec-6] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 13:11:44.906 INFO  [http-nio-10010-exec-10] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 13:11:45.021 INFO  [http-nio-10010-exec-10] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$vM/Xq6LjR6RkezSMxqMBkOFEN3TvyjHUqdOuOzS9gBoWJ6B8s4aqa
+2023-10-25 13:11:45.132 INFO  [http-nio-10010-exec-10] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 13:12:08.412 INFO  [http-nio-10010-exec-7] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 13:12:08.412 INFO  [http-nio-10010-exec-7] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 13:12:08.413 INFO  [http-nio-10010-exec-7] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 13:12:08.413 INFO  [http-nio-10010-exec-7] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 13:12:08.413 INFO  [http-nio-10010-exec-7] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 13:13:07.451 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+11. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 2 msec}
+2023-10-25 13:13:07.452 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+11. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 13:13:07.454 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 13:13:07.554 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$RfdZtJTE1kO8A4SWTRQQJeCKViHy2y8cWGqo0B8A9.Du3Ilh0ajWK
+2023-10-25 13:13:54.188 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - sessionDestroyed 실행
+2023-10-25 13:13:54.188 INFO  [Catalina-utility-2] [c.pjy.dashboard.listener.SessionListener] - sessionDestroyed 실행
+2023-10-25 13:31:06.407 INFO  [restartedMain] [com.pjy.dashboard.PjyApplication] - Starting PjyApplication on DESKTOP-QJPD93S with PID 9568 (D:\BUS\dashboard\dashboard\target\classes started by admin in D:\BUS\dashboard\dashboard)
+2023-10-25 13:31:06.412 INFO  [restartedMain] [com.pjy.dashboard.PjyApplication] - The following profiles are active: oauth
+2023-10-25 13:31:06.469 INFO  [restartedMain] [o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor] - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-10-25 13:31:06.470 INFO  [restartedMain] [o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor] - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-10-25 13:31:07.718 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-10-25 13:31:07.718 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-25 13:31:07.876 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 148ms. Found 3 JPA repository interfaces.
+2023-10-25 13:31:08.222 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-10-25 13:31:08.223 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2023-10-25 13:31:08.270 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationExtensionSupport] - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.pjy.dashboard.core.dao.jpa.h2.FileRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-10-25 13:31:08.270 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationExtensionSupport] - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.pjy.dashboard.core.dao.jpa.h2.MemberRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-10-25 13:31:08.271 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationExtensionSupport] - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.pjy.dashboard.core.dao.jpa.h2.RememberMeRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-10-25 13:31:08.271 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 48ms. Found 0 JDBC repository interfaces.
+2023-10-25 13:31:08.715 INFO  [restartedMain] [c.u.j.c.EnableEncryptablePropertiesBeanFactoryPostProcessor] - Post-processing PropertySource instances
+2023-10-25 13:31:08.784 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource configurationProperties [org.springframework.boot.context.properties.source.ConfigurationPropertySourcesPropertySource] to AOP Proxy
+2023-10-25 13:31:08.784 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource commandLineArgs [org.springframework.core.env.SimpleCommandLinePropertySource] to EncryptableEnumerablePropertySourceWrapper
+2023-10-25 13:31:08.785 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource servletConfigInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2023-10-25 13:31:08.785 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource servletContextInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2023-10-25 13:31:08.786 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource systemProperties [org.springframework.core.env.PropertiesPropertySource] to EncryptableMapPropertySourceWrapper
+2023-10-25 13:31:08.786 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource systemEnvironment [org.springframework.boot.env.SystemEnvironmentPropertySourceEnvironmentPostProcessor$OriginAwareSystemEnvironmentPropertySource] to EncryptableSystemEnvironmentPropertySourceWrapper
+2023-10-25 13:31:08.786 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource random [org.springframework.boot.env.RandomValuePropertySource] to EncryptablePropertySourceWrapper
+2023-10-25 13:31:08.786 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource applicationConfig: [classpath:/application-oauth.properties] [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+2023-10-25 13:31:08.787 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource applicationConfig: [classpath:/application.properties] [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+2023-10-25 13:31:08.787 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource devtools [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2023-10-25 13:31:08.787 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource class path resource [pjy.properties] [org.springframework.core.env.CompositePropertySource] to EncryptableEnumerablePropertySourceWrapper
+2023-10-25 13:31:08.787 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource class path resource [common.properties] [org.springframework.core.io.support.ResourcePropertySource] to EncryptableMapPropertySourceWrapper
+2023-10-25 13:31:08.847 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'asyncConfiguration' of type [com.pjy.dashboard.configuration.AsyncConfiguration$$EnhancerBySpringCGLIB$$91e06b99] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 13:31:08.898 INFO  [restartedMain] [c.u.j.filter.DefaultLazyPropertyFilter] - Property Filter custom Bean not found with name 'encryptablePropertyFilter'. Initializing Default Property Filter
+2023-10-25 13:31:08.982 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.security.config.annotation.configuration.ObjectPostProcessorConfiguration' of type [org.springframework.security.config.annotation.configuration.ObjectPostProcessorConfiguration$$EnhancerBySpringCGLIB$$7bd6cfc6] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 13:31:09.062 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'objectPostProcessor' of type [org.springframework.security.config.annotation.configuration.AutowireBeanFactoryObjectPostProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 13:31:09.064 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@4f1bae30' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 13:31:09.070 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration' of type [org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration$$EnhancerBySpringCGLIB$$a0ab7278] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 13:31:09.080 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.security.config.annotation.method.configuration.Jsr250MetadataSourceConfiguration' of type [org.springframework.security.config.annotation.method.configuration.Jsr250MetadataSourceConfiguration$$EnhancerBySpringCGLIB$$c6008a8e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 13:31:09.084 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'jsr250MethodSecurityMetadataSource' of type [org.springframework.security.access.annotation.Jsr250MethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 13:31:09.086 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 13:31:09.105 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$e329078c] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 13:31:09.136 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.hateoas.config.HateoasConfiguration' of type [org.springframework.hateoas.config.HateoasConfiguration$$EnhancerBySpringCGLIB$$62a954be] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 13:31:09.273 INFO  [restartedMain] [c.u.j.r.DefaultLazyPropertyResolver] - Property Resolver custom Bean not found with name 'encryptablePropertyResolver'. Initializing Default Property Resolver
+2023-10-25 13:31:09.278 INFO  [restartedMain] [c.u.j.d.DefaultLazyPropertyDetector] - Property Detector custom Bean not found with name 'encryptablePropertyDetector'. Initializing Default Property Detector
+2023-10-25 13:31:09.705 INFO  [restartedMain] [o.s.b.w.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port(s): 10010 (http)
+2023-10-25 13:31:09.729 INFO  [restartedMain] [o.apache.coyote.http11.Http11NioProtocol] - Initializing ProtocolHandler ["http-nio-10010"]
+2023-10-25 13:31:09.741 INFO  [restartedMain] [org.apache.catalina.core.StandardService] - Starting service [Tomcat]
+2023-10-25 13:31:09.742 INFO  [restartedMain] [org.apache.catalina.core.StandardEngine] - Starting Servlet engine: [Apache Tomcat/9.0.29]
+2023-10-25 13:31:10.124 INFO  [restartedMain] [org.apache.jasper.servlet.TldScanner] - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2023-10-25 13:31:10.136 INFO  [restartedMain] [o.a.c.c.C.[Tomcat].[localhost].[/]] - Initializing Spring embedded WebApplicationContext
+2023-10-25 13:31:10.136 INFO  [restartedMain] [o.s.web.context.ContextLoader] - Root WebApplicationContext: initialization completed in 3666 ms
+2023-10-25 13:31:10.993 INFO  [restartedMain] [c.u.j.encryptor.DefaultLazyEncryptor] - Found Custom Encryptor Bean org.jasypt.encryption.pbe.PooledPBEStringEncryptor@5e54e57f with name: jasyptStringEncryptor
+2023-10-25 13:31:11.037 INFO  [restartedMain] [com.zaxxer.hikari.HikariDataSource] - H2 - Starting...
+2023-10-25 13:31:11.127 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.executeSql(PoolBase.java:567)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 7 msec}
+2023-10-25 13:31:11.132 INFO  [restartedMain] [com.zaxxer.hikari.HikariDataSource] - H2 - Start completed.
+2023-10-25 13:31:11.914 INFO  [restartedMain] [com.pjy.dashboard.filter.TestFilter] - init Pjy Filter
+2023-10-25 13:31:12.310 INFO  [restartedMain] [o.hibernate.jpa.internal.util.LogHelper] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2023-10-25 13:31:12.383 INFO  [restartedMain] [org.hibernate.Version] - HHH000412: Hibernate Core {5.3.14.Final}
+2023-10-25 13:31:12.386 INFO  [restartedMain] [org.hibernate.cfg.Environment] - HHH000206: hibernate.properties not found
+2023-10-25 13:31:12.548 INFO  [restartedMain] [org.hibernate.annotations.common.Version] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2023-10-25 13:31:12.799 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 13:31:12.815 INFO  [restartedMain] [org.hibernate.dialect.Dialect] - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2023-10-25 13:31:13.547 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 13:31:13.551 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+1. select SEQUENCE_CATALOG, SEQUENCE_SCHEMA, SEQUENCE_NAME, INCREMENT from information_schema.sequences
+ {executed in 1 msec}
+2023-10-25 13:31:13.616 INFO  [restartedMain] [o.s.o.j.LocalContainerEntityManagerFactoryBean] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-25 13:31:13.872 INFO  [restartedMain] [o.h.h.i.QueryTranslatorFactoryInitiator] - HHH000397: Using ASTQueryTranslatorFactory
+2023-10-25 13:31:14.991 INFO  [restartedMain] [o.s.s.concurrent.ThreadPoolTaskExecutor] - Initializing ExecutorService
+2023-10-25 13:31:15.001 INFO  [restartedMain] [o.s.s.concurrent.ThreadPoolTaskExecutor] - Initializing ExecutorService 'asyncThreadPool'
+2023-10-25 13:31:15.224 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/h2-console/**'], []
+2023-10-25 13:31:15.225 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/css/**'], []
+2023-10-25 13:31:15.225 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/js/**'], []
+2023-10-25 13:31:15.225 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/monitor/**'], []
+2023-10-25 13:31:15.225 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/img/**'], []
+2023-10-25 13:31:15.225 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/lib/**'], []
+2023-10-25 13:31:15.225 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/main.css'], []
+2023-10-25 13:31:15.225 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/common.js'], []
+2023-10-25 13:31:15.225 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/resources/**'], []
+2023-10-25 13:31:15.382 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7cafebfe, org.springframework.security.web.context.SecurityContextPersistenceFilter@586b636f, org.springframework.security.web.header.HeaderWriterFilter@5de78527, org.springframework.web.filter.CorsFilter@45fedf1c, org.springframework.security.web.authentication.logout.LogoutFilter@225005d1, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@30dca838, org.springframework.security.web.session.ConcurrentSessionFilter@74c049fe, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@10e68013, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@201831bf, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1c0fb445, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@14d6ebf1, org.springframework.security.web.session.SessionManagementFilter@503d6a5a, org.springframework.security.web.access.ExceptionTranslationFilter@23a82fb, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@48deed31]
+2023-10-25 13:31:15.404 INFO  [restartedMain] [o.s.aop.framework.CglibAopProxy] - Unable to proxy interface-implementing method [public final void org.springframework.web.filter.GenericFilterBean.init(javax.servlet.FilterConfig) throws javax.servlet.ServletException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2023-10-25 13:31:15.774 WARN  [restartedMain] [o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-25 13:31:15.852 INFO  [restartedMain] [o.s.b.a.w.s.WelcomePageHandlerMapping] - Adding welcome page: ServletContext resource [/index.html]
+2023-10-25 13:31:16.278 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 13:31:17.090 INFO  [restartedMain] [o.s.b.d.a.OptionalLiveReloadServer] - LiveReload server is running on port 35729
+2023-10-25 13:31:17.120 INFO  [restartedMain] [o.s.b.a.e.web.EndpointLinksResolver] - Exposing 16 endpoint(s) beneath base path '/actuator'
+2023-10-25 13:31:17.260 INFO  [restartedMain] [o.s.s.concurrent.ThreadPoolTaskScheduler] - Initializing ExecutorService
+2023-10-25 13:31:17.269 INFO  [restartedMain] [o.apache.coyote.http11.Http11NioProtocol] - Starting ProtocolHandler ["http-nio-10010"]
+2023-10-25 13:31:17.343 INFO  [restartedMain] [o.s.b.w.embedded.tomcat.TomcatWebServer] - Tomcat started on port(s): 10010 (http) with context path ''
+2023-10-25 13:31:17.350 INFO  [restartedMain] [com.pjy.dashboard.PjyApplication] - Started PjyApplication in 11.408 seconds (JVM running for 12.808)
+2023-10-25 13:31:17.351 INFO  [restartedMain] [com.pjy.dashboard.AppStartedListener] - =====================
+2023-10-25 13:31:17.351 INFO  [restartedMain] [com.pjy.dashboard.AppStartedListener] - Application started
+2023-10-25 13:31:17.351 INFO  [restartedMain] [com.pjy.dashboard.AppStartedListener] - =====================
+2023-10-25 13:31:18.549 INFO  [RMI TCP Connection(8)-127.0.0.1] [o.a.c.c.C.[Tomcat].[localhost].[/]] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-10-25 13:31:18.549 INFO  [RMI TCP Connection(8)-127.0.0.1] [o.s.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2023-10-25 13:31:18.570 INFO  [RMI TCP Connection(8)-127.0.0.1] [o.s.web.servlet.DispatcherServlet] - Completed initialization in 20 ms
+2023-10-25 13:31:23.239 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 13:31:23.248 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 13:31:23.269 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 13:31:23.363 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$//XLMqO.Zum3lgUd5FZsUe83zAcbo7jSgHwaQrmYs9gh5ArgiBZ7S
+2023-10-25 13:31:23.614 WARN  [http-nio-10010-exec-1] [o.a.catalina.util.SessionIdGeneratorBase] - Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [155] milliseconds.
+2023-10-25 13:31:23.615 INFO  [http-nio-10010-exec-1] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-10-25 13:31:23.615 INFO  [http-nio-10010-exec-1] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-10-25 13:31:26.410 INFO  [http-nio-10010-exec-4] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-10-25 13:31:26.410 INFO  [http-nio-10010-exec-4] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-10-25 13:31:28.663 INFO  [http-nio-10010-exec-1] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 13:32:09.343 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 13:32:09.345 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 13:32:09.346 INFO  [http-nio-10010-exec-6] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 13:32:09.447 INFO  [http-nio-10010-exec-6] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$wEpGL9hfTnVMQAKaqV8m2.MIwp0ryFYbmFT544k3PEahK8Kdle.9u
+2023-10-25 13:32:12.901 INFO  [http-nio-10010-exec-6] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 13:32:28.783 INFO  [http-nio-10010-exec-7] [c.p.d.interceptor.LoggerInterceptor] - ============================== START ==============================
+2023-10-25 13:32:29.610 INFO  [http-nio-10010-exec-7] [c.p.d.interceptor.LoggerInterceptor] -  Class       	:  class org.springframework.web.method.HandlerMethod
+2023-10-25 13:32:30.189 INFO  [http-nio-10010-exec-7] [c.p.d.interceptor.LoggerInterceptor] -  Request URI 	:  /
+2023-10-25 13:32:31.677 INFO  [http-nio-10010-exec-7] [c.p.d.interceptor.LoggerInterceptor] -  Request addr	:  0:0:0:0:0:0:0:1
+2023-10-25 13:32:31.678 INFO  [http-nio-10010-exec-7] [c.p.d.interceptor.LoggerInterceptor] -  Servlet URI 	:  /
+2023-10-25 13:34:12.057 INFO  [Catalina-utility-1] [c.pjy.dashboard.listener.SessionListener] - sessionDestroyed 실행
+2023-10-25 13:34:12.057 INFO  [Catalina-utility-1] [c.pjy.dashboard.listener.SessionListener] - sessionDestroyed 실행
+2023-10-25 13:43:41.648 INFO  [restartedMain] [com.pjy.dashboard.PjyApplication] - Starting PjyApplication on DESKTOP-QJPD93S with PID 24952 (D:\BUS\dashboard\dashboard\target\classes started by admin in D:\BUS\dashboard\dashboard)
+2023-10-25 13:43:41.657 INFO  [restartedMain] [com.pjy.dashboard.PjyApplication] - The following profiles are active: oauth
+2023-10-25 13:43:41.712 INFO  [restartedMain] [o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor] - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-10-25 13:43:41.712 INFO  [restartedMain] [o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor] - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-10-25 13:43:42.949 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-10-25 13:43:42.949 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-25 13:43:43.106 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 145ms. Found 3 JPA repository interfaces.
+2023-10-25 13:43:43.476 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-10-25 13:43:43.476 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2023-10-25 13:43:43.526 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationExtensionSupport] - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.pjy.dashboard.core.dao.jpa.h2.FileRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-10-25 13:43:43.526 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationExtensionSupport] - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.pjy.dashboard.core.dao.jpa.h2.MemberRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-10-25 13:43:43.527 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationExtensionSupport] - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.pjy.dashboard.core.dao.jpa.h2.RememberMeRepository. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2023-10-25 13:43:43.527 INFO  [restartedMain] [o.s.d.r.c.RepositoryConfigurationDelegate] - Finished Spring Data repository scanning in 51ms. Found 0 JDBC repository interfaces.
+2023-10-25 13:43:43.975 INFO  [restartedMain] [c.u.j.c.EnableEncryptablePropertiesBeanFactoryPostProcessor] - Post-processing PropertySource instances
+2023-10-25 13:43:44.047 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource configurationProperties [org.springframework.boot.context.properties.source.ConfigurationPropertySourcesPropertySource] to AOP Proxy
+2023-10-25 13:43:44.047 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource commandLineArgs [org.springframework.core.env.SimpleCommandLinePropertySource] to EncryptableEnumerablePropertySourceWrapper
+2023-10-25 13:43:44.047 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource servletConfigInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2023-10-25 13:43:44.048 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource servletContextInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2023-10-25 13:43:44.048 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource systemProperties [org.springframework.core.env.PropertiesPropertySource] to EncryptableMapPropertySourceWrapper
+2023-10-25 13:43:44.048 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource systemEnvironment [org.springframework.boot.env.SystemEnvironmentPropertySourceEnvironmentPostProcessor$OriginAwareSystemEnvironmentPropertySource] to EncryptableSystemEnvironmentPropertySourceWrapper
+2023-10-25 13:43:44.048 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource random [org.springframework.boot.env.RandomValuePropertySource] to EncryptablePropertySourceWrapper
+2023-10-25 13:43:44.048 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource applicationConfig: [classpath:/application-oauth.properties] [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+2023-10-25 13:43:44.048 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource applicationConfig: [classpath:/application.properties] [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+2023-10-25 13:43:44.049 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource devtools [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2023-10-25 13:43:44.049 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource class path resource [pjy.properties] [org.springframework.core.env.CompositePropertySource] to EncryptableEnumerablePropertySourceWrapper
+2023-10-25 13:43:44.049 INFO  [restartedMain] [c.u.j.EncryptablePropertySourceConverter] - Converting PropertySource class path resource [common.properties] [org.springframework.core.io.support.ResourcePropertySource] to EncryptableMapPropertySourceWrapper
+2023-10-25 13:43:44.114 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'asyncConfiguration' of type [com.pjy.dashboard.configuration.AsyncConfiguration$$EnhancerBySpringCGLIB$$b88332b2] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 13:43:44.165 INFO  [restartedMain] [c.u.j.filter.DefaultLazyPropertyFilter] - Property Filter custom Bean not found with name 'encryptablePropertyFilter'. Initializing Default Property Filter
+2023-10-25 13:43:44.254 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.security.config.annotation.configuration.ObjectPostProcessorConfiguration' of type [org.springframework.security.config.annotation.configuration.ObjectPostProcessorConfiguration$$EnhancerBySpringCGLIB$$a27996df] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 13:43:44.337 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'objectPostProcessor' of type [org.springframework.security.config.annotation.configuration.AutowireBeanFactoryObjectPostProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 13:43:44.340 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@58984f48' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 13:43:44.345 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration' of type [org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration$$EnhancerBySpringCGLIB$$c74e3991] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 13:43:44.355 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.security.config.annotation.method.configuration.Jsr250MetadataSourceConfiguration' of type [org.springframework.security.config.annotation.method.configuration.Jsr250MetadataSourceConfiguration$$EnhancerBySpringCGLIB$$eca351a7] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 13:43:44.359 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'jsr250MethodSecurityMetadataSource' of type [org.springframework.security.access.annotation.Jsr250MethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 13:43:44.360 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 13:43:44.382 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$9cbcea5] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 13:43:44.411 INFO  [restartedMain] [o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker] - Bean 'org.springframework.hateoas.config.HateoasConfiguration' of type [org.springframework.hateoas.config.HateoasConfiguration$$EnhancerBySpringCGLIB$$894c1bd7] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-25 13:43:44.559 INFO  [restartedMain] [c.u.j.r.DefaultLazyPropertyResolver] - Property Resolver custom Bean not found with name 'encryptablePropertyResolver'. Initializing Default Property Resolver
+2023-10-25 13:43:44.564 INFO  [restartedMain] [c.u.j.d.DefaultLazyPropertyDetector] - Property Detector custom Bean not found with name 'encryptablePropertyDetector'. Initializing Default Property Detector
+2023-10-25 13:43:45.010 INFO  [restartedMain] [o.s.b.w.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port(s): 10010 (http)
+2023-10-25 13:43:45.026 INFO  [restartedMain] [o.apache.coyote.http11.Http11NioProtocol] - Initializing ProtocolHandler ["http-nio-10010"]
+2023-10-25 13:43:45.038 INFO  [restartedMain] [org.apache.catalina.core.StandardService] - Starting service [Tomcat]
+2023-10-25 13:43:45.038 INFO  [restartedMain] [org.apache.catalina.core.StandardEngine] - Starting Servlet engine: [Apache Tomcat/9.0.29]
+2023-10-25 13:43:45.421 INFO  [restartedMain] [org.apache.jasper.servlet.TldScanner] - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2023-10-25 13:43:45.433 INFO  [restartedMain] [o.a.c.c.C.[Tomcat].[localhost].[/]] - Initializing Spring embedded WebApplicationContext
+2023-10-25 13:43:45.433 INFO  [restartedMain] [o.s.web.context.ContextLoader] - Root WebApplicationContext: initialization completed in 3720 ms
+2023-10-25 13:43:46.299 INFO  [restartedMain] [c.u.j.encryptor.DefaultLazyEncryptor] - Found Custom Encryptor Bean org.jasypt.encryption.pbe.PooledPBEStringEncryptor@214fd8a2 with name: jasyptStringEncryptor
+2023-10-25 13:43:46.356 INFO  [restartedMain] [com.zaxxer.hikari.HikariDataSource] - H2 - Starting...
+2023-10-25 13:43:46.458 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.executeSql(PoolBase.java:567)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 12 msec}
+2023-10-25 13:43:46.464 INFO  [restartedMain] [com.zaxxer.hikari.HikariDataSource] - H2 - Start completed.
+2023-10-25 13:43:47.230 INFO  [restartedMain] [com.pjy.dashboard.filter.TestFilter] - init Pjy Filter
+2023-10-25 13:43:47.644 INFO  [restartedMain] [o.hibernate.jpa.internal.util.LogHelper] - HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2023-10-25 13:43:47.726 INFO  [restartedMain] [org.hibernate.Version] - HHH000412: Hibernate Core {5.3.14.Final}
+2023-10-25 13:43:47.728 INFO  [restartedMain] [org.hibernate.cfg.Environment] - HHH000206: hibernate.properties not found
+2023-10-25 13:43:47.883 INFO  [restartedMain] [org.hibernate.annotations.common.Version] - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2023-10-25 13:43:48.133 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 13:43:48.150 INFO  [restartedMain] [org.hibernate.dialect.Dialect] - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2023-10-25 13:43:48.858 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 13:43:48.862 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+1. select SEQUENCE_CATALOG, SEQUENCE_SCHEMA, SEQUENCE_NAME, INCREMENT from information_schema.sequences
+ {executed in 0 msec}
+2023-10-25 13:43:48.914 INFO  [restartedMain] [o.s.o.j.LocalContainerEntityManagerFactoryBean] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-25 13:43:49.167 INFO  [restartedMain] [o.h.h.i.QueryTranslatorFactoryInitiator] - HHH000397: Using ASTQueryTranslatorFactory
+2023-10-25 13:43:50.293 INFO  [restartedMain] [o.s.s.concurrent.ThreadPoolTaskExecutor] - Initializing ExecutorService
+2023-10-25 13:43:50.304 INFO  [restartedMain] [o.s.s.concurrent.ThreadPoolTaskExecutor] - Initializing ExecutorService 'asyncThreadPool'
+2023-10-25 13:43:50.499 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/h2-console/**'], []
+2023-10-25 13:43:50.500 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/css/**'], []
+2023-10-25 13:43:50.500 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/js/**'], []
+2023-10-25 13:43:50.500 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/monitor/**'], []
+2023-10-25 13:43:50.500 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/img/**'], []
+2023-10-25 13:43:50.500 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/lib/**'], []
+2023-10-25 13:43:50.500 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/main.css'], []
+2023-10-25 13:43:50.500 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/common.js'], []
+2023-10-25 13:43:50.500 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: Ant [pattern='/resources/**'], []
+2023-10-25 13:43:50.675 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@159b0956, org.springframework.security.web.context.SecurityContextPersistenceFilter@eeee7c7, org.springframework.security.web.header.HeaderWriterFilter@44f00320, org.springframework.web.filter.CorsFilter@8c42b0e, org.springframework.security.web.authentication.logout.LogoutFilter@4cc6c8d6, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@3d6e0e23, org.springframework.security.web.session.ConcurrentSessionFilter@23a82fb, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@3214a733, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@503d6a5a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@65e9cec1, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@32a7ca2e, org.springframework.security.web.session.SessionManagementFilter@251608cc, org.springframework.security.web.access.ExceptionTranslationFilter@44a7efec, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@59afeaaa]
+2023-10-25 13:43:50.697 INFO  [restartedMain] [o.s.aop.framework.CglibAopProxy] - Unable to proxy interface-implementing method [public final void org.springframework.web.filter.GenericFilterBean.init(javax.servlet.FilterConfig) throws javax.servlet.ServletException] because it is marked as final: Consider using interface-based JDK proxies instead!
+2023-10-25 13:43:51.062 WARN  [restartedMain] [o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-25 13:43:51.144 INFO  [restartedMain] [o.s.b.a.w.s.WelcomePageHandlerMapping] - Adding welcome page: ServletContext resource [/index.html]
+2023-10-25 13:43:51.565 DEBUG [restartedMain] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 13:43:52.378 INFO  [restartedMain] [o.s.b.d.a.OptionalLiveReloadServer] - LiveReload server is running on port 35729
+2023-10-25 13:43:52.406 INFO  [restartedMain] [o.s.b.a.e.web.EndpointLinksResolver] - Exposing 16 endpoint(s) beneath base path '/actuator'
+2023-10-25 13:43:52.546 INFO  [restartedMain] [o.s.s.concurrent.ThreadPoolTaskScheduler] - Initializing ExecutorService
+2023-10-25 13:43:52.553 INFO  [restartedMain] [o.apache.coyote.http11.Http11NioProtocol] - Starting ProtocolHandler ["http-nio-10010"]
+2023-10-25 13:43:52.613 INFO  [restartedMain] [o.s.b.w.embedded.tomcat.TomcatWebServer] - Tomcat started on port(s): 10010 (http) with context path ''
+2023-10-25 13:43:52.618 INFO  [restartedMain] [com.pjy.dashboard.PjyApplication] - Started PjyApplication in 11.445 seconds (JVM running for 12.85)
+2023-10-25 13:43:52.619 INFO  [restartedMain] [com.pjy.dashboard.AppStartedListener] - =====================
+2023-10-25 13:43:52.619 INFO  [restartedMain] [com.pjy.dashboard.AppStartedListener] - Application started
+2023-10-25 13:43:52.619 INFO  [restartedMain] [com.pjy.dashboard.AppStartedListener] - =====================
+2023-10-25 13:43:53.385 INFO  [RMI TCP Connection(9)-127.0.0.1] [o.a.c.c.C.[Tomcat].[localhost].[/]] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-10-25 13:43:53.385 INFO  [RMI TCP Connection(9)-127.0.0.1] [o.s.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2023-10-25 13:43:53.408 INFO  [RMI TCP Connection(9)-127.0.0.1] [o.s.web.servlet.DispatcherServlet] - Completed initialization in 23 ms
+2023-10-25 13:44:00.728 WARN  [http-nio-10010-exec-1] [o.a.catalina.util.SessionIdGeneratorBase] - Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [171] milliseconds.
+2023-10-25 13:44:00.730 INFO  [http-nio-10010-exec-1] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-10-25 13:44:00.730 INFO  [http-nio-10010-exec-1] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-10-25 13:44:02.697 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 13:44:02.705 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 13:44:02.727 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 13:44:02.816 INFO  [http-nio-10010-exec-1] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$nrxl84iKMmtg3e6sUCmuvuzGYczySH4AzSHAOfPbyLy.tg3Ife3eC
+2023-10-25 13:44:09.062 INFO  [http-nio-10010-exec-1] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 13:44:09.062 INFO  [http-nio-10010-exec-1] [c.pjy.dashboard.listener.SessionListener] - setSession 실행
+2023-10-25 13:46:26.319 INFO  [http-nio-10010-exec-8] [c.p.dashboard.controller.TestController] - com.pjy.dashboard.domain.CommonCodeVo@7817fdcf
+2023-10-25 13:46:26.319 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.DynamicSqlService] - filterType={TBL_EMPLOYEEINFO} 
+2023-10-25 13:46:26.381 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.DynamicSqlService] - properties mtr.query.sql : select   ROWNUM AS no,a.* from    TBL_employeeInfo a where   a.company_no = '100' order by a.emp_no
+2023-10-25 13:46:26.390 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 13:46:26.401 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+1. select   ROWNUM AS no,a.* from    TBL_employeeInfo a where   a.company_no = '100' order by a.emp_no
+ {executed in 9 msec}
+2023-10-25 13:46:26.408 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+1. select   ROWNUM AS no,a.* from    TBL_employeeInfo a where   a.company_no = '100' order by a.emp_no
+ {executed in 2 msec}
+2023-10-25 13:46:49.870 INFO  [http-nio-10010-exec-3] [c.p.d.configuration.SecurityConfig] - addLogoutHandler:logout: 
+2023-10-25 13:46:49.871 INFO  [http-nio-10010-exec-3] [c.pjy.dashboard.listener.SessionListener] - sessionDestroyed 실행
+2023-10-25 13:46:49.871 INFO  [http-nio-10010-exec-3] [c.pjy.dashboard.listener.SessionListener] - updateUserCloseTime p00139 
+2023-10-25 13:46:49.871 INFO  [http-nio-10010-exec-3] [c.pjy.dashboard.listener.SessionListener] - currentSessionUserList ->  false
+2023-10-25 13:46:49.872 INFO  [http-nio-10010-exec-3] [c.pjy.dashboard.listener.SessionListener] - sessionDestroyed 실행
+2023-10-25 13:46:49.872 INFO  [http-nio-10010-exec-3] [c.pjy.dashboard.listener.SessionListener] - updateUserCloseTime p00139 
+2023-10-25 13:46:49.872 INFO  [http-nio-10010-exec-3] [c.pjy.dashboard.listener.SessionListener] - currentSessionUserList ->  false
+2023-10-25 13:46:49.872 INFO  [http-nio-10010-exec-3] [c.p.d.configuration.SecurityConfig] - logoutSuccessHandler:onLogoutSuccess: 
+2023-10-25 13:46:49.887 INFO  [http-nio-10010-exec-2] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-10-25 13:46:49.888 INFO  [http-nio-10010-exec-2] [c.pjy.dashboard.listener.SessionListener] - sessionCreated -> null
+2023-10-25 13:46:53.816 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+1. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 13:46:53.818 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+1. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 13:46:53.820 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 13:46:53.916 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$5dxWcu.ofOoFuPJcysMWmegEcwdv4.nEYoQGwqpRPrAEMXI.ZMguW
+2023-10-25 13:47:01.866 INFO  [http-nio-10010-exec-8] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 13:47:01.866 INFO  [http-nio-10010-exec-8] [c.pjy.dashboard.listener.SessionListener] - setSession 실행
+2023-10-25 14:41:31.350 WARN  [H2 housekeeper] [com.zaxxer.hikari.pool.HikariPool] - H2 - Thread starvation or clock leap detected (housekeeper delta=17m14s146ms708µs100ns).
+2023-10-25 14:56:47.726 INFO  [pjy-task-pool-1] [c.pjy.dashboard.schedule.DailyScheduler] - DailyScheduler Sch_dailyBackup start...
+2023-10-25 14:56:47.736 DEBUG [pjy-task-pool-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+31. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 3 msec}
+2023-10-25 14:56:50.634 DEBUG [pjy-task-pool-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:95)
+31. BACKUP TO 'd:/bus/backup/backup_20231025.zip'
+ {executed in 2896 msec}
+2023-10-25 14:56:50.634 INFO  [pjy-task-pool-1] [c.pjy.dashboard.schedule.DailyScheduler] - DailyScheduler Sch_dailyBackup end...
+2023-10-25 15:25:53.835 DEBUG [http-nio-10010-exec-10] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+51. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 15:25:53.838 DEBUG [http-nio-10010-exec-10] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+51. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 15:25:53.841 INFO  [http-nio-10010-exec-10] [c.p.dashboard.service.MemberServiceImpl] - ROLE_ADMIN
+2023-10-25 15:25:53.965 INFO  [http-nio-10010-exec-10] [c.p.dashboard.service.MemberServiceImpl] - pass:$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6,$2a$10$NTQEqbZReekxJ8el2i9T5OEKHEM7AaNUxU6K3n/ShrgoY/6BwXPsS
+2023-10-25 15:25:54.158 INFO  [http-nio-10010-exec-10] [c.p.d.configuration.SecurityConfig] - authentication:: p00139
+2023-10-25 15:25:54.159 INFO  [http-nio-10010-exec-10] [c.pjy.dashboard.listener.SessionListener] - setSession 실행
+2023-10-25 15:25:55.999 INFO  [http-nio-10010-exec-8] [c.p.dashboard.controller.TestController] - com.pjy.dashboard.domain.CommonCodeVo@dc1e75ca
+2023-10-25 15:25:55.999 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.DynamicSqlService] - filterType={TBL_EMPLOYEEINFO} 
+2023-10-25 15:25:56.000 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.DynamicSqlService] - properties mtr.query.sql : select   ROWNUM AS no,a.* from    TBL_employeeInfo a where   a.company_no = '200' order by a.emp_no
+2023-10-25 15:25:56.003 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+51. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 2 msec}
+2023-10-25 15:25:56.007 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+51. select   ROWNUM AS no,a.* from    TBL_employeeInfo a where   a.company_no = '200' order by a.emp_no
+ {executed in 3 msec}
+2023-10-25 15:25:56.010 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+51. select   ROWNUM AS no,a.* from    TBL_employeeInfo a where   a.company_no = '200' order by a.emp_no
+ {executed in 1 msec}
+2023-10-25 15:25:58.228 INFO  [http-nio-10010-exec-5] [c.p.dashboard.controller.TestController] - com.pjy.dashboard.domain.CommonCodeVo@dc1e75ca
+2023-10-25 15:25:58.228 INFO  [http-nio-10010-exec-5] [c.p.dashboard.service.DynamicSqlService] - filterType={TBL_EMPLOYEEINFO} 
+2023-10-25 15:25:58.228 INFO  [http-nio-10010-exec-5] [c.p.dashboard.service.DynamicSqlService] - properties mtr.query.sql : select   ROWNUM AS no,a.* from    TBL_employeeInfo a where   a.company_no = '200' order by a.emp_no
+2023-10-25 15:25:58.229 DEBUG [http-nio-10010-exec-5] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+51. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 15:25:58.230 DEBUG [http-nio-10010-exec-5] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+51. select   ROWNUM AS no,a.* from    TBL_employeeInfo a where   a.company_no = '200' order by a.emp_no
+ {executed in 1 msec}
+2023-10-25 15:25:58.231 DEBUG [http-nio-10010-exec-5] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+51. select   ROWNUM AS no,a.* from    TBL_employeeInfo a where   a.company_no = '200' order by a.emp_no
+ {executed in 1 msec}
+2023-10-25 15:26:12.940 INFO  [http-nio-10010-exec-6] [c.p.dashboard.controller.TestController] - com.pjy.dashboard.domain.CommonCodeVo@c6e71102
+2023-10-25 15:26:12.941 INFO  [http-nio-10010-exec-6] [c.p.dashboard.service.DynamicSqlService] - filterType={TBL_CARINFO} 
+2023-10-25 15:26:12.941 INFO  [http-nio-10010-exec-6] [c.p.dashboard.service.DynamicSqlService] - properties mtr.query.sql : select   ROWNUM AS no,a.* from    TBL_carInfo a where   a.company_no = '200' order by a.car_regno
+2023-10-25 15:26:12.942 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+51. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 15:26:12.944 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+51. select   ROWNUM AS no,a.* from    TBL_carInfo a where   a.company_no = '200' order by a.car_regno
+ {executed in 1 msec}
+2023-10-25 15:26:12.945 DEBUG [http-nio-10010-exec-6] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+51. select   ROWNUM AS no,a.* from    TBL_carInfo a where   a.company_no = '200' order by a.car_regno
+ {executed in 1 msec}
+2023-10-25 15:26:14.619 INFO  [http-nio-10010-exec-8] [c.p.dashboard.controller.TestController] - com.pjy.dashboard.domain.CommonCodeVo@c6e71102
+2023-10-25 15:26:14.619 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.DynamicSqlService] - filterType={TBL_CARINFO} 
+2023-10-25 15:26:14.620 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.DynamicSqlService] - properties mtr.query.sql : select   ROWNUM AS no,a.* from    TBL_carInfo a where   a.company_no = '200' order by a.car_regno
+2023-10-25 15:26:14.622 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+51. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 2 msec}
+2023-10-25 15:26:14.623 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+51. select   ROWNUM AS no,a.* from    TBL_carInfo a where   a.company_no = '200' order by a.car_regno
+ {executed in 1 msec}
+2023-10-25 15:26:14.626 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+51. select   ROWNUM AS no,a.* from    TBL_carInfo a where   a.company_no = '200' order by a.car_regno
+ {executed in 1 msec}
+2023-10-25 15:26:21.619 INFO  [http-nio-10010-exec-7] [c.pjy.dashboard.controller.JspController] - C: 회원정보수정 GET의 아이디 p00139
+2023-10-25 15:26:21.622 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+51. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 15:26:21.625 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+51. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 15:26:42.481 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+51. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 15:26:42.490 DEBUG [http-nio-10010-exec-3] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+51. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 15:26:42.491 INFO  [http-nio-10010-exec-3] [c.p.dashboard.service.MemberServiceImpl] - ?,$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6
+2023-10-25 15:26:45.418 INFO  [http-nio-10010-exec-5] [c.pjy.dashboard.controller.JspController] - C: 회원정보수정 GET의 아이디 p00139
+2023-10-25 15:26:45.421 DEBUG [http-nio-10010-exec-5] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+51. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 15:26:45.423 DEBUG [http-nio-10010-exec-5] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+51. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 15:27:02.895 DEBUG [http-nio-10010-exec-10] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+51. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 15:27:02.898 DEBUG [http-nio-10010-exec-10] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+51. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 15:27:02.899 INFO  [http-nio-10010-exec-10] [c.p.dashboard.service.MemberServiceImpl] - ㅏㅡ154ㄱㄴ@뮤ㅠ,$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6
+2023-10-25 15:27:04.424 INFO  [http-nio-10010-exec-1] [c.pjy.dashboard.controller.JspController] - C: 회원정보수정 GET의 아이디 p00139
+2023-10-25 15:27:04.427 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+51. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 15:27:04.430 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+51. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 15:27:25.952 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+51. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 2 msec}
+2023-10-25 15:27:25.957 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+51. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 15:27:25.959 INFO  [http-nio-10010-exec-8] [c.p.dashboard.service.MemberServiceImpl] - km154rs@ab,$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6
+2023-10-25 15:27:26.231 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+51. update MEMBER set userName='박준영3', email='km150rs@naver.com' where userId='p00139'
+ {executed in 0 msec}
+2023-10-25 15:27:35.606 INFO  [http-nio-10010-exec-2] [c.pjy.dashboard.controller.JspController] - C: 회원정보수정 GET의 아이디 p00139
+2023-10-25 15:27:35.608 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+51. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 15:27:35.609 DEBUG [http-nio-10010-exec-2] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+51. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 15:29:49.555 INFO  [http-nio-10010-exec-8] [c.pjy.dashboard.controller.JspController] - C: 회원정보수정 GET의 아이디 p00139
+2023-10-25 15:29:49.558 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+51. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 15:29:49.560 DEBUG [http-nio-10010-exec-8] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+51. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 15:30:03.721 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+51. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 15:30:03.724 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+51. select * from MEMBER where userId = 'p00139'
+ {executed in 0 msec}
+2023-10-25 15:30:03.725 INFO  [http-nio-10010-exec-7] [c.p.dashboard.service.MemberServiceImpl] - km154rs@ab,$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6
+2023-10-25 15:30:03.933 DEBUG [http-nio-10010-exec-7] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+51. update MEMBER set userName='박준영3', email='km150rs@naver.com1' where userId='p00139'
+ {executed in 1 msec}
+2023-10-25 15:30:07.936 INFO  [http-nio-10010-exec-1] [c.pjy.dashboard.controller.JspController] - C: 회원정보수정 GET의 아이디 p00139
+2023-10-25 15:30:07.937 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+51. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 0 msec}
+2023-10-25 15:30:07.939 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+51. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 15:35:29.256 DEBUG [http-nio-10010-exec-4] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+51. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 1 msec}
+2023-10-25 15:35:29.259 DEBUG [http-nio-10010-exec-4] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+51. select * from MEMBER where userId = 'p00139'
+ {executed in 1 msec}
+2023-10-25 15:35:29.260 INFO  [http-nio-10010-exec-4] [c.p.dashboard.service.MemberServiceImpl] - ?,$2a$10$3RqymgzXOLJX9TUZYkJHuO2BT7npAE7.Qp9M8B82GvZli6YkWyAr6
+2023-10-25 15:35:59.343 INFO  [http-nio-10010-exec-1] [c.pjy.dashboard.controller.JspController] - C: 회원정보수정 GET의 아이디 p00139
+2023-10-25 15:36:01.677 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:161)
+51. SELECT SYSTIMESTAMP FROM DUAL
+ {executed in 4 msec}
+2023-10-25 15:36:01.708 DEBUG [http-nio-10010-exec-1] [jdbc.sqltiming] -  com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+51. select * from MEMBER where userId = 'p00139'
+ {executed in 16 msec}
+2023-10-25 16:24:48.150 INFO  [RMI TCP Connection(159)-127.0.0.1] [o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin] - Application shutdown requested.
+2023-10-25 16:24:48.202 INFO  [RMI TCP Connection(159)-127.0.0.1] [o.s.s.concurrent.ThreadPoolTaskExecutor] - Shutting down ExecutorService 'asyncThreadPool'
+2023-10-25 16:24:48.208 INFO  [RMI TCP Connection(159)-127.0.0.1] [com.zaxxer.hikari.HikariDataSource] - H2 - Shutdown initiated...
+2023-10-25 16:24:48.216 INFO  [RMI TCP Connection(159)-127.0.0.1] [com.zaxxer.hikari.HikariDataSource] - H2 - Shutdown completed.
+2023-10-25 16:24:50.546 INFO  [RMI TCP Connection(159)-127.0.0.1] [com.pjy.dashboard.filter.TestFilter] - destroy Pjy Filter

@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "netty.tcp.port",
+    "type": "java.lang.String",
+    "description": "A description for 'netty.tcp.port'"
+  },
+  {
+    "name": "so.backlog",
+    "type": "java.lang.String",
+    "description": "A description for 'so.backlog'"
+  },
+  {
+    "name": "mtr.koscomSise.batchCommitCount",
+    "type": "java.lang.String",
+    "description": "A description for 'mtr.koscomSise.batchCommitCount'"
+  }
+]}

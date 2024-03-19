@@ -1,0 +1,2538 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pjy.dashboard.mapper.h2.h2Mapper">
+
+
+ <select id="select_empWorkingTimeViewHeader"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+		WITH /* select_empWorkingTimeViewHeader : 근무일수/운행거리일수 header 조회 */ monthInfo AS (
+		        SELECT to_chaR(k.DAY) AS DAY
+		               ,       k.date
+		               ,       decode(k.week,1,'일',2,'월',3,'화',4,'수',5,'목',6,'금',7,'토') AS week
+		        FROM (
+	        	       SELECT t.n AS day
+		                       ,       day_of_week(dateadd(DAY,t.n-10,DATE'${baseFirstYmd}')) AS week -- 1:일reduct_week
+		                       ,       formatdatetime(dateadd(DAY,t.n-10,DATE'${baseFirstYmd}'),'yyyy-MM-dd') AS date
+		               FROM T
+		               WHERE dateadd(DAY,t.n-10,DATE'${baseFirstYmd}') < DATE'${nextMonthYmd}'
+		        		AND	 dateadd(DAY,t.n-10,DATE'${baseFirstYmd}') >= dateadd(DAY,1- day_of_week(DATE'${baseFirstYmd}'),DATE'${baseFirstYmd}')
+		        ) k
+		)  SELECT 	listagg(date,',') AS dateList
+				,	listagg(week,',') AS weekList
+		   FROM monthInfo
+   	  	]]>
+  </select>
+
+ <select id="select_empWorkingTimeView"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+		WITH /* select_empWorkingTimeView : 근무일수/운행거리일수 조회 */ monthInfo AS (
+		        SELECT to_chaR(k.DAY) AS DAY
+		               ,       k.date
+		               ,       decode(k.week,1,'일',2,'월',3,'화',4,'수',5,'목',6,'금',7,'토') AS week
+		        FROM (
+	        	       SELECT t.n AS day
+		                       ,       day_of_week(dateadd(DAY,t.n-10,DATE'${baseFirstYmd}')) AS week -- 1:일reduct_week
+		                       ,       formatdatetime(dateadd(DAY,t.n-10,DATE'${baseFirstYmd}'),'yyyy-MM-dd') AS date
+		               FROM T
+		               WHERE dateadd(DAY,t.n-10,DATE'${baseFirstYmd}') < DATE'${nextMonthYmd}'
+		        		AND	 dateadd(DAY,t.n-10,DATE'${baseFirstYmd}') >= dateadd(DAY,1- day_of_week(DATE'${baseFirstYmd}'),DATE'${baseFirstYmd}')
+		        ) k
+		) , basicInfo AS (
+			SELECT a.date,b.EMP_NM ,b.SP_GB  	FROM monthInfo a JOIN tbl_driverInfo b ON b.COMPANY_NO = '${companyNo}'  AND b.ROUTE_NM = '${routeNm}'
+		) , recordInfo AS (
+			SELECT a.EMP_NM, a.WORK_DATE ,a.day_work_min AS tot_min FROM TBB_DRIVING_RECORD_DAY a
+			WHERE 	a.COMPANY_NO  = '${companyNo}'
+			AND 	(a.work_date > dateadd(DAY,-7,DATE'${baseFirstYmd}') AND a.work_date < DATE'${nextMonthYmd}')
+			AND 	a.ROUTE_NM = '${routeNm}'
+		)
+			SELECT 	a.emp_nm ,a.sp_gb
+				,	listagg(nvl(b.tot_min,0),',') WITHIN GROUP (ORDER BY a.emp_nm) minlist
+			FROM basicInfo a 	      LEFT OUTER JOIN recordInfo b ON a.date = b.work_date AND a.EMP_NM = b.EMP_NM 
+			GROUP BY a.emp_nm	
+			ORDER BY a.sp_gb desc,a.emp_nm
+	  	]]>
+  </select>
+
+ <select id="select_empWorkingKMView"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+		WITH /* select_empWorkingKMView : 근무일수/운행거리일수 조회 */ monthInfo AS (
+		        SELECT to_chaR(k.DAY) AS DAY
+		               ,       k.date
+		               ,       decode(k.week,1,'일',2,'월',3,'화',4,'수',5,'목',6,'금',7,'토') AS week
+		        FROM (
+	        	       SELECT t.n AS day
+		                       ,       day_of_week(dateadd(DAY,t.n-10,DATE'${baseFirstYmd}')) AS week -- 1:일reduct_week
+		                       ,       formatdatetime(dateadd(DAY,t.n-10,DATE'${baseFirstYmd}'),'yyyy-MM-dd') AS date
+		               FROM T
+		               WHERE dateadd(DAY,t.n-10,DATE'${baseFirstYmd}') < DATE'${nextMonthYmd}'
+		        		AND	 dateadd(DAY,t.n-10,DATE'${baseFirstYmd}') >= dateadd(DAY,1- day_of_week(DATE'${baseFirstYmd}'),DATE'${baseFirstYmd}')
+		        ) k
+		) , basicInfo AS (
+			SELECT a.date,b.EMP_NM ,b.SP_GB  	FROM monthInfo a JOIN tbl_driverInfo b ON b.COMPANY_NO = '${companyNo}'  AND b.ROUTE_NM = '${routeNm}'
+		) , recordInfo AS (
+			SELECT a.EMP_NM, a.WORK_DATE ,a.day_work_km AS tot_km FROM TBB_DRIVING_RECORD_DAY a
+			WHERE 	a.COMPANY_NO  = '${companyNo}'
+			AND 	(a.work_date > dateadd(DAY,-7,DATE'${baseFirstYmd}') AND a.work_date < DATE'${nextMonthYmd}')
+			AND 	a.ROUTE_NM = '${routeNm}'
+		)
+			SELECT 	a.emp_nm ,a.sp_gb
+				,	listagg(nvl(b.tot_km,0),',') WITHIN GROUP (ORDER BY a.emp_nm) minlist
+			FROM basicInfo a 	      LEFT OUTER JOIN recordInfo b ON a.date = b.work_date AND a.EMP_NM = b.EMP_NM 
+			GROUP BY a.emp_nm	
+			ORDER BY a.sp_gb desc,a.emp_nm
+	  	]]>
+  </select>
+
+ <select id="select_empWorkingTimeView_old"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+		WITH monthInfo AS (
+		        SELECT to_chaR(k.DAY) AS DAY
+		               ,       k.date
+		               ,       decode(k.week,1,'일',2,'월',3,'화',4,'수',5,'목',6,'금',7,'토') AS week
+		        FROM (
+	        	       SELECT t.n AS day
+		                       ,       day_of_week(dateadd(DAY,t.n-10,DATE'${baseFirstYmd}')) AS week -- 1:일reduct_week
+		                       ,       formatdatetime(dateadd(DAY,t.n-10,DATE'${baseFirstYmd}'),'yyyy-MM-dd') AS date
+		               FROM T
+		               WHERE dateadd(DAY,t.n-10,DATE'${baseFirstYmd}') < DATE'${nextMonthYmd}'
+		        		AND	 dateadd(DAY,t.n-10,DATE'${baseFirstYmd}') >= dateadd(DAY,1- day_of_week(DATE'${baseFirstYmd}'),DATE'${baseFirstYmd}')
+		        ) k
+		) , basicInfo AS (
+			SELECT a.date,b.EMP_NM ,b.SP_GB  	FROM monthInfo a JOIN tbl_driverInfo b ON b.COMPANY_NO = '${companyNo}'  AND b.ROUTE_NM = '${routeNm}'
+		) , recordInfo AS (
+			SELECT b.EMP_NM, a.WORK_DATE ,sum(tot_min) AS tot_min FROM TBL_DRIVING_RECORD a JOIN TBL_ISC_DRIVER_INFO b ON b.COMPANY_NO = '${companyNo}' AND a.driver_id = b.DRIVER_ID 
+			WHERE 	a.COMPANY_NO  = '${companyNo}'
+			AND 	(a.work_date > dateadd(DAY,-7,DATE'${baseFirstYmd}') AND a.work_date < DATE'${nextMonthYmd}')
+			AND 	a.ROUTE_NM = '${routeNm}'
+			AND 	a.DRIVER_ID > 0
+			GROUP BY b.EMP_NM , a.WORK_DATE 
+		)
+			SELECT 	a.emp_nm ,a.sp_gb
+				,	listagg(nvl(b.tot_min,0),',') WITHIN GROUP (ORDER BY a.emp_nm) minlist
+			FROM basicInfo a 	      LEFT OUTER JOIN recordInfo b ON a.date = b.work_date AND a.EMP_NM = b.EMP_NM 
+			GROUP BY a.emp_nm	
+	
+	  	]]>
+  </select>
+
+ <select id="select_accident_option"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	SELECT	/* select_accident_option : 교통사고 칼럼별 option값 */ 	
+			listagg( DISTINCT(GAPI_GB ),'/')  	AS gapi_gb
+		,	listagg( DISTINCT(acc_gb ),'/') 	AS acc_gb
+		,	listagg( DISTINCT(acc_kind ),'/') 	AS acc_kind
+		,	listagg( DISTINCT(proc_result ),'/') 	AS proc_result
+		,	(SELECT listagg(DISTINCT(car_no),'/') FROM TBL_CARINFO a where 	a.company_no = '${companyNo}' ) AS car_no
+		,	(SELECT listagg(ROUTE_NM,'/')  FROM TBL_ROUTEINFO a where 	a.company_no = '${companyNo}'  ORDER BY 1) AS route_nm
+		,	(SELECT listagg(EMP_NM,'/')  FROM TBL_EMPLOYEEINFO a where 	a.company_no = '${companyNo}'  ORDER BY 1) AS emp_nm
+	FROM TBM_ACCIDENT_INFO a
+	  	]]>
+  </select>
+
+ <select id="select_EmpWorkingLogInputOption"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	SELECT	/* select_EmpWorkingLogInputOption : 근태등록 칼럼별 option값 */ 	
+			(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원대분류') AS code_type1
+		,	(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원중분류') AS code_type2
+		,	(SELECT listagg(DISTINCT(code_id),'/') FROM TBM_COMMON_CODE_INFO a where 	a.company_no = '100' AND code_gb = '민원소분류') AS code_type3
+		,	(SELECT listagg(DISTINCT(car_no),'/') FROM TBL_CARINFO a where 	a.company_no = '100') AS car_no
+		,	(SELECT listagg(ROUTE_NM,'/')  FROM TBL_ROUTEINFO a where 	a.company_no = '100' ORDER BY 1) AS route_nm
+		,	(SELECT listagg(EMP_NM,'/')  FROM TBL_EMPLOYEEINFO a where 	a.company_no = '100' ORDER BY 1) AS emp_nm
+	FROM dual
+	  	]]>
+  </select>
+
+ <select id="select_PunctualityAnalize_route"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	SELECT	/* select_PunctualityAnalize_route : 배차정시성분석 노선별 */
+			'-전체-'  AS ROUTE_NM
+		,	sum(a.TERM_PAST_CNT) AS sum_past
+		,	sum(a.TERM_LATE_CNT) AS sum_late
+		,	sum(a.TERM_WIBAN_CNT) AS sum_wiban
+		,	avg(a.TERM_WIBAN_CNT) AS avg_wiban
+		,	sum(a.TOTAL_STATION_CNT) AS sum_station
+		,	round(sum(a.TERM_WIBAN_CNT*1.0) / sum(a.TOTAL_STATION_CNT) * 100.0,2) AS rate_wiban
+	from    TBL_ARRANGE_PUNCTUALITY_ANALIZE a 
+	where   a.company_no = '${companyNo}' 
+	AND 	a.BASE_YMD BETWEEN  '${fromDate}' AND '${toDate}' 
+	UNION 	
+	select  a.ROUTE_NM 
+		,	sum(a.TERM_PAST_CNT) AS sum_past
+		,	sum(a.TERM_LATE_CNT) AS sum_late
+		,	sum(a.TERM_WIBAN_CNT) AS sum_wiban
+		,	avg(a.TERM_WIBAN_CNT) AS avg_wiban
+		,	sum(a.TOTAL_STATION_CNT) AS sum_station
+		,	round(sum(a.TERM_WIBAN_CNT*1.0) / sum(a.TOTAL_STATION_CNT) * 100.0,2) AS rate_wiban
+	from    TBL_ARRANGE_PUNCTUALITY_ANALIZE a 
+	where   a.company_no = '${companyNo}'
+	AND 	a.BASE_YMD BETWEEN  '${fromDate}' AND '${toDate}' 
+	GROUP BY a.ROUTE_NM
+	ORDER BY 1
+	  	]]>
+  </select>
+
+ <select id="select_PunctualityAnalize_month"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	select  /* select_PunctualityAnalize_month : 배차정시성분석 월별 */
+			'${routeNm}' AS route_nm
+		,	SUBSTRING(a.BASE_YMD ,1,7) AS base_ym
+		,	sum(a.TERM_PAST_CNT) AS sum_past
+		,	sum(a.TERM_LATE_CNT) AS sum_late
+		,	sum(a.TERM_WIBAN_CNT) AS sum_wiban
+		,	avg(a.TERM_WIBAN_CNT) AS avg_wiban
+		,	sum(a.TOTAL_STATION_CNT) AS sum_station
+		,	round(sum(a.TERM_WIBAN_CNT*1.0) / sum(a.TOTAL_STATION_CNT) * 100.0,2) AS rate_wiban
+	from    TBL_ARRANGE_PUNCTUALITY_ANALIZE a 
+	where   a.company_no = '${companyNo}' 
+	AND 	a.BASE_YMD BETWEEN  '${fromDate}' AND '${toDate}' 
+	AND 	a.ROUTE_NM = decode('${routeNm}','-전체-',a.ROUTE_NM,'${routeNm}')
+	GROUP BY  SUBSTRING(a.BASE_YMD ,1,7)
+	ORDER BY 1
+	  	]]>
+  </select>
+  
+ <select id="select_PunctualityAnalize_day"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	select  /* select_PunctualityAnalize_day : 배차정시성분석 일별 */
+			'${routeNm}' AS route_nm
+		,	a.BASE_YMD
+		,	sum(a.TERM_PAST_CNT) AS sum_past
+		,	sum(a.TERM_LATE_CNT) AS sum_late
+		,	sum(a.TERM_WIBAN_CNT) AS sum_wiban
+		,	avg(a.TERM_WIBAN_CNT) AS avg_wiban
+		,	sum(a.TOTAL_STATION_CNT) AS sum_station
+		,	round(sum(a.TERM_WIBAN_CNT*1.0) / sum(a.TOTAL_STATION_CNT) * 100.0,2) AS rate_wiban
+	from    TBL_ARRANGE_PUNCTUALITY_ANALIZE a 
+	where   a.company_no = '${companyNo}' 
+	AND 	a.BASE_YMD BETWEEN  '${fromDate}' AND '${toDate}' 
+	AND 	a.BASE_YMD like  '${baseYm}' || '%' 
+	AND 	a.ROUTE_NM = decode('${routeNm}','-전체-',a.ROUTE_NM,'${routeNm}')
+	GROUP BY  a.BASE_YMD
+	ORDER BY 1
+	  	]]>
+  </select>
+  
+  
+ <select id="select_PunctualityAnalize_emp"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	select  /* select_PunctualityAnalize_emp : 배차정시성분석 사원별 */
+			a.EMP_NM 
+		,	sum(a.TERM_PAST_CNT) AS sum_past
+		,	sum(a.TERM_LATE_CNT) AS sum_late
+		,	sum(a.TERM_WIBAN_CNT) AS sum_wiban
+		,	avg(a.TERM_WIBAN_CNT) AS avg_wiban
+		,	sum(a.TOTAL_STATION_CNT) AS sum_station
+		,	round(sum(a.TERM_WIBAN_CNT*1.0) / sum(a.TOTAL_STATION_CNT) * 100.0,2) AS rate_wiban
+	from    TBL_ARRANGE_PUNCTUALITY_ANALIZE a 
+	where   a.company_no = '${companyNo}' 
+	AND 	a.BASE_YMD BETWEEN  '${fromDate}' AND '${toDate}' 
+	AND 	a.BASE_YMD like  '${baseYm}' || '%'
+	AND 	a.BASE_YMD = decode('${baseYmd}','',a.base_ymd,  '${baseYmd}')
+	AND 	a.ROUTE_NM = decode('${routeNm}','-전체-',a.ROUTE_NM,'${routeNm}')
+	GROUP BY  a.EMP_NM 
+	ORDER BY 7 desc
+	  	]]>
+  </select>
+
+  
+  
+ <select id="select_PunctualityAnalize_detail"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	select  /* select_PunctualityAnalize_detail : 배차정시성분석 일별 */
+			a.BASE_YMD
+		,	a.ROUTE_NM
+		,	a.EMP_NM
+		,	a.COL001
+		,	a.COL002
+		,	a.COL003
+		,	a.COL004
+		,	a.TERM
+		,	a.TERM_85
+		,	a.TERM_125
+		,	a.TERM_PAST_CNT
+		,	a.TERM_LATE_CNT
+		,	a.TERM_WIBAN_CNT
+		,	a.TOTAL_STATION_CNT
+		,	round((a.TERM_WIBAN_CNT*1.0) / (a.TOTAL_STATION_CNT) * 100.0,2) AS rate_wiban
+	from    TBL_ARRANGE_PUNCTUALITY_ANALIZE a 
+	where   a.company_no = '${companyNo}' 
+	AND 	a.BASE_YMD =  '${baseYmd}' 
+	AND 	a.ROUTE_NM = decode('${routeNm}','-전체-',a.ROUTE_NM,'${routeNm}')
+	ORDER BY a.ROUTE_NM,a.col002,a.col003
+	  	]]>
+  </select>
+
+<!-- 배차정시성 특정년도 월간 upload 현황 -->
+ <select id="select_uploadStatus_Punctuality_year"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	WITH RECURSIVE countera(n) AS (        
+	        SELECT '${baseYear}-' || trim(to_char(t.n ,'00')),r.ROUTE_NM 
+	               FROM T, tbl_routeInfo r
+					WHERE t.n <= 12 
+	) , datainfo AS (
+			SELECT SUBSTRING(a.BASE_YMD,1,7) AS base_ym
+			,	ROUTE_NM 
+			,	count(DISTINCT(a.BASE_YMD)) AS cnt
+			FROM	TBL_ARRANGE_PUNCTUALITY_INFO a
+			WHERE	a.company_no = '${companyNo}' 
+			AND 	a.BASE_YMD LIKE '${baseYear}' || '%'
+			GROUP BY SUBSTRING(a.BASE_YMD,1,7), a.route_nm
+	) 
+	SELECT /* select_uploadStatus_Punctuality_year : 배차정시성 특정년도 월간 upload 현황 */
+		a.ROUTE_NM as col_nm,
+		listagg(substring(a.n,6,2),',') WITHIN GROUP (ORDER BY a.ROUTE_NM ) AS col_list,
+		listagg(nvl(b.cnt,0),',') WITHIN GROUP (ORDER BY a.ROUTE_NM ) AS value_list
+	fROM countera a
+	LEFT OUTER JOIN datainfo b ON a.n = b.base_ym AND a.ROUTE_NM = b.route_nm
+	GROUP BY a.ROUTE_NM
+	  	]]>
+  </select>
+
+<!-- 배차정시성 특정월 일간 upload 현황 -->
+ <select id="select_uploadStatus_Punctuality_month"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	WITH countera AS (        
+	               SELECT formatdatetime(dateadd(DAY,t.n-1,DATE'${baseFirstYmd}'),'yyyy-MM-dd') AS base_ymd
+	               ,r.ROUTE_NM 
+	               FROM T, tbl_routeInfo r
+	               WHERE dateadd(DAY,t.n,DATE'${baseFirstYmd}') <= DATE'${nextMonthYmd}'
+	) , datainfo AS (
+			SELECT a.BASE_YMD
+			,	ROUTE_NM 
+			,	count(a.BASE_YMD) AS cnt
+			FROM	TBL_ARRANGE_PUNCTUALITY_INFO a
+			WHERE	a.company_no = '${companyNo}'
+			AND 	a.BASE_YMD LIKE '${baseYm}' || '%'
+			GROUP BY a.BASE_YMD, a.route_nm
+	) 
+		SELECT /* select_uploadStatus_Punctuality_month : 배차정시성 특정월 일간 upload 현황 */
+			a.ROUTE_NM as col_nm,
+			listagg(SUBSTRING(a.base_ymd,9,2),',') WITHIN GROUP (ORDER BY a.ROUTE_NM ) AS col_list,
+			listagg(nvl(b.cnt,0),',') WITHIN GROUP (ORDER BY a.ROUTE_NM ) AS value_list
+		fROM countera a
+		LEFT OUTER JOIN datainfo b ON a.base_ymd = b.base_ymd AND a.ROUTE_NM = b.route_nm
+		GROUP BY a.ROUTE_NM
+	  	]]>
+  </select>
+
+
+
+<!-- 운전횟수 특정년도 월간 upload 현황 -->
+ <select id="select_uploadStatus_iscDrivingRecord_year"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	WITH RECURSIVE countera(n) AS (        
+	        SELECT '${baseYear}-' || trim(to_char(t.n ,'00')),r.ROUTE_NM 
+	               FROM T, tbl_routeInfo r
+					WHERE t.n <= 12 
+	) , datainfo AS (
+			SELECT a.BASE_YM
+			,	ROUTE_NM 
+			,	count(DISTINCT(a.WORK_DATE)) AS cnt
+			FROM	TBL_DRIVING_RECORD a
+			WHERE	a.company_no = '${companyNo}' 
+			AND 	a.WORK_DATE LIKE '${baseYear}' || '%'
+			AND 	a.BASE_YM LIKE '${baseYear}' || '%'
+			GROUP BY a.BASE_YM, a.route_nm
+	) 
+	SELECT /* select_uploadStatus_Punctuality_year : 운전횟수 특정년도 월간 upload 현황 */
+		a.ROUTE_NM as col_nm,
+		listagg(substring(a.n,6,2),',') WITHIN GROUP (ORDER BY a.ROUTE_NM ) AS col_list,
+		listagg(nvl(b.cnt,0),',') WITHIN GROUP (ORDER BY a.ROUTE_NM ) AS value_list
+	fROM countera a
+	LEFT OUTER JOIN datainfo b ON a.n = b.base_ym AND a.ROUTE_NM = b.route_nm
+	GROUP BY a.ROUTE_NM
+	  	]]>
+  </select>
+  
+
+<!-- 운전횟수 특정월 일간 upload 현황 -->
+ <select id="select_uploadStatus_iscDrivingRecord_month"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	WITH countera AS (        
+	               SELECT formatdatetime(dateadd(DAY,t.n-1,DATE'${baseFirstYmd}'),'yyyy-MM-dd') AS base_ymd
+	               ,r.ROUTE_NM 
+	               FROM T, tbl_routeInfo r
+	               WHERE dateadd(DAY,t.n,DATE'${baseFirstYmd}') <= DATE'${nextMonthYmd}'
+	) , datainfo AS (
+			SELECT a.WORK_DATE
+			,	ROUTE_NM 
+			,	count(a.WORK_DATE) AS cnt
+			FROM	TBL_DRIVING_RECORD a
+			WHERE	a.company_no = '${companyNo}'
+			AND 	a.BASE_YM LIKE '${baseYear}' || '%'
+			AND 	a.WORK_DATE LIKE '${baseYm}' || '%'
+			GROUP BY a.WORK_DATE, a.route_nm
+	) 
+		SELECT /* select_uploadStatus_Punctuality_month : 운전횟수 특정월 일간 upload 현황 */
+			a.ROUTE_NM as col_nm,
+			listagg(SUBSTRING(a.base_ymd,9,2),',') WITHIN GROUP (ORDER BY a.ROUTE_NM ) AS col_list,
+			listagg(nvl(b.cnt,0),',') WITHIN GROUP (ORDER BY a.ROUTE_NM ) AS value_list
+		fROM countera a
+		LEFT OUTER JOIN datainfo b ON a.base_ymd = b.WORK_DATE AND a.ROUTE_NM = b.route_nm
+		GROUP BY a.ROUTE_NM
+	  	]]>
+  </select>
+
+
+<!-- 위험운전 특정년도 월간 upload 현황 -->
+ <select id="select_uploadStatus_dangerDriving_year"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	WITH RECURSIVE countera(n) AS (        
+	        SELECT '${baseYear}-' || trim(to_char(t.n ,'00')),r.ROUTE_NM 
+	               FROM T, tbl_routeInfo r
+					WHERE t.n <= 12 
+	) , datainfo AS (
+			SELECT a.BASE_YM
+			,	a.ROUTE_NM 
+			,	count(a.BASE_YM) AS cnt
+			FROM	TBL_DANGER_DRIVING_INFO a 
+			WHERE	a.company_no = '${companyNo}' 
+			AND 	a.BASE_YM LIKE '${baseYear}' || '%'
+			GROUP BY a.BASE_YM, a.route_nm
+	) 
+	SELECT /* select_uploadStatus_Punctuality_year : 위험운전 특정년도 월간 upload 현황 */
+		a.ROUTE_NM as col_nm,
+		listagg(substring(a.n,6,2),',') WITHIN GROUP (ORDER BY a.ROUTE_NM ) AS col_list,
+		listagg(nvl(b.cnt,0),',') WITHIN GROUP (ORDER BY a.ROUTE_NM ) AS value_list
+	fROM countera a
+	LEFT OUTER JOIN datainfo b ON a.n = b.base_ym AND a.ROUTE_NM = b.route_nm
+	GROUP BY a.ROUTE_NM
+	  	]]>
+  </select>
+
+
+<select id="select_getAccidentAge"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	SELECT 	/* select_getAccidentAge : 연령대별 사고집계 */
+			m.age_gb,sum(m.tot_cnt) AS tot_cnt,sum(m.tot_amt) AS tot_amt 
+	FROM ( 
+		SELECT CASE 
+					WHEN k.baseYear <= 30             THEN '30세 이하' 
+					WHEN k.baseYear BETWEEN 31 AND 40 THEN '30 ~ 40세' 
+					WHEN k.baseYear BETWEEN 41 AND 45 THEN '41 ~ 45세' 
+					WHEN k.baseYear BETWEEN 46 AND 50 THEN '46 ~ 50세' 
+					WHEN k.baseYear BETWEEN 51 AND 55 THEN '51 ~ 55세' 
+					WHEN k.baseYear BETWEEN 56 AND 60 THEN '56 ~ 60세' 
+					WHEN k.baseYear BETWEEN 61 AND 65 THEN '61 ~ 65세' 
+					WHEN k.baseYear BETWEEN 66 AND 69 THEN '66 ~ 69세' 
+					ELSE '70세 이상' 
+				END AS age_gb 
+			,k.tot_cnt 
+			,k.tot_amt 
+		FROM ( 
+			SELECT 	to_char(SYSDATE,'YYYY') - CONVERT(b.ageYear,int) AS baseYear 
+				,	count(*) AS tot_cnt 
+				,	sum(a.OUT_TOT_AMT)  AS tot_amt 
+			FROM 	TBM_ACCIDENT_INFO a ,( 
+				SELECT emp_nm, CASE WHEN  substring(b.emp_regno,8,1) IN ('1','2') THEN '19' || substring(emp_regno,1,2) 
+									ELSE  '20' || substring(emp_regno,1,2) END AS ageYear 
+				FROM TBL_EMPLOYEEINFO b where b.COMPANY_NO ='${companyNo}' 
+				) b 
+			WHERE 	a.COMPANY_NO ='${companyNo}' 
+			AND 	a.ACC_DATE between '${fromDate}-01' and '${toDate}-31' 
+			AND 	a.EMP_NM  = b.EMP_NM 
+			GROUP BY to_char(SYSDATE,'YYYY') - CONVERT(b.ageYear,int) 
+		) k 
+	) m 
+	GROUP BY m.age_gb
+	  	]]>
+  </select>
+
+
+<select id="select_getAccidentEnterDate"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	SELECT /* select_getAccidentEnterDate : 근속년수별 사고집계 */
+			m.age_gb,sum(m.tot_cnt) AS tot_cnt,sum(m.tot_amt) AS tot_amt 
+	FROM ( 
+		SELECT k.baseYear, CASE 
+					WHEN k.baseYear < 1             THEN '1년 이하' 
+					WHEN k.baseYear BETWEEN 1 AND 20 THEN k.baseYear || '년차' 
+					ELSE '20년 이상' 
+				END AS age_gb 
+			,k.tot_cnt 
+			,k.tot_amt 
+		FROM ( 
+			SELECT 	b.ageYear baseYear 
+				,	count(*) AS tot_cnt 
+				,	sum(a.OUT_TOT_AMT)  AS tot_amt 
+			FROM 	TBM_ACCIDENT_INFO a ,( 
+				SELECT emp_nm 
+					, 	round(nvl(to_char(datediff(DAY,b.enter_date,to_char(SYSDATE,'yyyy-mm-dd'))),0) / 365,0 ) AS ageYear 
+				FROM TBL_EMPLOYEEINFO b where b.COMPANY_NO ='${companyNo}' 
+				) b 
+			WHERE 	a.COMPANY_NO ='${companyNo}' 
+			AND 	a.ACC_DATE between '${fromDate}-01' and '${toDate}-31' 
+			AND 	a.EMP_NM  = b.EMP_NM 
+			GROUP BY b.ageYear 
+		) k 
+	) m 
+	GROUP BY m.age_gb 
+	ORDER BY m.baseYear
+	  	]]>
+  </select>
+  
+<select id="select_PunctualityAnalize_empDetail"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	select  /* select_PunctualityAnalize_detail : 배차정시성분석 사원별 from to */
+			a.BASE_YMD
+		,	a.ROUTE_NM
+		,	a.EMP_NM
+		,	a.COL001
+		,	a.COL002
+		,	a.COL003
+		,	a.COL004
+		,	a.TERM
+		,	a.TERM_85
+		,	a.TERM_125
+		,	a.TERM_PAST_CNT
+		,	a.TERM_LATE_CNT
+		,	a.TERM_WIBAN_CNT
+		,	a.TOTAL_STATION_CNT
+		,	round((a.TERM_WIBAN_CNT*1.0) / (a.TOTAL_STATION_CNT) * 100.0,2) AS rate_wiban
+	from    TBL_ARRANGE_PUNCTUALITY_ANALIZE a 
+	where   a.company_no = '${companyNo}' 
+	AND 	a.BASE_YMD BETWEEN '${fromDate}' AND '${toDate}'
+	AND 	a.EMP_NM = '${empNm}'
+	ORDER BY a.BASE_YMD,a.col002,a.col003
+	  	]]>
+  </select>
+
+ <select id="select_getDailyOffList"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	SELECT	/* select_getDailyOffList : 노선별 휴가자 */
+			a.route_nm
+		,	listagg(a.EMP_NM ,',') WITHIN GROUP (ORDER BY a.PREV_DAILY_SEQ) AS name
+	FROM	TBL_MONTH_ARRANGE_DETAIL a
+	WHERE	a.company_no = '${companyNo}'
+		AND a.BASE_Ym = '${baseYm}'
+		AND a.CAR_REGNO NOT LIKE 'SP%'
+		AND (a.${checkDay} LIKE '%*%' or a.${checkDay} LIKE '%@%')
+		AND a.DISPATCH_SEQ = 6
+		AND a.INIT_SEQ = 0
+		GROUP BY a.ROUTE_NM 
+	  	]]>
+  </select>
+	  
+ <select id="select_getDailyOtherSPList"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	SELECT	/* select_getDailyOtherSPList : 노선별 타노선 근무자 */
+			a.ROUTE_NM 
+		,	listagg(a.EMP_NM||a.CAR_REGNO ,',') WITHIN GROUP (ORDER BY a.PREV_DAILY_SEQ) AS name
+	FROM	TBL_MONTH_ARRANGE_DETAIL a
+	WHERE	a.company_no = '${companyNo}'
+		AND a.BASE_Ym = '${baseYm}'
+		AND a.CAR_REGNO  LIKE 'SP%'
+		AND a.CAR_REGNO not LIKE '%' || a.ROUTE_NM || '%'
+		AND (a.${checkDay} <> '')
+		AND (a.${checkDay} NOT LIKE '%#%')
+		AND a.DISPATCH_SEQ = 6
+		AND a.INIT_SEQ = 0
+	 GROUP BY a.ROUTE_NM 
+	  	]]>
+  </select>
+   
+
+ <select id="select_getDailyArrangeInfo"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	SELECT /* select_getDailyArrangeInfo : excel 승무지시서 rawdata 용 */
+			SUBSTRING('${baseYmd}',1,4) || '년' || SUBSTRING('${baseYmd}',6,2) || '월' || SUBSTRING('${baseYmd}',9,2) ||'일 '
+					|| decode(DAY_OF_WEEK('${baseYmd}') ,1,'일',2,'월',3,'화',4,'수',5,'목',6,'금',7,'토') || '요일' as baseYmd
+		,	RIGHT(k.car_regno,4) as car_regno
+		,	max(decode(k.ampm,'a',k.emp_nm,'') ) AS am_nm
+		,	max(decode(k.ampm,'p',k.emp_nm)) AS pm_nm
+	FROM (
+	SELECT
+			a.CAR_REGNO ,
+			a.EMP_NM ,
+			'-' AS value,
+			REGEXP_REPLACE(a.${checkDay}, '[*0-9@]', '') AS ampm,CONVERT(REGEXP_REPLACE(a.${checkDay}, '[*ap@]', ''),	int) AS seq
+		FROM	TBL_MONTH_ARRANGE_DETAIL a
+		WHERE	a.company_no = '${companyNo}'
+			AND a.route_nm = '${routeNm}'
+			AND a.BASE_Ym = '${baseYm}'
+			AND a.CAR_REGNO NOT LIKE 'SP%'
+			AND a.${checkDay} NOT LIKE '%*%'
+			AND a.${checkDay} NOT LIKE '%@%'
+			AND a.DISPATCH_SEQ = 6
+			AND a.INIT_SEQ = 0
+	UNION ALL
+		SELECT
+			a.CAR_REGNO ,
+			nvl(b.EMP_NM,'-') AS emp_nm ,
+			decode(b.EMP_NM, NULL, '-', 'SP') AS value,
+			REGEXP_REPLACE(a.${checkDay}, '[*0-9@-]', '') AS ampm,		CONVERT(REGEXP_REPLACE(a.${checkDay}, '[*ap@-]', ''),		int) AS seq
+		FROM	TBL_MONTH_ARRANGE_DETAIL a
+		LEFT OUTER JOIN TBL_MONTH_ARRANGE_DETAIL b ON a.COMPANY_NO = b.COMPANY_NO
+			AND a.ROUTE_NM = b.ROUTE_NM
+			AND a.BASE_YM = b.BASE_YM
+			AND a.DISPATCH_SEQ = b.DISPATCH_SEQ
+			AND a.INIT_SEQ = b.INIT_SEQ
+			AND b.CAR_REGNO LIKE 'SP%'
+		    AND b.${checkDay} <> ''
+		    AND a.${checkDay} LIKE b.${checkDay} || '%'
+		WHERE a.company_no = '${companyNo}'
+			AND a.route_nm = '${routeNm}'
+			AND a.BASE_Ym = '${baseYm}'
+			AND a.CAR_REGNO NOT LIKE 'SP%'
+			AND (a.${checkDay} LIKE '%*%' OR a.${checkDay} LIKE '%@%') 
+			AND a.DISPATCH_SEQ = 6
+			AND a.INIT_SEQ = 0
+		ORDER BY 5,4
+	) k
+	GROUP BY k.car_regno,k.seq
+	ORDER BY k.seq
+	  	]]>
+  </select>
+
+ <select id="select_getDailyArrangeInfoAll"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	SELECT /* select_getDailyArrangeInfoAll : 일일 전체배차현황표 화면용 */
+		'' AS temp1
+		,	k.seq as seq1
+		,	nvl(max(decode(k.ampm,'a',k.emp_nm,'')),'-') AS am_nm
+		,	RIGHT(k.car_regno,4) as car_regno
+		,	nvl(max(decode(k.ampm,'p',k.emp_nm)),'-') AS pm_nm
+		,	k.seq as seq2
+		,'' AS temp2
+	FROM (
+	SELECT
+			a.CAR_REGNO ,
+			a.EMP_NM ,
+			'-' AS value,
+			REGEXP_REPLACE(a.${checkDay}, '[*0-9@]', '') AS ampm,CONVERT(REGEXP_REPLACE(a.${checkDay}, '[*ap@]', ''),	int) AS seq
+		FROM	TBL_MONTH_ARRANGE_DETAIL a
+		WHERE	a.company_no = '${companyNo}'
+			AND a.route_nm = '${routeNm}'
+			AND a.BASE_Ym = '${baseYm}'
+			AND a.CAR_REGNO NOT LIKE 'SP%'
+			AND a.${checkDay} NOT LIKE '%*%'
+			AND a.${checkDay} NOT LIKE '%@%'
+			AND a.DISPATCH_SEQ = 6
+			AND a.INIT_SEQ = 0
+	UNION ALL
+		SELECT
+			a.CAR_REGNO ,
+			nvl(b.EMP_NM,'-') AS emp_nm ,
+			decode(b.EMP_NM, NULL, '-', 'SP') AS value,
+			REGEXP_REPLACE(a.${checkDay}, '[*0-9@-]', '') AS ampm,		CONVERT(REGEXP_REPLACE(a.${checkDay}, '[*ap@-]', ''),		int) AS seq
+		FROM	TBL_MONTH_ARRANGE_DETAIL a
+		LEFT OUTER JOIN TBL_MONTH_ARRANGE_DETAIL b ON a.COMPANY_NO = b.COMPANY_NO
+			AND a.ROUTE_NM = b.ROUTE_NM
+			AND a.BASE_YM = b.BASE_YM
+			AND a.DISPATCH_SEQ = b.DISPATCH_SEQ
+			AND a.INIT_SEQ = b.INIT_SEQ
+			AND b.CAR_REGNO LIKE 'SP%'
+		    AND b.${checkDay} <> ''
+		    AND a.${checkDay} LIKE b.${checkDay} || '%'
+		WHERE a.company_no = '${companyNo}'
+			AND a.route_nm = '${routeNm}'
+			AND a.BASE_Ym = '${baseYm}'
+			AND a.CAR_REGNO NOT LIKE 'SP%'
+			AND (a.${checkDay} LIKE '%*%' OR a.${checkDay} LIKE '%@%') 
+			AND a.DISPATCH_SEQ = 6
+			AND a.INIT_SEQ = 0
+		ORDER BY 5,4
+	) k
+	GROUP BY k.car_regno,k.seq
+	ORDER BY k.seq
+	  	]]>
+  </select>
+
+ <select id="select_getListRouteDrivingOrder"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	WITH weekInfo AS ( /* select_getListRouteDrivingOrder : excel 승무지시 노선별 템플릿 정보 */
+		SELECT decode(k.holiday_yn,'Y','공',k.week) AS week_gb
+		FROM (
+			SELECT CASE DAY_OF_WEEK('${baseYmd}') WHEN 1 THEN '공' WHEN 7 THEN '토' ELSE '평' END week
+			,	nvl((SELECT HOLIDAY_YN 	FROM 	TBM_HOLIDAY_INFO a 	WHERE 	COMPANY_NO ='100'	AND 	WORK_DATE = '${baseYmd}'),'N') AS HOLIDAY_YN 
+		) k	
+	)
+		SELECT 	a.route_nm ,a.start_point || '---' || a.end_point as title
+			,	b.*
+			,	'(' || '${baseYmd}' || '_' || c.week_gb || ')승무지시서_' || '_' || b.file_id || '.xlsx' AS newFileNm
+			,	c.week_gb
+		FROM TBL_ROUTEINFO a ,tbl_file_info b,weekInfo c
+		WHERE a.COMPANY_NO = '${companyNo}'
+		and a.route_nm = decode('${routeNm}','',a.route_nm,'${routeNm}')
+		AND a.COMPANY_NO = b.COMPANY_NO
+		AND b.file_gb = 'templete' 
+		AND a.route_nm = b.FILE_ID 
+	  	]]>
+  </select>
+
+ <select id="select_getDrivingOrder"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	SELECT /* select_getDrivingOrder : 승무지시 화면용 */ k.route_nm,k.seq,k.CAR_REGNO
+		,	listagg(k.emp_nm,',') WITHIN GROUP (ORDER BY to_char(k.seq,'00') ||k.ampm) as empNm
+		,	listagg(k.PHONE_NO,',') WITHIN GROUP (ORDER BY to_char(k.seq,'00') ||k.ampm) as PHONE
+		,	listagg(k.value,',') WITHIN GROUP (ORDER BY to_char(k.seq,'00') ||k.ampm) as spGb
+		,	' ' as empNm_am
+		,	' ' as empNm_pm
+		,	' ' as phone_am
+		,	' ' as phone_pm
+		,	' ' as spgb_am
+		,	' ' as spgb_pm
+	FROM (
+	SELECT	a.route_nm,
+			a.CAR_REGNO ,
+			a.EMP_NM ,
+			b.PHONE_NO ,
+			'-' AS value,
+			REGEXP_REPLACE(a.${checkDay}, '[*0-9@]', '') AS ampm,
+			CONVERT(REGEXP_REPLACE(a.${checkDay}, '[*ap@]', ''),	int) AS seq
+		FROM	TBL_MONTH_ARRANGE_DETAIL a JOIN TBL_EMPLOYEEINFO b ON a.company_no = b.COMPANY_NO AND a.emp_nm = b.EMP_NM 
+		WHERE	a.company_no = '${companyNo}'
+			AND a.BASE_Ym = '${baseYm}'
+			AND a.CAR_REGNO NOT LIKE 'SP%'
+			AND a.${checkDay} NOT LIKE '%*%'
+			AND a.${checkDay} NOT LIKE '%@%'
+			AND a.DISPATCH_SEQ = 6
+			AND a.INIT_SEQ = 0
+	UNION ALL
+		SELECT a.route_nm,
+			a.CAR_REGNO ,
+			nvl(b.EMP_NM,'-') AS emp_nm ,
+			nvl(c.PHONE_NO,'-') AS phone_no ,
+			decode(b.EMP_NM, NULL, '-', 'SP') AS value,
+			REGEXP_REPLACE(a.${checkDay}, '[*0-9@-]', '') AS ampm,		
+			CONVERT(REGEXP_REPLACE(a.${checkDay}, '[*ap@-]', ''),		int) AS seq
+		FROM	TBL_MONTH_ARRANGE_DETAIL a
+		LEFT OUTER JOIN TBL_MONTH_ARRANGE_DETAIL b ON
+			a.COMPANY_NO = b.COMPANY_NO
+			AND a.ROUTE_NM = b.ROUTE_NM
+			AND a.BASE_YM = b.BASE_YM
+			AND a.DISPATCH_SEQ = b.DISPATCH_SEQ
+			AND a.INIT_SEQ = b.INIT_SEQ
+			AND b.CAR_REGNO LIKE 'SP%'
+			AND b.${checkDay} <> ''
+			AND a.${checkDay} LIKE b.${checkDay} || '%'
+		LEFT OUTER JOIN TBL_EMPLOYEEINFO c ON b.company_no = c.COMPANY_NO AND b.emp_nm = c.EMP_NM
+		WHERE	a.company_no = '${companyNo}'
+			AND a.BASE_Ym = '${baseYm}'
+			AND a.CAR_REGNO NOT LIKE 'SP%'
+			AND (a.${checkDay} LIKE '%*%'	OR a.${checkDay} LIKE '%@%')
+			AND a.DISPATCH_SEQ = 6
+			AND a.INIT_SEQ = 0
+		ORDER BY 5,4
+	) k
+	GROUP BY k.route_nm,k.seq,k.CAR_REGNO
+	  	]]>
+  </select>
+
+
+ <select id="select_getEmployeeCard"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="HashMap">
+  <![CDATA[
+	SELECT  5 AS seq
+		,  '5' AS a0 
+		,	'현주소' AS a1, 		nvl(b.address,'') AS a1_value 
+		,	'' AS a2, '' AS a2_value 
+		,	'' AS a3, '' AS a3_value 
+		,	'' AS a4, '' AS a4_value 
+		,	'      상실' AS a5,	'' AS a5_value 
+	FROM PUBLIC.TBL_EMPLOYEEINFO a LEFT OUTER JOIN TBL_DRIVERINFO b ON a.COMPANY_NO = b.COMPANY_NO  AND a.EMP_NM = b.EMP_NM 
+	WHERE a.COMPANY_NO ='${companyNo}' AND a.EMP_NM ='${empNm}' 
+	union 
+	SELECT  4 AS seq
+		,  '4' AS a0 
+		,	'이메일' AS a1, 		nvl(b.email,'')  AS a1_value 
+		,	'호봉' AS a2, 		nvl(b.hobong,'') AS a2_value 
+		,	'구분' AS a3, 		a.JOB_KIND AS a3_value 
+		,	'생년월일' AS a4, 		b.birth_ymd  AS a4_value 
+		,	'국민연금취득' AS a5,	'' AS a5_value 
+	FROM PUBLIC.TBL_EMPLOYEEINFO a LEFT OUTER JOIN TBL_DRIVERINFO b ON a.COMPANY_NO = b.COMPANY_NO  AND a.EMP_NM = b.EMP_NM 
+	WHERE a.COMPANY_NO ='${companyNo}' AND a.EMP_NM ='${empNm}' 
+	union 
+	SELECT  3 AS seq
+		,  '3' AS a0 
+		,	'휴대폰' AS a1, 		a.PHONE_NO  AS a1_value 
+		,	'정규직구분' AS a2, 	nvl(b.enter_gb,'')  AS a2_value 
+		,	'부서' AS a3, 		a.TEAM_NM  AS a3_value  
+		,	'운전면허번호' AS a4, 	nvl(b.dirver_regno,'')	  AS a4_value  
+		,	'      상실' AS a5,	'' AS a5_value 
+	FROM PUBLIC.TBL_EMPLOYEEINFO a LEFT OUTER JOIN TBL_DRIVERINFO b ON a.COMPANY_NO = b.COMPANY_NO  AND a.EMP_NM = b.EMP_NM 
+	WHERE a.COMPANY_NO ='${companyNo}' AND a.EMP_NM ='${empNm}' 
+	union 
+	SELECT  2 AS seq
+		,  '2' AS a0 
+		,	'생년월일' AS a1, 		nvl(b.BIRTH_YMD,'') AS a1_value  
+		,	'근속일자' AS a2, 		nvl(to_char(datediff(DAY,a.enter_date,to_char(SYSDATE,'yyyy-mm-dd'))),'')  AS a2_value  
+		,	'직종' AS a3, 		a.JOB_TYPE AS a3_value  
+		,	'건강보험번호' AS a4, 	'' AS a4_value 
+		,	'건강보험취득' AS a5,	'' AS a5_value 
+	FROM PUBLIC.TBL_EMPLOYEEINFO a LEFT OUTER JOIN TBL_DRIVERINFO b ON a.COMPANY_NO = b.COMPANY_NO  AND a.EMP_NM = b.EMP_NM 
+	WHERE a.COMPANY_NO ='${companyNo}' AND a.EMP_NM ='${empNm}' 
+	union 
+	SELECT  1 AS seq
+		,	'1' AS a0 
+		,	'성명' AS a1, 		a.EMP_NM AS a1_value  
+		,	'퇴사일자' AS a2, 		'' AS a2_value  
+		,	'고정/SP구분' AS a3, 	nvl(b.sp_gb,'') AS a3_value 
+		,	'가입조합' AS a4, 		nvl(b.work_group,'') AS a4_value 
+		,	'      상실' AS a5,	'' AS a5_value 
+	FROM PUBLIC.TBL_EMPLOYEEINFO a LEFT OUTER JOIN TBL_DRIVERINFO b ON a.COMPANY_NO = b.COMPANY_NO  AND a.EMP_NM = b.EMP_NM 
+	WHERE a.COMPANY_NO ='${companyNo}' AND a.EMP_NM ='${empNm}' 
+	union 
+	SELECT  0 AS seq
+		,	a.emp_nm AS a0 
+		,	'사원번호' AS a1, 		TO_CHAR( a.EMP_NO) AS a1_value  
+		,	'입사일자' AS a2, 		a.enter_date AS a2_value 
+		,	'노선' AS a3, 		nvl(b.route_nm,'')  AS a3_value 
+		,	'성별' AS a4, 		a.sex AS a4_value 
+		,	'고용보험취득' AS a5,	'' AS a5_value 
+	FROM PUBLIC.TBL_EMPLOYEEINFO a LEFT OUTER JOIN TBL_DRIVERINFO b ON a.COMPANY_NO = b.COMPANY_NO  AND a.EMP_NM = b.EMP_NM 
+	WHERE a.COMPANY_NO ='${companyNo}' AND a.EMP_NM ='${empNm}'
+	order by 1
+	  	]]>
+  </select>
+
+
+ <insert id="insert_TBM_ROUTE_SEQ_DISTANCE_INFO"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+		INSERT INTO TBM_ROUTE_SEQ_DISTANCE_INFO
+		SELECT	a.COMPANY_NO , a.ROUTE_NM ,t.n AS seq
+			,0,'init',TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss')  
+		FROM	T,TBL_ROUTEINFO a
+		WHERe	a.COMPANY_NO = '${companyNo}'
+			AND t.n <= a.HOLDING_CNT
+  	]]>
+	</insert>
+	
+
+	<select id="getArrangeStatusCount" parameterType="com.pjy.dashboard.domain.AttendanceInfoVo" resultType="int">
+ <![CDATA[
+	 	SELECT 	count(b.COMPANY_NO)
+		FROM 	TBM_MONTH_ARRANGE_STATUS b 
+		WHERE 	b.company_no = '${companyNo}'
+		AND 	('${startDate}' LIKE b.BASE_YM || '%' OR '${endDate}' LIKE b.BASE_YM || '%')
+		AND		b.ROUTE_NM = '${routeNm}'
+		AND		nvl(b.STATUS,'') <> ''
+  	]]>
+	</select>
+  
+
+<!-- 노선상태 delete --> 
+ <delete id="deleteTBL_MONTH_ARRANGE_STATUS" parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+ <![CDATA[
+	delete  TBM_MONTH_ARRANGE_STATUS a
+        WHERE   a.company_no   = '${companyNo}'
+        AND     a.route_nm     = '${routeNm}'
+        AND     a.BASE_YM  = '${baseYm}'
+  	]]>
+  </delete>
+
+<!-- BASIC delete --> 
+ <delete id="deleteTBL_MONTH_ARRANGE_BASIC" parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+ <![CDATA[
+	delete  TBL_MONTH_ARRANGE_BASIC a
+        WHERE   a.company_no   = '${companyNo}'
+        AND     a.route_nm     = '${routeNm}'
+        and     a.dispatch_seq >= 0
+        AND     a.BASE_YM  = '${baseYm}'
+        and		a.init_seq = 0
+  	]]>
+  </delete>
+  
+<!-- DETAIL delete --> 
+ <delete id="deleteTBL_MONTH_ARRANGE_DETAIL" parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+ <![CDATA[
+	delete  TBL_MONTH_ARRANGE_DETAIL a
+        WHERE   a.company_no   = '${companyNo}'
+        AND     a.route_nm     = '${routeNm}'
+        AND     a.BASE_YM  = '${baseYm}'
+        AND     a.dispatch_seq >= ${dispatchSeq}
+        AND     a.init_seq = 0
+  	]]>
+  </delete>
+  
+<!-- DETAIL delete --> 
+ <delete id="deleteTBM_DRIVERINFO_DETAIL" parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+ <![CDATA[
+	delete  TBM_DRIVERINFO_DETAIL a
+        WHERE   a.company_no   = '${companyNo}'
+        AND     a.route_nm     = '${routeNm}'
+        AND     a.BASE_YM  = '${baseYm}'
+  	]]>
+  </delete>
+
+
+ <!-- 배차확정/회차취소시 -->    
+ <insert id="insertStep_0_TBM_MONTH_ARRANGE_STATUS"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+	MERGE INTO TBM_MONTH_ARRANGE_STATUS KEY (company_no,base_ym,route_nm)
+	SELECT '${companyNo}','${baseYm}','${routeNm}'
+		, 	'${arrangeStatus}' 
+		,	'${lastChgUser}'
+		,	TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss')
+		]]>
+  </insert>   
+
+    
+ <insert id="insertStep_0_TBM_ROUTE_WEEKSEQ_INFO"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+	INSERT INTO TBM_ROUTE_WEEKSEQ_INFO
+	SELECT '${companyNo}','${routeNm}', 1 
+	FROM  dual 
+	WHERE NOT EXISTS (SELECT 	1 
+						FROM 	TBM_ROUTE_WEEKSEQ_INFO 
+						WHERE   company_no = '${companyNo}'
+						AND     route_nm = '${routeNm}')
+		]]>
+  </insert>   
+    
+<!-- insertStep_0 insert 운전자 초기정보생성 : 전월자기준--> 
+ <insert id="insertStep_0_prevMonthInfo"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+	WITH empinfo AS (
+		WITH carinfo as (
+					SELECT ROW_NUMBER() OVER () AS no,'a' ampm_gubun, td.* 
+					FROM TBL_CARINFO td
+			        WHERE   td.company_no= '${companyNo}'
+			        AND     td.route_nm = '${routeNm}'
+					union
+			        SELECT ROW_NUMBER() OVER () AS no,'p' ampm_gubun, td.* 
+			        FROM TBL_CARINFO td
+			        WHERE   td.company_no= '${companyNo}'
+			        AND     td.route_nm = '${routeNm}'
+    	), patternInfo AS (
+			SELECT repeat(REPEAT('a',WORKING_DAY_CNT) || REPEAT('*',OFF_DAY_CNT ) ,2) || repeat(REPEAT('p',WORKING_DAY_CNT) || REPEAT('*',OFF_DAY_CNT ) ,2) AS amPattern
+				,	repeat(REPEAT('p',WORKING_DAY_CNT) || REPEAT('*',OFF_DAY_CNT ) ,2) || repeat(REPEAT('a',WORKING_DAY_CNT) || REPEAT('*',OFF_DAY_CNT ) ,2) AS pmPattern
+				,	off_group_cnt *2 as patternLength
+			FROM tbl_routeInfo
+					WHERE 	COMPANY_NO  = '${companyNo}'
+					AND 	ROUTE_NM    = '${routeNm}'
+		), driverinfo AS (
+				SELECT COMPANY_NO,emp_nm,ROUTE_NM,CAR_REGNO,off_group ,decode(RANK() OVER (PARTITION BY a.car_regno  ORDER BY a.EMP_NO),1,'a','p') AS ampm_gubun
+				FROM TBL_DRIVERINFO a
+				WHERE 	a.ROUTE_NM = '${routeNm}'
+				AND 	a.SP_GB  = '고정'
+				AND 	a.CAR_REGNO LIKE '인천%'
+				AND		a.company_no = '${companyNo}'
+				ORDER BY CAR_REGNO 
+		)
+		SELECT a.COMPANY_NO,a.ROUTE_NM,a.CAR_REGNO,a.ampm_gubun,nvl(b.emp_nm,''),b.off_group,a.NO,b.EMP_NM 
+			,CASE 
+				WHEN a.ampm_gubun = 'a' THEN substring(p.amPattern,b.off_group,p.patternLength) 
+				WHEN a.ampm_gubun = 'p' THEN substring(p.pmPattern,b.off_group,p.patternLength) 
+			END AS pattern
+			,		p.patternLength	
+		FROM 	patternInfo p,carinfo a LEFT OUTER join driverinfo b 
+					on		a.COMPANY_NO = b.company_no
+					AND		a.CAR_REGNO  = b.CAR_REGNO
+					AND     a.ampm_gubun = b.ampm_gubun
+	)
+	INSERT INTO TBM_DRIVERINFO_DETAIL
+	SELECT   a.COMPANY_NO ,'${baseYm}',a.ROUTE_NM ,a.CAR_regNO  
+		,nvl(nvl(b.EMP_NM,a.EMP_NM),'')
+		,nvl(REGEXP_REPLACE( decode(d31,'',decode(d30,'',decode(d29,'',d28,d29),d30),d31) ,'[0-9*!@#-]',''),a.ampm_gubun) AS AMPM_GUBUN 
+		,a.OFF_GROUP 
+		,CASE WHEN b.emp_nm IS NULL THEN a.NO ELSE
+			REGEXP_REPLACE( decode(d31,'',decode(d30,'',decode(d29,'',d28,d29),d30),d31) ,'[ap*!@#-]','') END AS PREV_DAILY_SEQ 
+		,CASE WHEN b.emp_nm IS NULL THEN a.pattern
+			 else		
+				RIGHT(replace(replace(REGEXP_REPLACE( nvl(d21,'')||nvl(d22,'')||nvl(d23,'')||nvl(d24,'')||nvl(d25,'')||nvl(d26,'')||nvl(d27,'')||nvl(d28,'')||nvl(d29,'')||nvl(d30,'')||nvl(d31,''),'[0-9]',''),'a*','*'),'p*','*'),a.patternLength) 
+			 END AS PREV_WORK_PATTERN
+	FROM empinfo a LEFT OUTER JOIN TBL_MONTH_ARRANGE_DETAIL b
+		on 	a.COMPANY_NO  = b.company_no
+		AND a.ROUTE_NM  = b.route_nm
+		AND a.CAR_REGNO  = b.car_regno
+		AND a.EMP_NM  = b.emp_nm
+		AND b.BASE_YM = formatdatetime(dateadd(DAY,-1,DATE'${baseYm}-01'),'yyyy-MM') -- 전월
+		AND b.DISPATCH_SEQ = 5
+		AND b.CAR_REGNO NOT LIKE 'SP%'
+		AND b.INIT_SEQ = 0
+	WHERE  NOT EXISTS (SELECT 	1 
+						FROM 	TBM_DRIVERINFO_DETAIL 
+						WHERE 	COMPANY_NO  = '${companyNo}'
+						AND 	ROUTE_NM    = '${routeNm}'	
+						AND 	BASE_YM = '${baseYm}' )
+	]]>
+  </insert>   
+  
+<!-- insertStep_0 insert 운전자 초기정보생성 : 전월자기준--> 
+ <insert id="insertStep_0_prevMonthInfo_old2"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+	WITH empinfo AS (
+		WITH carinfo as (
+					SELECT ROW_NUMBER() OVER () AS no,'a' ampm_gubun, td.* 
+					FROM TBL_CARINFO td
+			        WHERE   td.company_no= '${companyNo}'
+			        AND     td.route_nm = '${routeNm}'
+					union
+			        SELECT ROW_NUMBER() OVER () AS no,'p' ampm_gubun, td.* 
+			        FROM TBL_CARINFO td
+			        WHERE   td.company_no= '${companyNo}'
+			        AND     td.route_nm = '${routeNm}'
+			), driverinfo AS (
+				SELECT COMPANY_NO,emp_nm,ROUTE_NM,CAR_REGNO,off_group ,decode(RANK() OVER (PARTITION BY a.car_regno  ORDER BY a.EMP_NO),1,'a','p') AS ampm_gubun
+				FROM TBL_DRIVERINFO a
+				WHERE 	a.ROUTE_NM = '${routeNm}'
+				AND 	a.SP_GB  = '고정'
+				AND 	a.CAR_REGNO LIKE '인천%'
+				AND		a.company_no = '${companyNo}'
+				ORDER BY CAR_REGNO 
+			)
+		SELECT a.COMPANY_NO,a.ROUTE_NM,a.CAR_REGNO,a.ampm_gubun,nvl(b.emp_nm,''),b.off_group,a.NO,b.EMP_NM 
+		FROM 	carinfo a LEFT OUTER join driverinfo b 
+					on		a.COMPANY_NO = b.company_no
+					AND		a.CAR_REGNO  = b.CAR_REGNO
+					AND     a.ampm_gubun = b.ampm_gubun
+	)
+	INSERT INTO TBM_DRIVERINFO_DETAIL
+	SELECT   a.COMPANY_NO ,'${baseYm}',a.ROUTE_NM ,a.CAR_regNO  
+		,nvl(a.EMP_NM,'')
+		,nvl(REGEXP_REPLACE( decode(d31,'',decode(d30,'',decode(d29,'',d28,d29),d30),d31) ,'[0-9*!@#-]',''),a.ampm_gubun) AS AMPM_GUBUN 
+		,a.OFF_GROUP 
+		,CASE WHEN b.emp_nm IS NULL THEN a.NO ELSE
+			REGEXP_REPLACE( decode(d31,'',decode(d30,'',decode(d29,'',d28,d29),d30),d31) ,'[ap*!@#-]','') END AS PREV_DAILY_SEQ 
+		,CASE WHEN b.emp_nm IS NULL THEN
+						CASE 
+							WHEN a.off_group = 1 AND a.ampm_gubun = 'a' THEN '*aaa*aaa' 
+							WHEN a.off_group = 1 AND a.ampm_gubun = 'p' THEN '*ppp*ppp' 
+							WHEN a.off_group = 2 AND a.ampm_gubun = 'a' THEN 'aaa*aaa*' 
+							WHEN a.off_group = 2 AND a.ampm_gubun = 'p' THEN 'ppp*ppp*' 
+							WHEN a.off_group = 3 AND a.ampm_gubun = 'a' THEN 'aa*aaa*p' 
+							WHEN a.off_group = 3 AND a.ampm_gubun = 'p' THEN 'pp*ppp*a' 
+							WHEN a.off_group = 4 AND a.ampm_gubun = 'a' THEN 'a*aaa*pp' 
+							WHEN a.off_group = 4 AND a.ampm_gubun = 'p' THEN 'p*ppp*aa' 
+/*
+							WHEN a.off_group = 1 THEN '*' || REPEAT(a.ampm_gubun,3) 
+							WHEN a.off_group = 2 THEN a.ampm_gubun || '*' || REPEAT(a.ampm_gubun,2) 
+							WHEN a.off_group = 3 THEN REPEAT(a.ampm_gubun,2) || '*' || a.ampm_gubun
+							WHEN a.off_group = 4 THEN REPEAT(a.ampm_gubun,3) || '*'
+*/							
+						END 		
+			 else		
+				RIGHT(replace(replace(REGEXP_REPLACE( nvl(d21,'')||nvl(d22,'')||nvl(d23,'')||nvl(d24,'')||nvl(d25,'')||nvl(d26,'')||nvl(d27,'')||nvl(d28,'')||nvl(d29,'')||nvl(d30,'')||nvl(d31,''),'[0-9]',''),'a*','*'),'p*','*'),8) 
+			 END AS PREV_WORK_PATTERN
+	FROM empinfo a LEFT OUTER JOIN TBL_MONTH_ARRANGE_DETAIL b
+		on 	a.COMPANY_NO  = b.company_no
+		AND a.ROUTE_NM  = b.route_nm
+		AND a.CAR_REGNO  = b.car_regno
+		AND a.EMP_NM  = b.emp_nm
+		AND b.BASE_YM = formatdatetime(dateadd(DAY,-1,DATE'${baseYm}-01'),'yyyy-MM') -- 전월
+		AND b.DISPATCH_SEQ = 5 /* 5번으로 한이유는 변하지않은 패턴정보를 가져오기 위해 */
+		AND b.CAR_REGNO NOT LIKE 'SP%'
+		AND b.init_seq = 0
+	WHERE  NOT EXISTS (SELECT 	1 
+						FROM 	TBM_DRIVERINFO_DETAIL 
+						WHERE 	COMPANY_NO  = '${companyNo}'
+						AND 	ROUTE_NM    = '${routeNm}'	
+						AND 	BASE_YM = '${baseYm}' )
+	]]>
+  </insert>     
+
+ <insert id="insertStep_0_prevMonthInfo_old"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+		INSERT INTO TBM_DRIVERINFO_DETAIL
+		SELECT b.COMPANY_NO ,'${baseYm}',b.ROUTE_NM ,b.CAR_regNO  
+			,b.EMP_NM
+			,REGEXP_REPLACE( decode(d31,'',decode(d30,'',decode(d29,'',d28,d29),d30),d31) ,'[0-9*!@#-]','') AS AMPM_GUBUN 
+			,a.OFF_GROUP 
+			,REGEXP_REPLACE( decode(d31,'',decode(d30,'',decode(d29,'',d28,d29),d30),d31) ,'[ap*!@#-]','') AS PREV_DAILY_SEQ 
+			,RIGHT(replace(replace(REGEXP_REPLACE( nvl(d21,'')||nvl(d22,'')||nvl(d23,'')||nvl(d24,'')||nvl(d25,'')||nvl(d26,'')||nvl(d27,'')||nvl(d28,'')||nvl(d29,'')||nvl(d30,'')||nvl(d31,''),'[0-9]',''),'a*','*'),'p*','*'),8) AS PREV_WORK_PATTERN 
+		FROM 	TBL_MONTH_ARRANGE_DETAIL b,TBL_DRIVERINFO a
+		WHERE 	b.company_no = '${companyNo}'
+		AND 	b.route_nm = '${routeNm}'
+		AND     b.BASE_YM = formatdatetime(dateadd(DAY,-1,DATE'${baseYm}-01'),'yyyy-MM')
+		AND 	b.DISPATCH_SEQ = 5
+		AND     a.init_seq = 0
+		AND 	b.CAR_REGNO NOT LIKE 'SP%'
+		AND 	b.COMPANY_NO  = a.COMPANY_NO 
+		AND 	b.EMP_NM  = a.EMP_NM 
+	]]>
+  </insert>   
+  
+    
+<!-- insertStep_0 insert 운전자 초기정보생성 : 전월이 없는 경우--> 
+ <insert id="insertStep_0"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+	WITH carinfo as (
+			SELECT ROW_NUMBER() OVER () AS no,'a' ampm_gubun, td.* 
+			FROM TBL_CARINFO td
+	        WHERE   td.company_no= '${companyNo}'
+	        AND     td.route_nm = '${routeNm}'	
+			union
+	        SELECT ROW_NUMBER() OVER () AS no,'p' ampm_gubun, td.* 
+	        FROM TBL_CARINFO td
+	        WHERE   td.company_no= '${companyNo}'
+	        AND     td.route_nm = '${routeNm}'	
+   	), patternInfo AS (
+		SELECT repeat(REPEAT('a',WORKING_DAY_CNT) || REPEAT('*',OFF_DAY_CNT ) ,2) || repeat(REPEAT('p',WORKING_DAY_CNT) || REPEAT('*',OFF_DAY_CNT ) ,2) AS amPattern
+			,	repeat(REPEAT('p',WORKING_DAY_CNT) || REPEAT('*',OFF_DAY_CNT ) ,2) || repeat(REPEAT('a',WORKING_DAY_CNT) || REPEAT('*',OFF_DAY_CNT ) ,2) AS pmPattern
+			,	off_group_cnt *2 as patternLength
+		FROM tbl_routeInfo
+				WHERE 	COMPANY_NO  = '${companyNo}'
+				AND 	ROUTE_NM    = '${routeNm}'	
+	), driverinfo AS (
+		SELECT COMPANY_NO,emp_nm,ROUTE_NM,CAR_REGNO,off_group ,decode(RANK() OVER (PARTITION BY a.car_regno  ORDER BY a.EMP_NO),1,'a','p') AS ampm_gubun
+		FROM TBL_DRIVERINFO a
+		WHERE 	a.ROUTE_NM = '${routeNm}'
+		AND 	a.SP_GB  = '고정'
+		AND 	a.CAR_REGNO LIKE '인천%'
+		AND		a.company_no = '${companyNo}'
+		ORDER BY CAR_REGNO 
+	)
+		INSERT INTO TBM_DRIVERINFO_DETAIL 
+		SELECT a.COMPANY_NO,'${baseYm}', a.ROUTE_NM,a.CAR_REGNO,a.ampm_gubun,nvl(b.emp_nm,''),b.off_group,a.NO
+			,CASE 
+				WHEN a.ampm_gubun = 'a' THEN substring(p.amPattern,b.off_group,p.patternLength) 
+				WHEN a.ampm_gubun = 'p' THEN substring(p.pmPattern,b.off_group,p.patternLength) 
+			END AS pattern
+		FROM 	patternInfo p,carinfo a LEFT OUTER join driverinfo b 
+			on		a.COMPANY_NO = b.company_no
+			AND		a.CAR_REGNO  = b.CAR_REGNO
+			AND     a.ampm_gubun = b.ampm_gubun
+		WHERE  NOT EXISTS (SELECT 	1 
+							FROM 	TBM_DRIVERINFO_DETAIL 
+							WHERE 	COMPANY_NO  = '${companyNo}'
+							AND 	ROUTE_NM    = '${routeNm}'	
+							AND 	BASE_YM 	= '${baseYm}' )
+	]]>
+  </insert>   
+  
+ <insert id="insertStep_0_old"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+	WITH carinfo as (
+		SELECT ROW_NUMBER() OVER () AS no, td.* FROM TBL_CARINFO td
+        WHERE   td.company_no= '${companyNo}'
+        AND     td.route_nm = '${routeNm}'		
+	)
+	INSERT INTO TBM_DRIVERINFO_DETAIL 
+	SELECT 	k.*
+		,	CASE 
+				WHEN k.off_group = 1 THEN '*' || REPEAT(k.rank_no,3) 
+				WHEN k.off_group = 2 THEN k.rank_no || '*' || REPEAT(k.rank_no,2) 
+				WHEN k.off_group = 3 THEN REPEAT(k.rank_no,2) || '*' || k.rank_no
+				WHEN k.off_group = 4 THEN REPEAT(k.rank_no,3) || '*'
+			END AS pat
+	FROM (
+		SELECT td.COMPANY_NO ,'${baseYm}',td.ROUTE_NM ,td.CAR_REGNO  
+				,decode(RANK() OVER (PARTITION BY td.car_regno  ORDER BY td.EMP_NO),1,'a','p') AS rank_no
+				,td.EMP_NM 
+				,td.off_group
+				,b.NO
+		FROM 	TBL_DRIVERINFO td ,carinfo b
+        WHERE   td.company_no= '${companyNo}'
+        AND     td.route_nm = '${routeNm}'		
+        AND 	td.SP_GB  = '고정'
+		AND		td.COMPANY_NO  = b.company_no
+		AND		td.CAR_REGNO  = b.CAR_REGNO
+		AND     NOT EXISTS (SELECT 	1 
+							FROM 	TBM_DRIVERINFO_DETAIL 
+							WHERE 	COMPANY_NO  = '${companyNo}'
+							AND 	ROUTE_NM    = '${routeNm}'		
+							AND 	BASE_YM = '${baseYm}' )
+		ORDER BY td.car_regno,td.ENTER_DATE 
+	)k
+		]]>
+  </insert>     
+  
+  
+<!-- insertStep_1 insert --> 
+ <insert id="insertStep_1"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+	WITH dayInfo AS (
+	        WITH RECURSIVE T(n) AS (
+	               SELECT 1 AS cnt FROM dual
+	               UNION ALL
+	               SELECT T.n+1 AS dd
+	               FROM t WHERE T.n < 40
+	        ),busInfo AS (
+	               SELECT holding_cnt AS totalCnt
+	               FROM   TBL_ROUTEINFO
+	               WHERE company_no= '${companyNo}'
+	               AND    route_nm = '${routeNm}'
+	        )             
+	        SELECT to_chaR(k.DAY) AS DAY
+	               ,		k.date
+	               ,       to_char(c.totalCnt  - nvl(b.reduct_count,0)) AS reduct_count
+	               ,       decode(k.week,1,'일',2,'월',3,'화',4,'수',5,'목',6,'금',7,'토') AS week
+	        FROM (
+				SELECT p.DAY,p.week,p.date
+	        		,	decode(c.HOLIDAY_YN,'Y', 1 ,p.week) AS reductionCheck_week /* 공휴일은 일요일'1'로 join*/
+	        		,	c.HOLIDAY_YN ,c.HOLIDAY_NM 
+	        	FROM (
+	        	       SELECT t.n AS day
+		                       ,       day_of_week(dateadd(DAY,t.n-1,DATE'${baseFirstYmd}')) AS week -- 1:일reduct_week
+		                       ,       formatdatetime(dateadd(DAY,t.n-1,DATE'${baseFirstYmd}'),'yyyy-MM-dd') AS date
+		               FROM T
+		               WHERE dateadd(DAY,t.n,DATE'${baseFirstYmd}') <= DATE'${nextMonthYmd}'
+		        ) p LEFT OUTER JOIN  tbm_holiday_info c
+	        			ON  c.COMPANY_NO = '${companyNo}'
+	        			AND p.date = c.WORK_DATE
+	        ) k     LEFT OUTER JOIN TBM_ROUTE_REDUCTION_INFO b
+	        on b.company_no = '${companyNo}'
+	        AND   b.route_nm = '${routeNm}'
+	        AND   k.reductionCheck_week = b.reduct_week
+	        INNER JOIN busInfo c 
+	)
+	INSERT INTO TBL_MONTH_ARRANGE_BASIC
+	SELECT '${companyNo}','${routeNm}','${baseYm}', 0 as initSeq,'-','-',1 AS dispatch_seq,'-',0,'-'
+	        ,       max(CASE WHEN b.DAY = 1  THEN b.day -1 ELSE 0 END ) AS D1
+	        ,       max(CASE WHEN b.DAY = 2  THEN b.day -1 ELSE 0 END ) AS D2
+	        ,       max(CASE WHEN b.DAY = 3  THEN b.day -1 ELSE 0 END ) AS D3
+	        ,       max(CASE WHEN b.DAY = 4  THEN b.day -1 ELSE 0 END ) AS D4
+	        ,       max(CASE WHEN b.DAY = 5  THEN b.day -1 ELSE 0 END ) AS D5
+	        ,       max(CASE WHEN b.DAY = 6  THEN b.day -1 ELSE 0 END ) AS D6
+	        ,       max(CASE WHEN b.DAY = 7  THEN b.day -1 ELSE 0 END ) AS D7
+	        ,       max(CASE WHEN b.DAY = 8  THEN b.day -1 ELSE 0 END ) AS D8
+	        ,       max(CASE WHEN b.DAY = 9  THEN b.day -1 ELSE 0 END ) AS D9
+	        ,       max(CASE WHEN b.DAY = 10 THEN b.day -1 ELSE 0 END ) AS D10
+	        ,       max(CASE WHEN b.DAY = 11 THEN b.day -1 ELSE 0 END ) AS D11
+	        ,       max(CASE WHEN b.DAY = 12 THEN b.day -1 ELSE 0 END ) AS D12
+	        ,       max(CASE WHEN b.DAY = 13 THEN b.day -1 ELSE 0 END ) AS D13
+	        ,       max(CASE WHEN b.DAY = 14 THEN b.day -1 ELSE 0 END ) AS D14
+	        ,       max(CASE WHEN b.DAY = 15 THEN b.day -1 ELSE 0 END ) AS D15
+	        ,       max(CASE WHEN b.DAY = 16 THEN b.day -1 ELSE 0 END ) AS D16
+	        ,       max(CASE WHEN b.DAY = 17 THEN b.day -1 ELSE 0 END ) AS D17
+	        ,       max(CASE WHEN b.DAY = 18 THEN b.day -1 ELSE 0 END ) AS D18
+	        ,       max(CASE WHEN b.DAY = 19 THEN b.day -1 ELSE 0 END ) AS D19
+	        ,       max(CASE WHEN b.DAY = 20 THEN b.day -1 ELSE 0 END ) AS D20
+	        ,       max(CASE WHEN b.DAY = 21 THEN b.day -1 ELSE 0 END ) AS D21
+	        ,       max(CASE WHEN b.DAY = 22 THEN b.day -1 ELSE 0 END ) AS D22
+	        ,       max(CASE WHEN b.DAY = 23 THEN b.day -1 ELSE 0 END ) AS D23
+	        ,       max(CASE WHEN b.DAY = 24 THEN b.day -1 ELSE 0 END ) AS D24
+	        ,       max(CASE WHEN b.DAY = 25 THEN b.day -1 ELSE 0 END ) AS D25
+	        ,       max(CASE WHEN b.DAY = 26 THEN b.day -1 ELSE 0 END ) AS D26
+	        ,       max(CASE WHEN b.DAY = 27 THEN b.day -1 ELSE 0 END ) AS D27
+	        ,       max(CASE WHEN b.DAY = 28 THEN b.day -1 ELSE 0 END ) AS D28
+	        ,       max(CASE WHEN b.DAY = 29 THEN b.day -1 ELSE 0 END ) AS D29
+	        ,       max(CASE WHEN b.DAY = 30 THEN b.day -1 ELSE 0 END ) AS D30
+	        ,       max(CASE WHEN b.DAY = 31 THEN b.day -1 ELSE 0 END ) AS D31
+	FROM dayInfo b
+	union
+	SELECT
+	                '${companyNo}','${routeNm}' ,'${baseYm}', 0 as initSeq,'-','-',2 AS dispatch_seq,'-',0,'-'
+	        ,       max(CASE WHEN b.DAY = 1  THEN b.reduct_count ELSE 0 END ) AS D1
+	        ,       max(CASE WHEN b.DAY = 2  THEN b.reduct_count ELSE 0 END ) AS D2
+	        ,       max(CASE WHEN b.DAY = 3  THEN b.reduct_count ELSE 0 END ) AS D3
+	        ,       max(CASE WHEN b.DAY = 4  THEN b.reduct_count ELSE 0 END ) AS D4
+	        ,       max(CASE WHEN b.DAY = 5  THEN b.reduct_count ELSE 0 END ) AS D5
+	        ,       max(CASE WHEN b.DAY = 6  THEN b.reduct_count ELSE 0 END ) AS D6
+	        ,       max(CASE WHEN b.DAY = 7  THEN b.reduct_count ELSE 0 END ) AS D7
+	        ,       max(CASE WHEN b.DAY = 8  THEN b.reduct_count ELSE 0 END ) AS D8
+	        ,       max(CASE WHEN b.DAY = 9  THEN b.reduct_count ELSE 0 END ) AS D9
+	        ,       max(CASE WHEN b.DAY = 10 THEN b.reduct_count ELSE 0 END ) AS D10
+	        ,       max(CASE WHEN b.DAY = 11 THEN b.reduct_count ELSE 0 END ) AS D11
+	        ,       max(CASE WHEN b.DAY = 12 THEN b.reduct_count ELSE 0 END ) AS D12
+	        ,       max(CASE WHEN b.DAY = 13 THEN b.reduct_count ELSE 0 END ) AS D13
+	        ,       max(CASE WHEN b.DAY = 14 THEN b.reduct_count ELSE 0 END ) AS D14
+	        ,       max(CASE WHEN b.DAY = 15 THEN b.reduct_count ELSE 0 END ) AS D15
+	        ,       max(CASE WHEN b.DAY = 16 THEN b.reduct_count ELSE 0 END ) AS D16
+	        ,       max(CASE WHEN b.DAY = 17 THEN b.reduct_count ELSE 0 END ) AS D17
+	        ,       max(CASE WHEN b.DAY = 18 THEN b.reduct_count ELSE 0 END ) AS D18
+	        ,       max(CASE WHEN b.DAY = 19 THEN b.reduct_count ELSE 0 END ) AS D19
+	        ,       max(CASE WHEN b.DAY = 20 THEN b.reduct_count ELSE 0 END ) AS D20
+	        ,       max(CASE WHEN b.DAY = 21 THEN b.reduct_count ELSE 0 END ) AS D21
+	        ,       max(CASE WHEN b.DAY = 22 THEN b.reduct_count ELSE 0 END ) AS D22
+	        ,       max(CASE WHEN b.DAY = 23 THEN b.reduct_count ELSE 0 END ) AS D23
+	        ,       max(CASE WHEN b.DAY = 24 THEN b.reduct_count ELSE 0 END ) AS D24
+	        ,       max(CASE WHEN b.DAY = 25 THEN b.reduct_count ELSE 0 END ) AS D25
+	        ,       max(CASE WHEN b.DAY = 26 THEN b.reduct_count ELSE 0 END ) AS D26
+	        ,       max(CASE WHEN b.DAY = 27 THEN b.reduct_count ELSE 0 END ) AS D27
+	        ,       max(CASE WHEN b.DAY = 28 THEN b.reduct_count ELSE 0 END ) AS D28
+	        ,       max(CASE WHEN b.DAY = 29 THEN b.reduct_count ELSE 0 END ) AS D29
+	        ,       max(CASE WHEN b.DAY = 30 THEN b.reduct_count ELSE 0 END ) AS D30
+	        ,       max(CASE WHEN b.DAY = 31 THEN b.reduct_count ELSE 0 END ) AS D31
+	FROM dayInfo b
+		]]>
+  </insert>   
+  
+  <!-- insertStep_2 insert 일자/요일 --> 
+ <insert id="insertStep_2"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+	WITH dayInfo AS (
+	        WITH RECURSIVE T(n) AS (
+	               SELECT 1 AS cnt FROM dual
+	               UNION ALL
+	               SELECT T.n+1 AS dd
+	               FROM t WHERE T.n < 40
+	        ),busInfo AS (
+	               SELECT holding_cnt AS totalCnt
+	               FROM   TBL_ROUTEINFO
+	               WHERE company_no= '${companyNo}'
+	               AND    route_nm = '${routeNm}'
+	        )             
+	        SELECT to_chaR(k.DAY) AS DAY
+	               ,		k.date
+	                ,	k.holiday_yn||k.HOLIDAY_NM as holiday_yn
+	               ,       to_char(c.totalCnt  - nvl(b.reduct_count,0)) AS reduct_count
+	               ,       decode(k.week,1,'일',2,'월',3,'화',4,'수',5,'목',6,'금',7,'토') AS week
+	        FROM (
+				SELECT p.DAY,p.week,p.date
+	        		,	decode(c.HOLIDAY_YN,'Y', 1 ,p.week) AS reductionCheck_week /* 공휴일은 일요일'1'로 join*/
+	        		,	c.HOLIDAY_YN ,c.HOLIDAY_NM 
+	        	FROM (
+	        	       SELECT t.n AS day
+		                       ,       day_of_week(dateadd(DAY,t.n-1,DATE'${baseFirstYmd}')) AS week -- 1:일reduct_week
+		                       ,       formatdatetime(dateadd(DAY,t.n-1,DATE'${baseFirstYmd}'),'yyyy-MM-dd') AS date
+		               FROM T
+		               WHERE dateadd(DAY,t.n,DATE'${baseFirstYmd}') <= DATE'${nextMonthYmd}'
+		        ) p LEFT OUTER JOIN  tbm_holiday_info c
+	        			ON  c.COMPANY_NO = '${companyNo}'
+	        			AND p.date = c.WORK_DATE
+	        ) k     LEFT OUTER JOIN TBM_ROUTE_REDUCTION_INFO b
+	        on b.company_no = '${companyNo}'
+	        AND   b.route_nm = '${routeNm}'
+	        AND   k.reductionCheck_week = b.reduct_week
+	        INNER JOIN busInfo c
+	)
+	INSERT INTO TBL_MONTH_ARRANGE_DETAIL
+	SELECT  '${companyNo}','${routeNm}' ,'${baseYm}', 0 as initSeq,'-','-',0 AS dispatch_seq,'-',0,'-'
+	        ,       max(CASE WHEN b.DAY = 1  THEN b.date ELSE '' END ) AS D1
+	        ,       max(CASE WHEN b.DAY = 2  THEN b.date ELSE '' END ) AS D2
+	        ,       max(CASE WHEN b.DAY = 3  THEN b.date ELSE '' END ) AS D3
+	        ,       max(CASE WHEN b.DAY = 4  THEN b.date ELSE '' END ) AS D4
+	        ,       max(CASE WHEN b.DAY = 5  THEN b.date ELSE '' END ) AS D5
+	        ,       max(CASE WHEN b.DAY = 6  THEN b.date ELSE '' END ) AS D6
+	        ,       max(CASE WHEN b.DAY = 7  THEN b.date ELSE '' END ) AS D7
+	        ,       max(CASE WHEN b.DAY = 8  THEN b.date ELSE '' END ) AS D8
+	        ,       max(CASE WHEN b.DAY = 9  THEN b.date ELSE '' END ) AS D9
+	        ,       max(CASE WHEN b.DAY = 10 THEN b.date ELSE '' END ) AS D10
+	        ,       max(CASE WHEN b.DAY = 11 THEN b.date ELSE '' END ) AS D11
+	        ,       max(CASE WHEN b.DAY = 12 THEN b.date ELSE '' END ) AS D12
+	        ,       max(CASE WHEN b.DAY = 13 THEN b.date ELSE '' END ) AS D13
+	        ,       max(CASE WHEN b.DAY = 14 THEN b.date ELSE '' END ) AS D14
+	        ,       max(CASE WHEN b.DAY = 15 THEN b.date ELSE '' END ) AS D15
+	        ,       max(CASE WHEN b.DAY = 16 THEN b.date ELSE '' END ) AS D16
+	        ,       max(CASE WHEN b.DAY = 17 THEN b.date ELSE '' END ) AS D17
+	        ,       max(CASE WHEN b.DAY = 18 THEN b.date ELSE '' END ) AS D18
+	        ,       max(CASE WHEN b.DAY = 19 THEN b.date ELSE '' END ) AS D19
+	        ,       max(CASE WHEN b.DAY = 20 THEN b.date ELSE '' END ) AS D20
+	        ,       max(CASE WHEN b.DAY = 21 THEN b.date ELSE '' END ) AS D21
+	        ,       max(CASE WHEN b.DAY = 22 THEN b.date ELSE '' END ) AS D22
+	        ,       max(CASE WHEN b.DAY = 23 THEN b.date ELSE '' END ) AS D23
+	        ,       max(CASE WHEN b.DAY = 24 THEN b.date ELSE '' END ) AS D24
+	        ,       max(CASE WHEN b.DAY = 25 THEN b.date ELSE '' END ) AS D25
+	        ,       max(CASE WHEN b.DAY = 26 THEN b.date ELSE '' END ) AS D26
+	        ,       max(CASE WHEN b.DAY = 27 THEN b.date ELSE '' END ) AS D27
+	        ,       max(CASE WHEN b.DAY = 28 THEN b.date ELSE '' END ) AS D28
+	        ,       max(CASE WHEN b.DAY = 29 THEN b.date ELSE '' END ) AS D29
+	        ,       max(CASE WHEN b.DAY = 30 THEN b.date ELSE '' END ) AS D30
+	        ,       max(CASE WHEN b.DAY = 31 THEN b.date ELSE '' END ) AS D31
+	FROM dayInfo b  
+	union all
+	SELECT  '${companyNo}','${routeNm}' ,'${baseYm}', 0 as initSeq,'-','-',1 AS dispatch_seq,'-',0,'-'
+        ,       max(CASE WHEN b.DAY = 1  THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D1
+        ,       max(CASE WHEN b.DAY = 2  THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D2
+        ,       max(CASE WHEN b.DAY = 3  THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D3
+        ,       max(CASE WHEN b.DAY = 4  THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D4
+        ,       max(CASE WHEN b.DAY = 5  THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D5
+        ,       max(CASE WHEN b.DAY = 6  THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D6
+        ,       max(CASE WHEN b.DAY = 7  THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D7
+        ,       max(CASE WHEN b.DAY = 8  THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D8
+        ,       max(CASE WHEN b.DAY = 9  THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D9
+        ,       max(CASE WHEN b.DAY = 10 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D10
+        ,       max(CASE WHEN b.DAY = 11 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D11
+        ,       max(CASE WHEN b.DAY = 12 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D12
+        ,       max(CASE WHEN b.DAY = 13 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D13
+        ,       max(CASE WHEN b.DAY = 14 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D14
+        ,       max(CASE WHEN b.DAY = 15 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D15
+        ,       max(CASE WHEN b.DAY = 16 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D16
+        ,       max(CASE WHEN b.DAY = 17 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D17
+        ,       max(CASE WHEN b.DAY = 18 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D18
+        ,       max(CASE WHEN b.DAY = 19 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D19
+        ,       max(CASE WHEN b.DAY = 20 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D20
+        ,       max(CASE WHEN b.DAY = 21 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D21
+        ,       max(CASE WHEN b.DAY = 22 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D22
+        ,       max(CASE WHEN b.DAY = 23 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D23
+        ,       max(CASE WHEN b.DAY = 24 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D24
+        ,       max(CASE WHEN b.DAY = 25 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D25
+        ,       max(CASE WHEN b.DAY = 26 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D26
+        ,       max(CASE WHEN b.DAY = 27 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D27
+        ,       max(CASE WHEN b.DAY = 28 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D28
+        ,       max(CASE WHEN b.DAY = 29 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D29
+        ,       max(CASE WHEN b.DAY = 30 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D30
+        ,       max(CASE WHEN b.DAY = 31 THEN b.week || nvl(b.holiday_yn,'') ELSE '' END ) AS D31
+	FROM dayInfo b
+  		]]>
+  </insert>  
+
+    <!-- insertStep_2_8 익일 순번 처리 사전작업 : 평알,공휴일,토요일 순번조정값 저장 --> 
+ <insert id="insertStep_2_8"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+	WITH dayWeekInfo AS (
+	SELECT a.DAY , a.date
+		,nvl(SELECT decode(b.holiday_yn,'Y','공',a.week_b) FROM TBM_HOLIDAY_INFO b WHERE COMPANY_NO ='${companyNo}' AND WORK_DATE = a.date2,a.week_b) AS BEFORE_WEEK 
+		,nvl(SELECT decode(b.holiday_yn,'Y','공',a.week_c) FROM TBM_HOLIDAY_INFO b WHERE COMPANY_NO ='${companyNo}' AND WORK_DATE = a.date,a.week_c)  AS CURRENT_WEEK 
+	FROM
+	(	SELECT 	k.DAY,k.date2,k.week2,k.date, k.week
+	        	,	decode(k.week2,1,'공',7,'토','평') AS week_b
+	        	,	decode(k.week,1,'공',7,'토','평') AS week_c
+	    FROM (
+	           SELECT t.n AS day
+	                   --,    dateadd(DAY,t.n-1,DATE'${baseFirstYmd}') AS day1
+	                   ,       day_of_week(dateadd(DAY,t.n-2,DATE'${baseFirstYmd}')) AS week2 -- 1:일reduct_week
+	                   ,       formatdatetime(dateadd(DAY,t.n-2,DATE'${baseFirstYmd}'),'yyyy-MM-dd') AS date2
+	                   ,       day_of_week(dateadd(DAY,t.n-1,DATE'${baseFirstYmd}')) AS week -- 1:일reduct_week
+	                   ,       formatdatetime(dateadd(DAY,t.n-1,DATE'${baseFirstYmd}'),'yyyy-MM-dd') AS date
+	           FROM T
+	           WHERE dateadd(DAY,t.n,DATE'${baseFirstYmd}') <= DATE'${nextMonthYmd}'
+	    ) k
+	) a    
+	) 
+	INSERT INTO TBL_MONTH_ARRANGE_BASIC 
+	SELECT '${companyNo}','${routeNm}' ,'${baseYm}', 0 as initSeq,'-','-',8 AS dispatch_seq,'-',0,'-'
+		,max(CASE WHEN a.DAY = 1  THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS D1
+		,max(CASE WHEN a.DAY = 2  THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d2 
+		,max(CASE WHEN a.DAY = 3  THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d3 
+		,max(CASE WHEN a.DAY = 4  THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d4 
+		,max(CASE WHEN a.DAY = 5  THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d5 
+		,max(CASE WHEN a.DAY = 6  THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d6 
+		,max(CASE WHEN a.DAY = 7  THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d7 
+		,max(CASE WHEN a.DAY = 8  THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d8 
+		,max(CASE WHEN a.DAY = 9  THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d9 
+		,max(CASE WHEN a.DAY = 10 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d10
+		,max(CASE WHEN a.DAY = 11 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d11
+		,max(CASE WHEN a.DAY = 12 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d12
+		,max(CASE WHEN a.DAY = 13 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d13
+		,max(CASE WHEN a.DAY = 14 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d14
+		,max(CASE WHEN a.DAY = 15 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d15
+		,max(CASE WHEN a.DAY = 16 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d16
+		,max(CASE WHEN a.DAY = 17 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d17
+		,max(CASE WHEN a.DAY = 18 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d18
+		,max(CASE WHEN a.DAY = 19 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d19
+		,max(CASE WHEN a.DAY = 20 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d20
+		,max(CASE WHEN a.DAY = 21 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d21
+		,max(CASE WHEN a.DAY = 22 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d22
+		,max(CASE WHEN a.DAY = 23 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d23
+		,max(CASE WHEN a.DAY = 24 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d24
+		,max(CASE WHEN a.DAY = 25 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d25
+		,max(CASE WHEN a.DAY = 26 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d26
+		,max(CASE WHEN a.DAY = 27 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d27
+		,max(CASE WHEN a.DAY = 28 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d28
+		,max(CASE WHEN a.DAY = 29 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d29
+		,max(CASE WHEN a.DAY = 30 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d30
+		,max(CASE WHEN a.DAY = 31 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS d31
+	FROM dayWeekInfo	a,TBM_ROUTE_WEEKSEQ_INFO b
+	WHERE b.company_no = '${companyNo}'
+	AND   b.route_nm = '${routeNm}'
+	AND  a.BEFORE_WEEK||a.CURRENT_WEEK = b.WEEK_GB
+  		]]>
+  </insert>  
+
+    <!-- insertStep_2_9 익일 순번 처리 사전작업 : 평알,공휴일,토요일 순번조정값 저장(누적합산 순번) --> 
+ <insert id="insertStep_2_9"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+	WITH dayWeekInfo AS (
+	SELECT a.DAY , a.date
+		,nvl(SELECT decode(b.holiday_yn,'Y','공',a.week_b) FROM TBM_HOLIDAY_INFO b WHERE COMPANY_NO ='${companyNo}' AND WORK_DATE = a.date2,a.week_b) AS BEFORE_WEEK 
+		,nvl(SELECT decode(b.holiday_yn,'Y','공',a.week_c) FROM TBM_HOLIDAY_INFO b WHERE COMPANY_NO ='${companyNo}' AND WORK_DATE = a.date,a.week_c)  AS CURRENT_WEEK 
+	FROM
+	(	SELECT 	k.DAY,k.date2,k.week2,k.date, k.week
+	        	,	decode(k.week2,1,'공',7,'토','평') AS week_b
+	        	,	decode(k.week,1,'공',7,'토','평') AS week_c
+	    FROM (
+	           SELECT t.n AS day
+	                   --,    dateadd(DAY,t.n-1,DATE'${baseFirstYmd}') AS day1
+	                   ,       day_of_week(dateadd(DAY,t.n-2,DATE'${baseFirstYmd}')) AS week2 -- 1:일reduct_week
+	                   ,       formatdatetime(dateadd(DAY,t.n-2,DATE'${baseFirstYmd}'),'yyyy-MM-dd') AS date2
+	                   ,       day_of_week(dateadd(DAY,t.n-1,DATE'${baseFirstYmd}')) AS week -- 1:일reduct_week
+	                   ,       formatdatetime(dateadd(DAY,t.n-1,DATE'${baseFirstYmd}'),'yyyy-MM-dd') AS date
+	           FROM T
+	           WHERE dateadd(DAY,t.n,DATE'${baseFirstYmd}') <= DATE'${nextMonthYmd}'
+	    ) k
+	) a    
+	) 
+	INSERT INTO TBL_MONTH_ARRANGE_BASIC 
+	SELECT '${companyNo}','${routeNm}' ,'${baseYm}', 0 as initSeq,'-','-',9 AS dispatch_seq,'-',0,'-'
+		,sum(CASE WHEN a.DAY = 1  THEN b.NEXT_WORK_INTERVAL ELSE 0 END )  AS aD1
+		,sum(CASE WHEN a.DAY <= 2  THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad2 
+		,sum(CASE WHEN a.DAY <= 3  THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad3 
+		,sum(CASE WHEN a.DAY <= 4  THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad4 
+		,sum(CASE WHEN a.DAY <= 5  THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad5 
+		,sum(CASE WHEN a.DAY <= 6  THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad6 
+		,sum(CASE WHEN a.DAY <= 7  THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad7 
+		,sum(CASE WHEN a.DAY <= 8  THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad8 
+		,sum(CASE WHEN a.DAY <= 9  THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad9 
+		,sum(CASE WHEN a.DAY <= 10 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad10
+		,sum(CASE WHEN a.DAY <= 11 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad11
+		,sum(CASE WHEN a.DAY <= 12 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad12
+		,sum(CASE WHEN a.DAY <= 13 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad13
+		,sum(CASE WHEN a.DAY <= 14 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad14
+		,sum(CASE WHEN a.DAY <= 15 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad15
+		,sum(CASE WHEN a.DAY <= 16 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad16
+		,sum(CASE WHEN a.DAY <= 17 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad17
+		,sum(CASE WHEN a.DAY <= 18 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad18
+		,sum(CASE WHEN a.DAY <= 19 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad19
+		,sum(CASE WHEN a.DAY <= 20 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad20
+		,sum(CASE WHEN a.DAY <= 21 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad21
+		,sum(CASE WHEN a.DAY <= 22 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad22
+		,sum(CASE WHEN a.DAY <= 23 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad23
+		,sum(CASE WHEN a.DAY <= 24 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad24
+		,sum(CASE WHEN a.DAY <= 25 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad25
+		,sum(CASE WHEN a.DAY <= 26 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad26
+		,sum(CASE WHEN a.DAY <= 27 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad27
+		,sum(CASE WHEN a.DAY <= 28 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad28
+		,sum(CASE WHEN a.DAY <= 29 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad29
+		,sum(CASE WHEN a.DAY <= 30 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad30
+		,sum(CASE WHEN a.DAY <= 31 THEN b.NEXT_WORK_INTERVAL ELSE 0 END ) AS ad31
+	FROM dayWeekInfo	a,TBM_ROUTE_WEEKSEQ_INFO b
+	WHERE b.company_no = '${companyNo}'
+	AND   b.route_nm = '${routeNm}'
+	AND  a.BEFORE_WEEK||a.CURRENT_WEEK = b.WEEK_GB
+  		]]>
+  </insert>  
+
+
+    <!-- insertStep_3 insert  익일 순번 지정 --> 
+ <insert id="insertStep_3"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+  WITH busInfo AS (
+               SELECT holding_cnt AS totalCnt
+               FROM   TBL_ROUTEINFO
+	           WHERE company_no= '${companyNo}'
+	           AND    route_nm = '${routeNm}'
+    )
+    INSERT INTO TBL_MONTH_ARRANGE_BASIC
+	SELECT a.company_no,a.route_nm ,'${baseYm}', 0 as initSeq,a.car_regno,'-',3 AS dispatch_seq,'-',a.prev_daily_seq,a.prev_work_pattern
+                , case when mod(a.prev_daily_seq + e.d1 ,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d1 ,d.totalCnt ) end D1                                                    
+                , case when mod(a.prev_daily_seq + e.d2 ,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d2 ,d.totalCnt ) end D2                                                     
+                , case when mod(a.prev_daily_seq + e.d3 ,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d3 ,d.totalCnt ) end D3                                                     
+                , case when mod(a.prev_daily_seq + e.d4 ,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d4 ,d.totalCnt ) end D4                                                     
+                , case when mod(a.prev_daily_seq + e.d5 ,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d5 ,d.totalCnt ) end D5                                                     
+                , case when mod(a.prev_daily_seq + e.d6 ,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d6 ,d.totalCnt ) end D6                                                     
+                , case when mod(a.prev_daily_seq + e.d7 ,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d7 ,d.totalCnt ) end D7                                                     
+                , case when mod(a.prev_daily_seq + e.d8 ,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d8 ,d.totalCnt ) end D8                                                     
+                , case when mod(a.prev_daily_seq + e.d9 ,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d9 ,d.totalCnt ) end D9                                                     
+                , case when mod(a.prev_daily_seq + e.d10,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d10,d.totalCnt ) end D10                                                    
+                , case when mod(a.prev_daily_seq + e.d11,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d11,d.totalCnt ) end D11                                                    
+                , case when mod(a.prev_daily_seq + e.d12,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d12,d.totalCnt ) end D12                                                    
+                , case when mod(a.prev_daily_seq + e.d13,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d13,d.totalCnt ) end D13                                                    
+                , case when mod(a.prev_daily_seq + e.d14,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d14,d.totalCnt ) end D14                                                    
+                , case when mod(a.prev_daily_seq + e.d15,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d15,d.totalCnt ) end D15                                                    
+                , case when mod(a.prev_daily_seq + e.d16,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d16,d.totalCnt ) end D16                                                    
+                , case when mod(a.prev_daily_seq + e.d17,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d17,d.totalCnt ) end D17                                                    
+                , case when mod(a.prev_daily_seq + e.d18,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d18,d.totalCnt ) end D18                                                    
+                , case when mod(a.prev_daily_seq + e.d19,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d19,d.totalCnt ) end D19                                                    
+                , case when mod(a.prev_daily_seq + e.d20,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d20,d.totalCnt ) end D20                                                    
+                , case when mod(a.prev_daily_seq + e.d21,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d21,d.totalCnt ) end D21                                                    
+                , case when mod(a.prev_daily_seq + e.d22,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d22,d.totalCnt ) end D22                                                    
+                , case when mod(a.prev_daily_seq + e.d23,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d23,d.totalCnt ) end D23                                                    
+                , case when mod(a.prev_daily_seq + e.d24,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d24,d.totalCnt ) end D24                                                    
+                , case when mod(a.prev_daily_seq + e.d25,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d25,d.totalCnt ) end D25                                                    
+                , case when mod(a.prev_daily_seq + e.d26,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d26,d.totalCnt ) end D26                                                    
+                , case when mod(a.prev_daily_seq + e.d27,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d27,d.totalCnt ) end D27                                                    
+                , case when mod(a.prev_daily_seq + e.d28,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d28,d.totalCnt ) end D28                                                    
+                , case when mod(a.prev_daily_seq + e.d29,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d29,d.totalCnt ) end D29                                                    
+                , case when mod(a.prev_daily_seq + e.d30,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d30,d.totalCnt ) end D30                                                    
+                , case when mod(a.prev_daily_seq + e.d31,d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+e.d31,d.totalCnt ) end D31
+        FROM    TBM_DRIVERINFO_DETAIL a, TBL_MONTH_ARRANGE_BASIC b, businfo d,TBL_MONTH_ARRANGE_BASIC e
+        WHERE   b.company_no = '${companyNo}'
+        AND     b.route_nm = '${routeNm}'
+        AND     b.dispatch_seq = 1
+        and		b.init_seq = 0
+        AND     b.BASE_YM  = '${baseYm}'
+        AND     a.ampm_gubun  = 'a'
+        AND     b.BASE_YM  = a.BASE_YM 
+        AND     b.company_no = a.company_no
+        AND     b.route_nm = a.route_nm
+        AND     a.company_no = e.company_no
+        AND     a.route_nm = e.route_nm
+        AND     b.BASE_YM  = e.BASE_YM 
+        AND     e.dispatch_seq = 9 /* 공,평,토 적용된 순번 */
+        and		e.init_seq = 0
+  		]]>
+  </insert>  
+  
+    <!-- insertStep_3 insert  익일 순번 지정 --> 
+ <insert id="insertStep_3_old"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+  	WITH busInfo AS (
+               SELECT holding_cnt AS totalCnt
+               FROM   TBL_ROUTEINFO
+	           WHERE company_no= '${companyNo}'
+	           AND    route_nm = '${routeNm}'
+    )
+    INSERT INTO TBL_MONTH_ARRANGE_BASIC
+	SELECT a.company_no,a.route_nm ,'${baseYm}', 0 as initSeq,a.car_regno,'-',3 AS dispatch_seq,'-',a.prev_daily_seq,a.prev_work_pattern
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d1 +1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d1 +1)),d.totalCnt ) end D1                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d2 +1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d2 +1)),d.totalCnt ) end D2                                                     
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d3 +1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d3 +1)),d.totalCnt ) end D3                                                     
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d4 +1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d4 +1)),d.totalCnt ) end D4                                                     
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d5 +1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d5 +1)),d.totalCnt ) end D5                                                     
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d6 +1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d6 +1)),d.totalCnt ) end D6                                                     
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d7 +1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d7 +1)),d.totalCnt ) end D7                                                     
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d8 +1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d8 +1)),d.totalCnt ) end D8                                                     
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d9 +1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d9 +1)),d.totalCnt ) end D9                                                     
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d10+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d10+1)),d.totalCnt ) end D10                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d11+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d11+1)),d.totalCnt ) end D11                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d12+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d12+1)),d.totalCnt ) end D12                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d13+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d13+1)),d.totalCnt ) end D13                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d14+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d14+1)),d.totalCnt ) end D14                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d15+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d15+1)),d.totalCnt ) end D15                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d16+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d16+1)),d.totalCnt ) end D16                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d17+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d17+1)),d.totalCnt ) end D17                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d18+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d18+1)),d.totalCnt ) end D18                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d19+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d19+1)),d.totalCnt ) end D19                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d20+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d20+1)),d.totalCnt ) end D20                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d21+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d21+1)),d.totalCnt ) end D21                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d22+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d22+1)),d.totalCnt ) end D22                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d23+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d23+1)),d.totalCnt ) end D23                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d24+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d24+1)),d.totalCnt ) end D24                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d25+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d25+1)),d.totalCnt ) end D25                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d26+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d26+1)),d.totalCnt ) end D26                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d27+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d27+1)),d.totalCnt ) end D27                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d28+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d28+1)),d.totalCnt ) end D28                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d29+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d29+1)),d.totalCnt ) end D29                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d30+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d30+1)),d.totalCnt ) end D30                                                    
+                , case when mod(a.prev_daily_seq + (e.next_work_interval*(b.d31+1)),d.totalCnt ) = 0 then d.totalCnt else mod(a.prev_daily_seq+(e.next_work_interval*(b.d31+1)),d.totalCnt ) end D31                                                    
+        FROM    TBM_DRIVERINFO_DETAIL a, TBL_MONTH_ARRANGE_BASIC b, businfo d,TBM_ROUTE_WEEKSEQ_INFO e
+        WHERE   b.company_no = '${companyNo}'
+        AND     b.route_nm = '${routeNm}'
+        and     b.dispatch_seq = 1
+        and		b.init_seq = 0
+        AND     b.BASE_YM  = '${baseYm}'
+        AND     a.ampm_gubun  = 'a'
+        AND     b.BASE_YM  = a.BASE_YM 
+        AND     b.company_no = a.company_no
+        AND     b.route_nm = a.route_nm
+        AND            a.company_no = e.company_no
+        AND            a.route_nm = e.route_nm
+    		]]>
+  </insert>  
+  
+  
+      <!-- insertStep_4 insert 익일순번에 감차 적용 --> 
+ <insert id="insertStep_4"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+  INSERT INTO TBL_MONTH_ARRANGE_BASIC
+	SELECT b.company_no,b.route_nm ,b.BASE_YM , 0 as initSeq,b.car_regno ,'-' ,4 AS dispatch_seq,'-' ,b.prev_daily_seq ,'-'
+                , case when b.d1  > c.d1  then -1 * b.d1  else b.d1   end D1                                                    
+                , case when b.d2  > c.d2  then -1 * b.d2  else b.d2   end D2                                                     
+                , case when b.d3  > c.d3  then -1 * b.d3  else b.d3   end D3                                                     
+                , case when b.d4  > c.d4  then -1 * b.d4  else b.d4   end D4                                                     
+                , case when b.d5  > c.d5  then -1 * b.d5  else b.d5   end D5                                                      
+                , case when b.d6  > c.d6  then -1 * b.d6  else b.d6   end D6                                                     
+                , case when b.d7  > c.d7  then -1 * b.d7  else b.d7   end D7                                                      
+                , case when b.d8  > c.d8  then -1 * b.d8  else b.d8   end D8                                                     
+                , case when b.d9  > c.d9  then -1 * b.d9  else b.d9   end D9                                                     
+                , case when b.d10 > c.d10 then -1 * b.d10 else b.d10  end D10                                                    
+                , case when b.d11 > c.d11 then -1 * b.d11 else b.d11  end D11                                                    
+                , case when b.d12 > c.d12 then -1 * b.d12 else b.d12  end D12                                                    
+                , case when b.d13 > c.d13 then -1 * b.d13 else b.d13  end D13                                                    
+                , case when b.d14 > c.d14 then -1 * b.d14 else b.d14  end D14                                                    
+                , case when b.d15 > c.d15 then -1 * b.d15 else b.d15  end D15                                                    
+                , case when b.d16 > c.d16 then -1 * b.d16 else b.d16  end D16                                                     
+                , case when b.d17 > c.d17 then -1 * b.d17 else b.d17  end D17                                                    
+                , case when b.d18 > c.d18 then -1 * b.d18 else b.d18  end D18                                                    
+                , case when b.d19 > c.d19 then -1 * b.d19 else b.d19  end D19                                                    
+                , case when b.d20 > c.d20 then -1 * b.d20 else b.d20  end D20                                                     
+                , case when b.d21 > c.d21 then -1 * b.d21 else b.d21  end D21                                                    
+                , case when b.d22 > c.d22 then -1 * b.d22 else b.d22  end D22                                                     
+                , case when b.d23 > c.d23 then -1 * b.d23 else b.d23  end D23                                                    
+                , case when b.d24 > c.d24 then -1 * b.d24 else b.d24  end D24                                                    
+                , case when b.d25 > c.d25 then -1 * b.d25 else b.d25  end D25                                                    
+                , case when b.d26 > c.d26 then -1 * b.d26 else b.d26  end D26                                                    
+                , case when b.d27 > c.d27 then -1 * b.d27 else b.d27  end D27                                                    
+                , case when b.d28 > c.d28 then -1 * b.d28 else b.d28  end D28                                                    
+                , case WHEN c.d29 = 0 THEN 0 when b.d29 > c.d29 then -1 * b.d29 else b.d29  end D29                                                    
+                , case WHEN c.d30 = 0 THEN 0 when b.d30 > c.d30 then -1 * b.d30 else b.d30  end D30                                                    
+                , case WHEN c.d31 = 0 THEN 0 when b.d31 > c.d31 then -1 * b.d31 else b.d31  end D31                                                        
+        FROM    TBL_MONTH_ARRANGE_BASIC b, TBL_MONTH_ARRANGE_BASIC c
+        WHERE   b.company_no = '${companyNo}'
+        AND     b.route_nm = '${routeNm}'
+        and     b.dispatch_seq = 3
+        and		b.init_seq = 0
+        AND     b.BASE_YM  = '${baseYm}'
+        AND     b.company_no = c.company_no
+        AND     b.route_nm = c.route_nm
+        AND     b.BASE_YM  = c.BASE_YM
+        AND     b.init_seq = c.init_seq
+        and     c.dispatch_seq = 2
+    		]]>
+  </insert> 
+  
+      <!-- insertStep_5 insert  운전자별 익일순번 지정--> 
+ <insert id="insertStep_5"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+  	WITH 운행정보 AS (
+        WITH 패턴 AS (
+			SELECT 	repeat(	repeat(repeat('a',OFF_GROUP_CNT-1) || '*',2)	||	repeat(repeat('p',OFF_GROUP_CNT-1) || '*',2), 5) AS pattern
+				,	repeat(	repeat(repeat('a',OFF_GROUP_CNT-1) || 'a',2)	||	repeat(repeat('p',OFF_GROUP_CNT-1) || 'p',2), 5) AS pattern2
+			FROM tbl_routeinfo
+	        WHERE   company_no = '${companyNo}'
+	        AND     route_nm = '${routeNm}'
+        )
+        SELECT a.*
+               ,       instr(b.pattern,a.prev_work_pattern) +7 AS pos
+        FROM    TBM_DRIVERINFO_DETAIL a,패턴 b
+        WHERE   a.company_no = '${companyNo}'
+        AND     a.route_nm = '${routeNm}'
+        AND     a.BASE_YM  = '${baseYm}'    
+	)      
+	INSERT INTO TBL_MONTH_ARRANGE_DETAIL
+	SELECT  a.company_no,a.route_nm ,a.BASE_YM , 0 as initSeq,a.car_regno ,a.emp_nm ,5 AS dispatch_seq,a.ampm_gubun ,a.prev_daily_seq ,a.prev_work_pattern
+        , abs(b.D1  ) || decode(substring(c.pattern,a.pos+1 , 1),'*',substring(c.pattern2,a.pos+1 , 1)||'*',substring(c.pattern,a.pos+1 , 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D2  ) || decode(substring(c.pattern,a.pos+2 , 1),'*',substring(c.pattern2,a.pos+2 , 1)||'*',substring(c.pattern,a.pos+2 , 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D3  ) || decode(substring(c.pattern,a.pos+3 , 1),'*',substring(c.pattern2,a.pos+3 , 1)||'*',substring(c.pattern,a.pos+3 , 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D4  ) || decode(substring(c.pattern,a.pos+4 , 1),'*',substring(c.pattern2,a.pos+4 , 1)||'*',substring(c.pattern,a.pos+4 , 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D5  ) || decode(substring(c.pattern,a.pos+5 , 1),'*',substring(c.pattern2,a.pos+5 , 1)||'*',substring(c.pattern,a.pos+5 , 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D6  ) || decode(substring(c.pattern,a.pos+6 , 1),'*',substring(c.pattern2,a.pos+6 , 1)||'*',substring(c.pattern,a.pos+6 , 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D7  ) || decode(substring(c.pattern,a.pos+7 , 1),'*',substring(c.pattern2,a.pos+7 , 1)||'*',substring(c.pattern,a.pos+7 , 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D8  ) || decode(substring(c.pattern,a.pos+8 , 1),'*',substring(c.pattern2,a.pos+8 , 1)||'*',substring(c.pattern,a.pos+8 , 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D9  ) || decode(substring(c.pattern,a.pos+9 , 1),'*',substring(c.pattern2,a.pos+9 , 1)||'*',substring(c.pattern,a.pos+9 , 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D10 ) || decode(substring(c.pattern,a.pos+10, 1),'*',substring(c.pattern2,a.pos+10, 1)||'*',substring(c.pattern,a.pos+10, 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D11 ) || decode(substring(c.pattern,a.pos+11, 1),'*',substring(c.pattern2,a.pos+11, 1)||'*',substring(c.pattern,a.pos+11, 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D12 ) || decode(substring(c.pattern,a.pos+12, 1),'*',substring(c.pattern2,a.pos+12, 1)||'*',substring(c.pattern,a.pos+12, 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D13 ) || decode(substring(c.pattern,a.pos+13, 1),'*',substring(c.pattern2,a.pos+13, 1)||'*',substring(c.pattern,a.pos+13, 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D14 ) || decode(substring(c.pattern,a.pos+14, 1),'*',substring(c.pattern2,a.pos+14, 1)||'*',substring(c.pattern,a.pos+14, 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D15 ) || decode(substring(c.pattern,a.pos+15, 1),'*',substring(c.pattern2,a.pos+15, 1)||'*',substring(c.pattern,a.pos+15, 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D16 ) || decode(substring(c.pattern,a.pos+16, 1),'*',substring(c.pattern2,a.pos+16, 1)||'*',substring(c.pattern,a.pos+16, 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D17 ) || decode(substring(c.pattern,a.pos+17, 1),'*',substring(c.pattern2,a.pos+17, 1)||'*',substring(c.pattern,a.pos+17, 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D18 ) || decode(substring(c.pattern,a.pos+18, 1),'*',substring(c.pattern2,a.pos+18, 1)||'*',substring(c.pattern,a.pos+18, 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D19 ) || decode(substring(c.pattern,a.pos+19, 1),'*',substring(c.pattern2,a.pos+19, 1)||'*',substring(c.pattern,a.pos+19, 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D20 ) || decode(substring(c.pattern,a.pos+20, 1),'*',substring(c.pattern2,a.pos+20, 1)||'*',substring(c.pattern,a.pos+20, 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D21 ) || decode(substring(c.pattern,a.pos+21, 1),'*',substring(c.pattern2,a.pos+21, 1)||'*',substring(c.pattern,a.pos+21, 1) || decode(a.emp_nm,'','!','')) 
+        , abs(b.D22 ) || decode(substring(c.pattern,a.pos+22, 1),'*',substring(c.pattern2,a.pos+22, 1)||'*',substring(c.pattern,a.pos+22, 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D23 ) || decode(substring(c.pattern,a.pos+23, 1),'*',substring(c.pattern2,a.pos+23, 1)||'*',substring(c.pattern,a.pos+23, 1) || decode(a.emp_nm,'','!','')) 
+        , abs(b.D24 ) || decode(substring(c.pattern,a.pos+24, 1),'*',substring(c.pattern2,a.pos+24, 1)||'*',substring(c.pattern,a.pos+24, 1) || decode(a.emp_nm,'','!','')) 
+        , abs(b.D25 ) || decode(substring(c.pattern,a.pos+25, 1),'*',substring(c.pattern2,a.pos+25, 1)||'*',substring(c.pattern,a.pos+25, 1) || decode(a.emp_nm,'','!','') )
+        , abs(b.D26 ) || decode(substring(c.pattern,a.pos+26, 1),'*',substring(c.pattern2,a.pos+26, 1)||'*',substring(c.pattern,a.pos+26, 1) || decode(a.emp_nm,'','!','')) 
+        , abs(b.D27 ) || decode(substring(c.pattern,a.pos+27, 1),'*',substring(c.pattern2,a.pos+27, 1)||'*',substring(c.pattern,a.pos+27, 1) || decode(a.emp_nm,'','!','')) 
+        , abs(b.D28 ) || decode(substring(c.pattern,a.pos+28, 1),'*',substring(c.pattern2,a.pos+28, 1)||'*',substring(c.pattern,a.pos+28, 1) || decode(a.emp_nm,'','!','')) 
+        , CASE WHEN b.d29 = 0 THEN '' ELSE abs(b.D29) || decode(substring(c.pattern,a.pos+29, 1),'*',substring(c.pattern2,a.pos+29, 1)||'*',substring(c.pattern,a.pos+29, 1) || decode(a.emp_nm,'','!','')) END
+        , CASE WHEN b.d30 = 0 THEN '' ELSE abs(b.D30) || decode(substring(c.pattern,a.pos+30, 1),'*',substring(c.pattern2,a.pos+30, 1)||'*',substring(c.pattern,a.pos+30, 1) || decode(a.emp_nm,'','!','')) END
+        , CASE WHEN b.d31 = 0 THEN '' ELSE abs(b.D31) || decode(substring(c.pattern,a.pos+31, 1),'*',substring(c.pattern2,a.pos+31, 1)||'*',substring(c.pattern,a.pos+31, 1) || decode(a.emp_nm,'','!','')) END
+	FROM 운행정보 a LEFT OUTER JOIN TBL_MONTH_ARRANGE_BASIC b
+               ON a.company_no  = b.company_no
+               AND a.route_nm  = b.route_nm
+               AND a.car_regno = b.car_regno
+               AND b.BASE_YM = '${baseYm}'
+               AND b.dispatch_seq =4
+               AND b.init_seq = 0
+        INNER JOIN 패턴 c            
+	WHERE a.company_no = '${companyNo}'
+	AND   a.route_nm   = '${routeNm}'
+    		]]>
+  </insert> 
+
+
+	<!-- insertStep_5_SP sp 운전자--> 
+ 	<insert id="insertStep_5_SP_delete"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+	  <![CDATA[
+		WITH sp_empInfo AS (
+				SELECT a.company_no,a.route_nm ,'${baseYm}' AS BASE_YM, 0 AS init_seq,'SP('|| ROUTE_NM||')'AS car_regno ,emp_nm ,5 AS dispatch_seq,'' AS ampm_gubun 
+					,RANK() OVER (PARTITION BY a.company_no  ORDER BY a.EMP_NO) as prev_daily_seq 
+					,'' as prev_work_pattern
+				FROM 	TBL_DRIVERINFO a 
+				WHERE 	a.company_no = '${companyNo}'
+				AND   	a.route_nm   = '${routeNm}'
+				AND 	a.SP_GB  	 = 'SP'
+		), sp_allocateInfo AS (
+			SELECT  b.COMPANY_NO ,b.BASE_YM ,b.EMP_NM ,b.CAR_REGNO 
+		       ,nvl(max(CASE WHEN nvl(b.D1 ,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D1   ELSE '#' || b.D1  end),' ') as D1   
+		       ,nvl(max(CASE WHEN nvl(b.D2 ,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D2   ELSE '#' || b.D2  end),' ') as D2
+		       ,nvl(max(CASE WHEN nvl(b.D3 ,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D3   ELSE '#' || b.D3   end),' ') as D3 
+		       ,nvl(max(CASE WHEN nvl(b.D4 ,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D4   ELSE '#' || b.D4   end),' ') as D4 
+		       ,nvl(max(CASE WHEN nvl(b.D5 ,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D5   ELSE '#' || b.D5   end),' ') as D5 
+		       ,nvl(max(CASE WHEN nvl(b.D6 ,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D6   ELSE '#' || b.D6   end),' ') as D6 
+		       ,nvl(max(CASE WHEN nvl(b.D7 ,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D7   ELSE '#' || b.D7   end),' ') as D7 
+		       ,nvl(max(CASE WHEN nvl(b.D8 ,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D8   ELSE '#' || b.D8   end),' ') as D8 
+		       ,nvl(max(CASE WHEN nvl(b.D9 ,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D9   ELSE '#' || b.D9   end),' ') as D9 
+		       ,nvl(max(CASE WHEN nvl(b.D10,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D10  ELSE '#' || b.D10  end),' ') as D10
+		       ,nvl(max(CASE WHEN nvl(b.D11,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D11  ELSE '#' || b.D11  end),' ') as D11
+		       ,nvl(max(CASE WHEN nvl(b.D12,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D12  ELSE '#' || b.D12  end),' ') as D12
+		       ,nvl(max(CASE WHEN nvl(b.D13,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D13  ELSE '#' || b.D13  end),' ') as D13
+		       ,nvl(max(CASE WHEN nvl(b.D14,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D14  ELSE '#' || b.D14  end),' ') as D14
+		       ,nvl(max(CASE WHEN nvl(b.D15,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D15  ELSE '#' || b.D15  end),' ') as D15
+		       ,nvl(max(CASE WHEN nvl(b.D16,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D16  ELSE '#' || b.D16  end),' ') as D16
+		       ,nvl(max(CASE WHEN nvl(b.D17,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D17  ELSE '#' || b.D17  end),' ') as D17
+		       ,nvl(max(CASE WHEN nvl(b.D18,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D18  ELSE '#' || b.D18  end),' ') as D18
+		       ,nvl(max(CASE WHEN nvl(b.D19,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D19  ELSE '#' || b.D19  end),' ') as D19
+		       ,nvl(max(CASE WHEN nvl(b.D20,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D20  ELSE '#' || b.D20  end),' ') as D20
+		       ,nvl(max(CASE WHEN nvl(b.D21,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D21  ELSE '#' || b.D21  end),' ') as D21
+		       ,nvl(max(CASE WHEN nvl(b.D22,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D22  ELSE '#' || b.D22  end),' ') as D22
+		       ,nvl(max(CASE WHEN nvl(b.D23,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D23  ELSE '#' || b.D23  end),' ') as D23
+		       ,nvl(max(CASE WHEN nvl(b.D24,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D24  ELSE '#' || b.D24  end),' ') as D24
+		       ,nvl(max(CASE WHEN nvl(b.D25,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D25  ELSE '#' || b.D25  end),' ') as D25
+		       ,nvl(max(CASE WHEN nvl(b.D26,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D26  ELSE '#' || b.D26  end),' ') as D26
+		       ,nvl(max(CASE WHEN nvl(b.D27,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D27  ELSE '#' || b.D27  end),' ') as D27
+		       ,nvl(max(CASE WHEN nvl(b.D28,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D28  ELSE '#' || b.D28  end),' ') as D28
+		       ,nvl(max(CASE WHEN nvl(b.D29,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D29  ELSE '#' || b.D29  end),' ') as D29
+		       ,nvl(max(CASE WHEN nvl(b.D30,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D30  ELSE '#' || b.D30  end),' ') as D30
+		       ,nvl(max(CASE WHEN nvl(b.D31,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,b.ROUTE_NM) > 0 THEN b.D31  ELSE '#' || b.D31  end),' ') as D31
+			 FROM 	TBL_MONTH_ARRANGE_DETAIL b 
+			where 	b.company_no = '${companyNo}'
+				AND b.BASE_YM = '${baseYm}'
+		  	 	and b.DISPATCH_SEQ = 5  
+		  	 	AND b.init_seq = 0
+			 	AND b.CAR_REGNO LIKE  'SP%'	 
+			 	GROUP BY b.COMPANY_NO ,b.BASE_YM ,b.emp_nm,b.CAR_REGNO 
+		)
+		  INSERT INTO TBL_MONTH_ARRANGE_DETAIL  
+			SELECT  a.company_no,a.route_nm ,a.BASE_YM ,0 AS init_seq,a.car_regno ,a.emp_nm ,5 AS dispatch_seq,'' AS ampm_gubun ,a.prev_daily_seq ,'' AS prev_work_pattern
+		       ,nvl(b.D1 ,' ') as D1   
+		       ,nvl(b.D2 ,' ') as D2
+		       ,nvl(b.D3 ,' ') as D3 
+		       ,nvl(b.D4 ,' ') as D4 
+		       ,nvl(b.D5 ,' ') as D5 
+		       ,nvl(b.D6 ,' ') as D6 
+		       ,nvl(b.D7 ,' ') as D7 
+		       ,nvl(b.D8 ,' ') as D8 
+		       ,nvl(b.D9 ,' ') as D9 
+		       ,nvl(b.D10,' ') as D10
+		       ,nvl(b.D11,' ') as D11
+		       ,nvl(b.D12,' ') as D12
+		       ,nvl(b.D13,' ') as D13
+		       ,nvl(b.D14,' ') as D14
+		       ,nvl(b.D15,' ') as D15
+		       ,nvl(b.D16,' ') as D16
+		       ,nvl(b.D17,' ') as D17
+		       ,nvl(b.D18,' ') as D18
+		       ,nvl(b.D19,' ') as D19
+		       ,nvl(b.D20,' ') as D20
+		       ,nvl(b.D21,' ') as D21
+		       ,nvl(b.D22,' ') as D22
+		       ,nvl(b.D23,' ') as D23
+		       ,nvl(b.D24,' ') as D24
+		       ,nvl(b.D25,' ') as D25
+		       ,nvl(b.D26,' ') as D26
+		       ,nvl(b.D27,' ') as D27
+		       ,nvl(b.D28,' ') as D28
+		       ,nvl(b.D29,' ') as D29
+		       ,nvl(b.D30,' ') as D30
+		       ,nvl(b.D31,' ') as D31
+			 FROM 	sp_empInfo a LEFT OUTER JOIN sp_allocateInfo b 
+			 on 	a.company_no  = b.company_no
+			 AND 	a.BASE_YM = b.BASE_YM 
+			 AND 	a.EMP_NM 	  = b.EMP_NM 
+    	]]>
+  	</insert> 
+  	
+ 	<insert id="insertStep_5_SP"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+	  <![CDATA[
+  
+	  INSERT INTO TBL_MONTH_ARRANGE_DETAIL (company_no,ROUTE_NM ,BASE_YM ,INIT_SEQ ,CAR_REGNO ,EMP_NM ,DISPATCH_SEQ ,AMPM_GUBUN ,PREV_DAILY_SEQ ,PREV_WORK_PATTERN  ) 
+		SELECT a.company_no,a.route_nm ,'${baseYm}', 0 AS init_seq,'SP('|| ROUTE_NM||')'AS car_regno ,emp_nm ,5 AS dispatch_seq,'' AS ampm_gubun 
+			,RANK() OVER (PARTITION BY a.company_no  ORDER BY a.EMP_NO) as prev_daily_seq 
+			,'' as prev_work_pattern
+		FROM 	TBL_DRIVERINFO a 
+		WHERE 	a.company_no = '${companyNo}'
+		AND   	a.route_nm   = '${routeNm}'
+		AND 	a.SP_GB  = 'SP'
+		ORDER BY ENTER_DATE
+    	]]>
+  	</insert>   	
+
+	<!-- insertStep_5_SP_other 타노선 sp등록 --> 
+ 	<insert id="insertStep_5_SP_other_delete"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+	  <![CDATA[
+		WITH sp_empInfo AS (
+				SELECT a.company_no,a.route_nm ,'${baseYm}' AS BASE_YM, 0 AS init_seq,'SP('|| ROUTE_NM||')'AS car_regno ,emp_nm ,5 AS dispatch_seq,'' AS ampm_gubun 
+					,RANK() OVER (PARTITION BY a.company_no  ORDER BY a.EMP_NO) as prev_daily_seq 
+					,'' as prev_work_pattern
+				FROM 	TBL_DRIVERINFO a 
+				WHERE 	a.company_no = '${companyNo}'
+				AND 	a.SP_GB  	 = 'SP'
+				AND 	a.emp_nm     = '${empNm}'
+		),totSPCount AS (
+			SELECT count(*) +1 AS nextSeq
+			 FROM 	TBL_MONTH_ARRANGE_DETAIL b 
+			 WHERE 	b.company_no = '${companyNo}'
+			 AND 	b.route_nm = '${routeNm}'
+			 AND    b.BASE_YM = '${baseYm}' 
+			 AND    b.CAR_REGNO LIKE 'SP%'
+			 AND    b.DISPATCH_SEQ = 5  
+			 AND    b.init_seq = 0
+		), sp_allocateInfo AS (
+			SELECT  b.COMPANY_NO ,b.BASE_YM ,b.EMP_NM ,b.CAR_REGNO 
+		       ,nvl(max(CASE WHEN nvl(b.D1 ,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D1   ELSE '#' || b.D1  end),' ') as D1   
+		       ,nvl(max(CASE WHEN nvl(b.D2 ,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D2   ELSE '#' || b.D2  end),' ') as D2
+		       ,nvl(max(CASE WHEN nvl(b.D3 ,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D3   ELSE '#' || b.D3   end),' ') as D3 
+		       ,nvl(max(CASE WHEN nvl(b.D4 ,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D4   ELSE '#' || b.D4   end),' ') as D4 
+		       ,nvl(max(CASE WHEN nvl(b.D5 ,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D5   ELSE '#' || b.D5   end),' ') as D5 
+		       ,nvl(max(CASE WHEN nvl(b.D6 ,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D6   ELSE '#' || b.D6   end),' ') as D6 
+		       ,nvl(max(CASE WHEN nvl(b.D7 ,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D7   ELSE '#' || b.D7   end),' ') as D7 
+		       ,nvl(max(CASE WHEN nvl(b.D8 ,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D8   ELSE '#' || b.D8   end),' ') as D8 
+		       ,nvl(max(CASE WHEN nvl(b.D9 ,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D9   ELSE '#' || b.D9   end),' ') as D9 
+		       ,nvl(max(CASE WHEN nvl(b.D10,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D10  ELSE '#' || b.D10  end),' ') as D10
+		       ,nvl(max(CASE WHEN nvl(b.D11,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D11  ELSE '#' || b.D11  end),' ') as D11
+		       ,nvl(max(CASE WHEN nvl(b.D12,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D12  ELSE '#' || b.D12  end),' ') as D12
+		       ,nvl(max(CASE WHEN nvl(b.D13,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D13  ELSE '#' || b.D13  end),' ') as D13
+		       ,nvl(max(CASE WHEN nvl(b.D14,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D14  ELSE '#' || b.D14  end),' ') as D14
+		       ,nvl(max(CASE WHEN nvl(b.D15,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D15  ELSE '#' || b.D15  end),' ') as D15
+		       ,nvl(max(CASE WHEN nvl(b.D16,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D16  ELSE '#' || b.D16  end),' ') as D16
+		       ,nvl(max(CASE WHEN nvl(b.D17,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D17  ELSE '#' || b.D17  end),' ') as D17
+		       ,nvl(max(CASE WHEN nvl(b.D18,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D18  ELSE '#' || b.D18  end),' ') as D18
+		       ,nvl(max(CASE WHEN nvl(b.D19,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D19  ELSE '#' || b.D19  end),' ') as D19
+		       ,nvl(max(CASE WHEN nvl(b.D20,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D20  ELSE '#' || b.D20  end),' ') as D20
+		       ,nvl(max(CASE WHEN nvl(b.D21,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D21  ELSE '#' || b.D21  end),' ') as D21
+		       ,nvl(max(CASE WHEN nvl(b.D22,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D22  ELSE '#' || b.D22  end),' ') as D22
+		       ,nvl(max(CASE WHEN nvl(b.D23,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D23  ELSE '#' || b.D23  end),' ') as D23
+		       ,nvl(max(CASE WHEN nvl(b.D24,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D24  ELSE '#' || b.D24  end),' ') as D24
+		       ,nvl(max(CASE WHEN nvl(b.D25,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D25  ELSE '#' || b.D25  end),' ') as D25
+		       ,nvl(max(CASE WHEN nvl(b.D26,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D26  ELSE '#' || b.D26  end),' ') as D26
+		       ,nvl(max(CASE WHEN nvl(b.D27,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D27  ELSE '#' || b.D27  end),' ') as D27
+		       ,nvl(max(CASE WHEN nvl(b.D28,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D28  ELSE '#' || b.D28  end),' ') as D28
+		       ,nvl(max(CASE WHEN nvl(b.D29,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D29  ELSE '#' || b.D29  end),' ') as D29
+		       ,nvl(max(CASE WHEN nvl(b.D30,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D30  ELSE '#' || b.D30  end),' ') as D30
+		       ,nvl(max(CASE WHEN nvl(b.D31,' ') = ' ' THEN ' ' WHEN instr(CAR_REGNO,'${routeNm}') > 0 THEN b.D31  ELSE '#' || b.D31  end),' ') as D31
+			 FROM 	TBL_MONTH_ARRANGE_DETAIL b 
+			where 	b.company_no   = '${companyNo}'
+				AND b.BASE_YM  = '${baseYm}'
+		  	 	and b.DISPATCH_SEQ = 5  
+			 	AND b.CAR_REGNO LIKE  'SP%'	 
+				AND b.emp_nm = '${empNm}'
+				AND b.init_seq = 0
+			 	GROUP BY b.COMPANY_NO ,b.BASE_YM ,b.emp_nm,b.CAR_REGNO 
+		)
+		  INSERT INTO TBL_MONTH_ARRANGE_DETAIL  
+			SELECT  a.company_no,'${routeNm}',a.BASE_YM ,0 AS init_seq,a.car_regno ,a.emp_nm ,5 AS dispatch_seq,'' AS ampm_gubun ,t.nextSeq ,'' AS prev_work_pattern
+		       ,nvl(b.D1 ,' ') as D1   
+		       ,nvl(b.D2 ,' ') as D2
+		       ,nvl(b.D3 ,' ') as D3 
+		       ,nvl(b.D4 ,' ') as D4 
+		       ,nvl(b.D5 ,' ') as D5 
+		       ,nvl(b.D6 ,' ') as D6 
+		       ,nvl(b.D7 ,' ') as D7 
+		       ,nvl(b.D8 ,' ') as D8 
+		       ,nvl(b.D9 ,' ') as D9 
+		       ,nvl(b.D10,' ') as D10
+		       ,nvl(b.D11,' ') as D11
+		       ,nvl(b.D12,' ') as D12
+		       ,nvl(b.D13,' ') as D13
+		       ,nvl(b.D14,' ') as D14
+		       ,nvl(b.D15,' ') as D15
+		       ,nvl(b.D16,' ') as D16
+		       ,nvl(b.D17,' ') as D17
+		       ,nvl(b.D18,' ') as D18
+		       ,nvl(b.D19,' ') as D19
+		       ,nvl(b.D20,' ') as D20
+		       ,nvl(b.D21,' ') as D21
+		       ,nvl(b.D22,' ') as D22
+		       ,nvl(b.D23,' ') as D23
+		       ,nvl(b.D24,' ') as D24
+		       ,nvl(b.D25,' ') as D25
+		       ,nvl(b.D26,' ') as D26
+		       ,nvl(b.D27,' ') as D27
+		       ,nvl(b.D28,' ') as D28
+		       ,nvl(b.D29,' ') as D29
+		       ,nvl(b.D30,' ') as D30
+		       ,nvl(b.D31,' ') as D31
+			 FROM 	totSPCount t,sp_empInfo a LEFT OUTER JOIN sp_allocateInfo b 
+			 on 	a.company_no  = b.company_no
+			 AND 	a.BASE_YM = b.BASE_YM 
+			 AND 	a.EMP_NM 	  = b.EMP_NM 	 	
+    	]]>
+  	</insert> 
+
+ 	<insert id="insertStep_5_SP_other"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+	  <![CDATA[
+		WITH sp_empInfo AS (
+				SELECT a.company_no,a.route_nm ,'${baseYm}' AS BASE_YM, 0 AS init_seq,'SP('|| ROUTE_NM||')'AS car_regno ,emp_nm  
+				FROM 	TBL_DRIVERINFO a 
+				WHERE 	a.company_no = '${companyNo}'
+				AND 	a.SP_GB  = 'SP'
+				AND 	a.emp_nm = '${empNm}'
+		),totSPCount AS (
+			SELECT count(*) +1 AS nextSeq
+			 FROM 	TBL_MONTH_ARRANGE_DETAIL b 
+			 WHERE 	b.company_no = '${companyNo}'
+			 AND 	b.route_nm = '${routeNm}'
+			 AND    b.BASE_YM = '${baseYm}' 
+			 AND    b.CAR_REGNO LIKE 'SP%'
+			 AND    b.DISPATCH_SEQ = 6  
+			 AND    b.init_seq = 0
+		)
+	  INSERT INTO TBL_MONTH_ARRANGE_DETAIL (company_no,ROUTE_NM ,BASE_YM ,INIT_SEQ ,CAR_REGNO ,EMP_NM ,DISPATCH_SEQ ,AMPM_GUBUN ,PREV_DAILY_SEQ ,PREV_WORK_PATTERN  ) 
+		SELECT  a.company_no,'${routeNm}' AS route_nm ,a.BASE_YM ,0 AS init_seq,a.car_regno ,a.emp_nm ,6 AS dispatch_seq,'' AS ampm_gubun ,t.nextSeq AS prev_daily_seq ,'' AS prev_work_pattern
+		FROM 	totSPCount t,sp_empInfo a 
+	 	
+    	]]>
+  	</insert> 
+
+ <!-- 휴가등록 '@' -->  	
+ <insert id="insertStep_6"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+ WITH offInfo as ( 
+	SELECT	a.EMP_Nm 
+		,max(CASE		WHEN b.D1  = START_DATE THEN '@'		ELSE ''	END ) AS D1  
+		,max(CASE		WHEN b.D2  = START_DATE THEN '@'		ELSE ''	END ) AS D2  
+		,max(CASE		WHEN b.D3  = START_DATE THEN '@'		ELSE ''	END ) AS D3  
+		,max(CASE		WHEN b.D4  = START_DATE THEN '@'		ELSE ''	END ) AS D4  
+		,max(CASE		WHEN b.D5  = START_DATE THEN '@'		ELSE ''	END ) AS D5  
+		,max(CASE		WHEN b.D6  = START_DATE THEN '@'		ELSE ''	END ) AS D6  
+		,max(CASE		WHEN b.D7  = START_DATE THEN '@'		ELSE ''	END ) AS D7  
+		,max(CASE		WHEN b.D8  = START_DATE THEN '@'		ELSE ''	END ) AS D8  
+		,max(CASE		WHEN b.D9  = START_DATE THEN '@'		ELSE ''	END ) AS D9  
+		,max(CASE		WHEN b.D10 = START_DATE THEN '@'		ELSE ''	END ) AS D10 
+		,max(CASE		WHEN b.D11 = START_DATE THEN '@'		ELSE ''	END ) AS D11 
+		,max(CASE		WHEN b.D12 = START_DATE THEN '@'		ELSE ''	END ) AS D12 
+		,max(CASE		WHEN b.D13 = START_DATE THEN '@'		ELSE ''	END ) AS D13 
+		,max(CASE		WHEN b.D14 = START_DATE THEN '@'		ELSE ''	END ) AS D14 
+		,max(CASE		WHEN b.D15 = START_DATE THEN '@'		ELSE ''	END ) AS D15 
+		,max(CASE		WHEN b.D16 = START_DATE THEN '@'		ELSE ''	END ) AS D16 
+		,max(CASE		WHEN b.D17 = START_DATE THEN '@'		ELSE ''	END ) AS D17 
+		,max(CASE		WHEN b.D18 = START_DATE THEN '@'		ELSE ''	END ) AS D18 
+		,max(CASE		WHEN b.D19 = START_DATE THEN '@'		ELSE ''	END ) AS D19 
+		,max(CASE		WHEN b.D20 = START_DATE THEN '@'		ELSE ''	END ) AS D20 
+		,max(CASE		WHEN b.D21 = START_DATE THEN '@'		ELSE ''	END ) AS D21 
+		,max(CASE		WHEN b.D22 = START_DATE THEN '@'		ELSE ''	END ) AS D22 
+		,max(CASE		WHEN b.D23 = START_DATE THEN '@'		ELSE ''	END ) AS D23 
+		,max(CASE		WHEN b.D24 = START_DATE THEN '@'		ELSE ''	END ) AS D24 
+		,max(CASE		WHEN b.D25 = START_DATE THEN '@'		ELSE ''	END ) AS D25 
+		,max(CASE		WHEN b.D26 = START_DATE THEN '@'		ELSE ''	END ) AS D26 
+		,max(CASE		WHEN b.D27 = START_DATE THEN '@'		ELSE ''	END ) AS D27 
+		,max(CASE		WHEN b.D28 = START_DATE THEN '@'		ELSE ''	END ) AS D28 
+		,max(CASE		WHEN b.D29 = START_DATE THEN '@'		ELSE ''	END ) AS D29 
+		,max(CASE		WHEN b.D30 = START_DATE THEN '@'		ELSE ''	END ) AS D30 
+		,max(CASE		WHEN b.D31 = START_DATE THEN '@'		ELSE ''	END ) AS D31 
+	FROM 	TBM_EMPLOYEE_VACATION_INFO a,TBL_MONTH_ARRANGE_DETAIL b 
+	WHERE 	a.company_no   = '${companyNo}' 
+	AND     a.delete_yn    = 'N' 
+	AND 	a.START_DATE   LIKE '${baseYm}' ||'%'
+	AND  	a.company_no   = b.COMPANY_NO 
+	AND 	b.BASE_YM      = '${baseYm}' 
+	AND 	b.DISPATCH_SEQ = 0 
+	AND 	b.ROUTE_NM     = '${routeNm}' 
+	AND     b.init_seq = 0
+	GROUP BY a.EMP_NM 
+ ) 
+ INSERT INTO TBL_MONTH_ARRANGE_DETAIL 
+ SELECT  b.company_no,b.route_nm,b.BASE_YM ,b.init_seq,b.car_regno ,b.emp_nm ,6 AS dispatch_seq,b.ampm_gubun ,b.prev_daily_seq,b.prev_work_pattern
+    ,b.D1  || CASE WHEN REGEXP_LIKE(b.D1 , '[-*@]', 'i')  THEN '' ELSE nvl(f.D1 ,'') END as D1  
+	,b.D2  || CASE WHEN REGEXP_LIKE(b.D2 , '[-*@]', 'i')  THEN '' ELSE nvl(f.D2 ,'') END as D2  
+	,b.D3  || CASE WHEN REGEXP_LIKE(b.D3 , '[-*@]', 'i')  THEN '' ELSE nvl(f.D3 ,'') END as D3  
+	,b.D4  || CASE WHEN REGEXP_LIKE(b.D4 , '[-*@]', 'i')  THEN '' ELSE nvl(f.D4 ,'') END as D4  
+	,b.D5  || CASE WHEN REGEXP_LIKE(b.D5 , '[-*@]', 'i')  THEN '' ELSE nvl(f.D5 ,'') END as D5  
+	,b.D6  || CASE WHEN REGEXP_LIKE(b.D6 , '[-*@]', 'i')  THEN '' ELSE nvl(f.D6 ,'') END as D6  
+	,b.D7  || CASE WHEN REGEXP_LIKE(b.D7 , '[-*@]', 'i')  THEN '' ELSE nvl(f.D7 ,'') END as D7  
+	,b.D8  || CASE WHEN REGEXP_LIKE(b.D8 , '[-*@]', 'i')  THEN '' ELSE nvl(f.D8 ,'') END as D8  
+	,b.D9  || CASE WHEN REGEXP_LIKE(b.D9 , '[-*@]', 'i')  THEN '' ELSE nvl(f.D9 ,'') END as D9  
+	,b.D10 || CASE WHEN REGEXP_LIKE(b.D10, '[-*@]', 'i')  THEN '' ELSE nvl(f.D10,'') END as D10 
+	,b.D11 || CASE WHEN REGEXP_LIKE(b.D11, '[-*@]', 'i')  THEN '' ELSE nvl(f.D11,'') END as D11 
+	,b.D12 || CASE WHEN REGEXP_LIKE(b.D12, '[-*@]', 'i')  THEN '' ELSE nvl(f.D12,'') END as D12 
+	,b.D13 || CASE WHEN REGEXP_LIKE(b.D13, '[-*@]', 'i')  THEN '' ELSE nvl(f.D13,'') END as D13 
+	,b.D14 || CASE WHEN REGEXP_LIKE(b.D14, '[-*@]', 'i')  THEN '' ELSE nvl(f.D14,'') END as D14 
+	,b.D15 || CASE WHEN REGEXP_LIKE(b.D15, '[-*@]', 'i')  THEN '' ELSE nvl(f.D15,'') END as D15 
+	,b.D16 || CASE WHEN REGEXP_LIKE(b.D16, '[-*@]', 'i')  THEN '' ELSE nvl(f.D16,'') END as D16 
+	,b.D17 || CASE WHEN REGEXP_LIKE(b.D17, '[-*@]', 'i')  THEN '' ELSE nvl(f.D17,'') END as D17 
+	,b.D18 || CASE WHEN REGEXP_LIKE(b.D18, '[-*@]', 'i')  THEN '' ELSE nvl(f.D18,'') END as D18 
+	,b.D19 || CASE WHEN REGEXP_LIKE(b.D19, '[-*@]', 'i')  THEN '' ELSE nvl(f.D19,'') END as D19 
+	,b.D20 || CASE WHEN REGEXP_LIKE(b.D20, '[-*@]', 'i')  THEN '' ELSE nvl(f.D20,'') END as D20 
+	,b.D21 || CASE WHEN REGEXP_LIKE(b.D21, '[-*@]', 'i')  THEN '' ELSE nvl(f.D21,'') END as D21 
+	,b.D22 || CASE WHEN REGEXP_LIKE(b.D22, '[-*@]', 'i')  THEN '' ELSE nvl(f.D22,'') END as D22 
+	,b.D23 || CASE WHEN REGEXP_LIKE(b.D23, '[-*@]', 'i')  THEN '' ELSE nvl(f.D23,'') END as D23 
+	,b.D24 || CASE WHEN REGEXP_LIKE(b.D24, '[-*@]', 'i')  THEN '' ELSE nvl(f.D24,'') END as D24 
+	,b.D25 || CASE WHEN REGEXP_LIKE(b.D25, '[-*@]', 'i')  THEN '' ELSE nvl(f.D25,'') END as D25 
+	,b.D26 || CASE WHEN REGEXP_LIKE(b.D26, '[-*@]', 'i')  THEN '' ELSE nvl(f.D26,'') END as D26 
+	,b.D27 || CASE WHEN REGEXP_LIKE(b.D27, '[-*@]', 'i')  THEN '' ELSE nvl(f.D27,'') END as D27 
+	,b.D28 || CASE WHEN REGEXP_LIKE(b.D28, '[-*@]', 'i')  THEN '' ELSE nvl(f.D28,'') END as D28 
+	,b.D29 || CASE WHEN REGEXP_LIKE(b.D29, '[-*@]', 'i')  THEN '' ELSE nvl(f.D29,'') END as D29 
+	,b.D30 || CASE WHEN REGEXP_LIKE(b.D30, '[-*@]', 'i')  THEN '' ELSE nvl(f.D30,'') END as D30 
+	,b.D31 || CASE WHEN REGEXP_LIKE(b.D31, '[-*@]', 'i')  THEN '' ELSE nvl(f.D31,'') END as D31 
+ FROM 	TBL_MONTH_ARRANGE_DETAIL b LEFT OUTER JOIN offInfo f ON b.EMP_NM  = f.emp_nm 
+ WHERE 	b.company_no = '${companyNo}' 
+ AND 	b.route_nm = '${routeNm}' 
+ AND    b.init_seq = 0 
+ AND    b.BASE_YM = '${baseYm}' 
+ AND    b.DISPATCH_SEQ = 5 
+ AND    b.CAR_REGNO not like 'SP%' 
+    		]]>
+  </insert> 
+  
+  <!-- SP휴가등록 --> 	
+ <insert id="insertStep_6_SP"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+WITH offInfo as ( 
+	SELECT	a.EMP_Nm 
+		,max(CASE		WHEN b.D1  = START_DATE THEN '@'		ELSE ''	END ) AS D1  
+		,max(CASE		WHEN b.D2  = START_DATE THEN '@'		ELSE ''	END ) AS D2  
+		,max(CASE		WHEN b.D3  = START_DATE THEN '@'		ELSE ''	END ) AS D3  
+		,max(CASE		WHEN b.D4  = START_DATE THEN '@'		ELSE ''	END ) AS D4  
+		,max(CASE		WHEN b.D5  = START_DATE THEN '@'		ELSE ''	END ) AS D5  
+		,max(CASE		WHEN b.D6  = START_DATE THEN '@'		ELSE ''	END ) AS D6  
+		,max(CASE		WHEN b.D7  = START_DATE THEN '@'		ELSE ''	END ) AS D7  
+		,max(CASE		WHEN b.D8  = START_DATE THEN '@'		ELSE ''	END ) AS D8  
+		,max(CASE		WHEN b.D9  = START_DATE THEN '@'		ELSE ''	END ) AS D9  
+		,max(CASE		WHEN b.D10 = START_DATE THEN '@'		ELSE ''	END ) AS D10 
+		,max(CASE		WHEN b.D11 = START_DATE THEN '@'		ELSE ''	END ) AS D11 
+		,max(CASE		WHEN b.D12 = START_DATE THEN '@'		ELSE ''	END ) AS D12 
+		,max(CASE		WHEN b.D13 = START_DATE THEN '@'		ELSE ''	END ) AS D13 
+		,max(CASE		WHEN b.D14 = START_DATE THEN '@'		ELSE ''	END ) AS D14 
+		,max(CASE		WHEN b.D15 = START_DATE THEN '@'		ELSE ''	END ) AS D15 
+		,max(CASE		WHEN b.D16 = START_DATE THEN '@'		ELSE ''	END ) AS D16 
+		,max(CASE		WHEN b.D17 = START_DATE THEN '@'		ELSE ''	END ) AS D17 
+		,max(CASE		WHEN b.D18 = START_DATE THEN '@'		ELSE ''	END ) AS D18 
+		,max(CASE		WHEN b.D19 = START_DATE THEN '@'		ELSE ''	END ) AS D19 
+		,max(CASE		WHEN b.D20 = START_DATE THEN '@'		ELSE ''	END ) AS D20 
+		,max(CASE		WHEN b.D21 = START_DATE THEN '@'		ELSE ''	END ) AS D21 
+		,max(CASE		WHEN b.D22 = START_DATE THEN '@'		ELSE ''	END ) AS D22 
+		,max(CASE		WHEN b.D23 = START_DATE THEN '@'		ELSE ''	END ) AS D23 
+		,max(CASE		WHEN b.D24 = START_DATE THEN '@'		ELSE ''	END ) AS D24 
+		,max(CASE		WHEN b.D25 = START_DATE THEN '@'		ELSE ''	END ) AS D25 
+		,max(CASE		WHEN b.D26 = START_DATE THEN '@'		ELSE ''	END ) AS D26 
+		,max(CASE		WHEN b.D27 = START_DATE THEN '@'		ELSE ''	END ) AS D27 
+		,max(CASE		WHEN b.D28 = START_DATE THEN '@'		ELSE ''	END ) AS D28 
+		,max(CASE		WHEN b.D29 = START_DATE THEN '@'		ELSE ''	END ) AS D29 
+		,max(CASE		WHEN b.D30 = START_DATE THEN '@'		ELSE ''	END ) AS D30 
+		,max(CASE		WHEN b.D31 = START_DATE THEN '@'		ELSE ''	END ) AS D31 
+	FROM 	TBM_EMPLOYEE_VACATION_INFO a,TBL_MONTH_ARRANGE_DETAIL b 
+	WHERE 	a.company_no = '${companyNo}' 
+	AND     a.delete_yn  = 'N' 
+	AND 	a.START_DATE LIKE '${baseYm}' ||'%' 
+	AND  	a.company_no = b.COMPANY_NO 
+	AND 	b.BASE_YM ='${baseYm}' 
+	AND 	b.DISPATCH_SEQ =0 
+	AND     b.init_seq = 0
+	AND 	b.ROUTE_NM ='${routeNm}' 
+	GROUP BY a.EMP_NM 
+ ) 
+ INSERT INTO TBL_MONTH_ARRANGE_DETAIL 
+ SELECT  b.company_no,b.route_nm,b.base_ym ,0 AS init_seq,b.car_regno ,b.emp_nm ,6 AS dispatch_seq,'' AS ampm_gubun 
+			 ,b.prev_daily_seq 
+			,'' as prev_work_pattern
+		,	nvl(f.d1 ,'') as   d1 
+		,	nvl(f.D2 ,'') as   D2 
+		,	nvl(f.D3 ,'') as   D3 
+		,	nvl(f.D4 ,'') as   D4 
+		,	nvl(f.D5 ,'') as   D5 
+		,	nvl(f.D6 ,'') as   D6 
+		,	nvl(f.D7 ,'') as   D7 
+		,	nvl(f.D8 ,'') as   D8 
+		,	nvl(f.D9 ,'') as   D9 
+		,	nvl(f.D10,'') as   D10
+		,	nvl(f.D11,'') as   D11
+		,	nvl(f.D12,'') as   D12
+		,	nvl(f.D13,'') as   D13
+		,	nvl(f.D14,'') as   D14
+		,	nvl(f.D15,'') as   D15
+		,	nvl(f.D16,'') as   D16
+		,	nvl(f.D17,'') as   D17
+		,	nvl(f.D18,'') as   D18
+		,	nvl(f.D19,'') as   D19
+		,	nvl(f.D20,'') as   D20
+		,	nvl(f.D21,'') as   D21
+		,	nvl(f.D22,'') as   D22
+		,	nvl(f.D23,'') as   D23
+		,	nvl(f.D24,'') as   D24
+		,	nvl(f.D25,'') as   D25
+		,	nvl(f.D26,'') as   D26
+		,	nvl(f.D27,'') as   D27
+		,	nvl(f.D28,'') as   D28
+		,	nvl(f.D29,'') as   D29
+		,	nvl(f.D30,'') as   D30
+		,	nvl(f.D31,'') as   D31
+	 FROM 	TBL_MONTH_ARRANGE_DETAIL b LEFT OUTER JOIN offInfo f ON b.EMP_NM  = f.emp_nm 
+	 WHERE 	b.company_no = '${companyNo}' 
+	 AND 	b.route_nm = '${routeNm}' 
+	 AND    b.init_seq = 0 
+	 AND    b.BASE_YM = '${baseYm}' 
+	 AND    b.DISPATCH_SEQ = 5 
+	 AND    b.CAR_REGNO like 'SP%' 
+	 AND    b.init_seq = 0
+	]]>
+  </insert> 
+
+      <!-- insertStep_6 insert  운전자별 익일 배차지정(감차표시) 사용안함--> 
+ <insert id="insertStep_6_old"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+  	WITH 운행정보 AS (
+        WITH 패턴 AS (
+			SELECT repeat(	repeat(repeat('a',OFF_GROUP_CNT-1) || '*',2)	||	repeat(repeat('p',OFF_GROUP_CNT-1) || '*',2), 5) AS pattern
+			FROM tbl_routeinfo
+	        WHERE   company_no = '${companyNo}'
+	        AND     route_nm = '${routeNm}'
+        )
+        SELECT a.*
+               ,       instr(b.pattern,a.prev_work_pattern) +7 AS pos
+        FROM    TBM_DRIVERINFO_DETAIL a,패턴 b
+        WHERE   a.company_no = '${companyNo}'
+        AND     a.route_nm = '${routeNm}'
+        AND     a.BASE_YM = '${baseYm}'
+	)      
+	INSERT INTO TBL_MONTH_ARRANGE_DETAIL
+	SELECT  a.company_no,a.route_nm ,b.BASE_YM , 0 as initSeq,b.car_regno ,a.emp_nm ,6 AS dispatch_seq,a.ampm_gubun ,a.prev_daily_seq ,a.prev_work_pattern
+        , CASE WHEN b.D1  < 0 THEN '#' ELSE b.D1  || substring(c.pattern,a.pos+1, 1) END AS d1
+        , CASE WHEN b.D2  < 0 THEN '#' ELSE b.D2  || substring(c.pattern,a.pos+2 ,1) END AS D2
+        , CASE WHEN b.D3  < 0 THEN '#' ELSE b.D3  || substring(c.pattern,a.pos+3 ,1) END AS D3
+        , CASE WHEN b.D4  < 0 THEN '#' ELSE b.D4  || substring(c.pattern,a.pos+4 ,1) END AS D4
+        , CASE WHEN b.D5  < 0 THEN '#' ELSE b.D5  || substring(c.pattern,a.pos+5 ,1) END AS D5
+        , CASE WHEN b.D6  < 0 THEN '#' ELSE b.D6  || substring(c.pattern,a.pos+6 ,1) END AS D6
+        , CASE WHEN b.D7  < 0 THEN '#' ELSE b.D7  || substring(c.pattern,a.pos+7 ,1) END AS D7
+        , CASE WHEN b.D8  < 0 THEN '#' ELSE b.D8  || substring(c.pattern,a.pos+8 ,1) END AS D8
+        , CASE WHEN b.D9  < 0 THEN '#' ELSE b.D9  || substring(c.pattern,a.pos+9 ,1) END AS D9
+        , CASE WHEN b.D10 < 0 THEN '#' ELSE b.D10 || substring(c.pattern,a.pos+10,1) END AS D10
+        , CASE WHEN b.D11 < 0 THEN '#' ELSE b.D11 || substring(c.pattern,a.pos+11,1) END AS D11
+        , CASE WHEN b.D12 < 0 THEN '#' ELSE b.D12 || substring(c.pattern,a.pos+12,1) END AS D12
+        , CASE WHEN b.D13 < 0 THEN '#' ELSE b.D13 || substring(c.pattern,a.pos+13,1) END AS D13
+        , CASE WHEN b.D14 < 0 THEN '#' ELSE b.D14 || substring(c.pattern,a.pos+14,1) END AS D14
+        , CASE WHEN b.D15 < 0 THEN '#' ELSE b.D15 || substring(c.pattern,a.pos+15,1) END AS D15
+        , CASE WHEN b.D16 < 0 THEN '#' ELSE b.D16 || substring(c.pattern,a.pos+16,1) END AS D16
+        , CASE WHEN b.D17 < 0 THEN '#' ELSE b.D17 || substring(c.pattern,a.pos+17,1) END AS D17
+        , CASE WHEN b.D18 < 0 THEN '#' ELSE b.D18 || substring(c.pattern,a.pos+18,1) END AS D18
+        , CASE WHEN b.D19 < 0 THEN '#' ELSE b.D19 || substring(c.pattern,a.pos+19,1) END AS D19
+        , CASE WHEN b.D20 < 0 THEN '#' ELSE b.D20 || substring(c.pattern,a.pos+20,1) END AS D20
+        , CASE WHEN b.D21 < 0 THEN '#' ELSE b.D21 || substring(c.pattern,a.pos+21,1) END AS D21
+        , CASE WHEN b.D22 < 0 THEN '#' ELSE b.D22 || substring(c.pattern,a.pos+22,1) END AS D22
+        , CASE WHEN b.D23 < 0 THEN '#' ELSE b.D23 || substring(c.pattern,a.pos+23,1) END AS D23
+        , CASE WHEN b.D24 < 0 THEN '#' ELSE b.D24 || substring(c.pattern,a.pos+24,1) END AS D24
+        , CASE WHEN b.D25 < 0 THEN '#' ELSE b.D25 || substring(c.pattern,a.pos+25,1) END AS D25
+        , CASE WHEN b.D26 < 0 THEN '#' ELSE b.D26 || substring(c.pattern,a.pos+26,1) END AS D26
+        , CASE WHEN b.D27 < 0 THEN '#' ELSE b.D27 || substring(c.pattern,a.pos+27,1) END AS D27
+        , CASE WHEN b.D28 < 0 THEN '#' ELSE b.D28 || substring(c.pattern,a.pos+28,1) END AS D28
+        , CASE WHEN b.d29 = 0 THEN '' WHEN b.D29 < 0 THEN '#' ELSE b.D29 || substring(c.pattern,a.pos+29,1) END AS D29
+        , CASE WHEN b.d30 = 0 THEN '' WHEN b.D30 < 0 THEN '#' ELSE b.D30 || substring(c.pattern,a.pos+30,1) END AS D30
+        , CASE WHEN b.d31 = 0 THEN '' WHEN b.D31 < 0 THEN '#' ELSE b.D31 || substring(c.pattern,a.pos+31,1) END AS D31
+	FROM 운행정보 a LEFT OUTER JOIN TBL_MONTH_ARRANGE_BASIC b
+               ON a.company_no = b.company_no
+               AND a.route_nm  = b.route_nm
+               AND a.car_regno = b.car_regno
+               and a.init_seq = b.init_seq
+               AND b.BASE_YM = '${baseYm}'
+               AND b.dispatch_seq =4
+        INNER JOIN 패턴 c            
+	WHERE a.company_no = '${companyNo}'
+	AND   a.route_nm = '${routeNm}'
+    		]]>
+  </insert> 
+  
+<!-- DETAIL update 최종확정 --> 
+ <update id="finishTBL_MONTH_ARRANGE_DETAIL" parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+ <![CDATA[
+		update  TBL_MONTH_ARRANGE_DETAIL a
+			set	init_seq = 1
+        WHERE   a.company_no   	= '${companyNo}'
+        AND     a.route_nm     	= '${routeNm}'
+        AND     a.BASE_YM  		= '${baseYm}'
+        /*AND     a.car_regno   = '${carRegno}'
+        AND 	a.emp_nm       = '${empNm}'
+        AND     a.dispatch_seq = ${dispatchSeq}*/
+  	]]>
+  </update>
+      
+
+<!-- Attendance info update --> 
+ <update id="updateAttendanceInfo" parameterType="com.pjy.dashboard.domain.AttendanceInfoVo">
+ <![CDATA[
+	update  TBM_EMPLOYEE_VACATION_INFO a
+	set	    a.memo				= '${memo}'
+		,	a.attendance_type 	= '${attendanceType}'
+		,	a.last_chg_user 	= '${lastChgUser}'
+		,	a.LAST_CHG_DATE 	= TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss')
+    where   a.company_no 		= '${companyNo}'
+      and   a.start_date||a.emp_nm = '${key}'
+	]]>
+  </update>
+  
+<!-- Attendance info delete --> 
+ <update id="deleteAttendanceInfo" parameterType="com.pjy.dashboard.domain.AttendanceInfoVo">
+ <![CDATA[
+	update  TBM_EMPLOYEE_VACATION_INFO a
+	set		a.delete_yn         = 'Y'
+		,	a.last_chg_user 	= '${lastChgUser}'
+		,	a.LAST_CHG_DATE 	= TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss')
+    where   a.company_no 		= '${companyNo}'
+    and     a.start_date    	= '${startDate}'
+    and     a.emp_nm    		= '${empNm}'
+	]]>
+  </update>
+<!-- Attendance info insert --> 
+ <insert id="insertAttendanceInfo" parameterType="com.pjy.dashboard.domain.AttendanceInfoVo">
+  <![CDATA[
+    MERGE INTO TBM_EMPLOYEE_VACATION_INFO key
+    (
+      company_no,
+      start_date  ,
+      emp_nm  
+    )
+	SELECT 	'${companyNo}'
+       	,	formatdatetime(dateadd(DAY,t.n-1,DATE'${startDate}'),'yyyy-MM-dd') 
+       	,	'${empNm}'
+        ,   formatdatetime(dateadd(DAY,t.n-1,DATE'${startDate}'),'yyyy-MM-dd') 
+        ,	TO_CHAR( SYSDATE,'yyyy-mm-dd')
+        ,	'${attendanceType}'
+        ,	'${memo}'
+        ,	'${lastChgUser}'
+        ,	TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss')
+        ,	'${deleteYn}'
+   	FROM T
+   	WHERE dateadd(DAY,t.n-1,DATE'${startDate}') <= DATE'${endDate}'
+	]]>
+  </insert>     
+  
+  <!-- Attendance info insert --> 
+ <insert id="insertAttendanceInfo_old" parameterType="com.pjy.dashboard.domain.AttendanceInfoVo">
+    INSERT INTO TBM_EMPLOYEE_VACATION_INFO
+    (
+      company_no,
+      start_date  ,
+      emp_nm  ,
+      end_date,
+      reg_date   ,
+      attendance_type,
+      memo ,
+      delete_yn ,
+      last_chg_user,
+      LAST_CHG_DATE
+    )
+    VALUES
+    (
+      '${companyNo}'
+     , '${startDate}'
+     , '${empNm}'
+     , '${endDate}'
+     , '${regDate}'
+     , '${attendanceType}'
+     , '${memo}'
+     , '${deleteYn}'
+     , '${lastChgUser}'
+     , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss')
+    )
+  </insert>  
+  
+
+
+<!-- 배차정시성 자료upload 시 사원명을 isc운전횟수에서 driverid로 맵핑해서 col200에 저장 --> 
+ <update id="batchUpdateArrangePunctualityEmpNm" parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+ <![CDATA[
+	UPDATE TBL_ARRANGE_PUNCTUALITY_INFO a 
+		SET	col200 = (	SELECT 	nvl(c.EMP_NM, to_char(b.DRIVER_ID))   
+						FROM 	TBL_DRIVING_RECORD b ,TBL_ISC_DRIVER_INFO c where c.COMPANY_NO = b.COMPANY_NO AND c.DRIVER_ID = b.DRIVER_ID 
+						AND  	b.COMPANY_NO = a.COMPANY_NO AND a.BASE_YMD = b.WORK_DATE AND a.ROUTE_NM = b.ROUTE_NM AND a.COL001 = b.CAR_REGNO AND dateadd(MINUTE ,2,a.BASE_YMD|| ' '||a.col003) BETWEEN b.START_TIME  AND b.END_TIME 
+					)	
+		where   a.company_no = '${companyNo}' 
+		AND 	a.BASE_YMD = '${baseYmd}'
+		AND 	a.ROUTE_NM = '${routeNm}'
+		AND 	a.col = 'false'
+  	]]>
+  </update>  
+
+<!-- 배차정시성 분석자료 저장시 사원명을 isc운전횟수에서 driverid로 맵핑해서 가져옴 --> 
+ <update id="batchUpdateArrangePunctualityAnalEmpNm" parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+ <![CDATA[
+	WITH punctualityInfo AS (	
+		select  a.*,dateadd(MINUTE ,1,a.BASE_YMD|| ' '||a.col003) AS start_time
+		from    TBL_ARRANGE_PUNCTUALITY_ANALIZE a 
+		where   a.company_no = '${companyNo}'
+		AND 	a.BASE_YMD =  '${baseYmd}'
+		AND 	a.ROUTE_NM = '${routeNm}'
+	)
+	MERGE INTO 	TBL_ARRANGE_PUNCTUALITY_ANALIZE KEY (COMPANY_NO,BASE_YMD,ROUTE_NM,COL000,COL001,COL002)
+		SELECT 
+				a.COMPANY_NO
+				, a.BASE_YMD
+				, a.ROUTE_NM
+				, a.COL
+				, a.COL000
+				, a.COL001
+				, a.COL002
+				, a.COL003
+				, a.COL004
+				, nvl(c.EMP_NM,to_char(b.DRIVER_ID) )   
+				, a.TERM
+				, a.TERM_85
+				, a.TERM_125
+				, a.TERM_PAST_CNT
+				, a.TERM_LATE_CNT
+				, a.TERM_WIBAN_CNT
+				, a.TOTAL_STATION_CNT
+				, a.LAST_CHG_USER
+				, a.LAST_CHG_DATE		
+		FROM punctualityInfo a 
+			JOIN TBL_DRIVING_RECORD b ON b.COMPANY_NO = a.COMPANY_NO AND a.BASE_YMD = b.WORK_DATE AND a.ROUTE_NM = b.ROUTE_NM AND a.COL001 = b.CAR_REGNO AND a.start_time BETWEEN b.START_TIME  AND b.END_TIME 
+			LEFT OUTER JOIN TBL_ISC_DRIVER_INFO c ON c.COMPANY_NO = b.COMPANY_NO AND c.DRIVER_ID = b.DRIVER_ID 
+  	]]>
+  </update>  
+  
+<!-- 배차정시성 사원명 변경 --> 
+ <update id="modifyPunctualityEmpNm" parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+ <![CDATA[
+	UPDATE	TBL_ARRANGE_PUNCTUALITY_ANALIZE a
+		set  a.emp_nm = '${empNm}'
+		where   a.company_no = '${companyNo}'
+		AND 	a.BASE_YMD =  '${baseYmd}'
+		AND 	a.ROUTE_NM = '${routeNm}'
+		AND 	a.COL000||a.COL001||a.COL002 = '${filterText}'
+  	]]>
+  </update>    
+  
+  
+<!-- 배차화면에서 휴가등록 --> 
+ <update id="insertAttendanceInfo_after" parameterType="com.pjy.dashboard.domain.AttendanceInfoVo">
+ <![CDATA[
+		update  TBL_MONTH_ARRANGE_DETAIL a
+			set	${key} = case when '${deleteYn}' = 'N' then ${key} || '@'
+							  else replace(${key},'@','') 
+					     end
+        WHERE   a.company_no   	= '${companyNo}'
+        AND     a.route_nm     	= '${routeNm}'
+        AND     a.BASE_YM  		= substr('${startDate}',1,7)
+        AND 	a.emp_nm     	= '${empNm}'
+        AND     a.dispatch_seq  = 6
+        AND     a.init_seq = 0
+  	]]>
+  </update>  
+
+<!-- 배차화면에서 기간으로 휴가등록 --> 
+ <update id="insertAttendanceInfo_after_term" parameterType="com.pjy.dashboard.domain.AttendanceInfoVo">
+ 	<foreach item="item" index ="index" collection="dayList" open="" close="" separator=";">
+ 	<![CDATA[
+ 		
+		update  TBL_MONTH_ARRANGE_DETAIL a
+			set	${item.key} = case when '${deleteYn}' = 'N' then ${item.key} || '@'
+							  else replace(${item.key},'@','') 
+					     end
+        WHERE   a.company_no   	= '${companyNo}'
+        AND     a.route_nm     	= '${routeNm}'
+        AND     a.BASE_YM  		= substr('${startDate}',1,7)
+        AND 	a.emp_nm     	= '${empNm}'
+        AND     a.dispatch_seq  = 6
+        AND     a.init_seq = 0
+  	]]>
+  	</foreach>
+  </update> 
+  
+<!-- Holiday info update --> 
+ <update id="updateHolidayInfo" parameterType="com.pjy.dashboard.domain.HolidayInfoVo">
+ <![CDATA[
+	update  TBM_Holiday_INFO a
+	set	    a.holiday_nm	= '${holidayNm}'
+		,	a.Holiday_yn 	= '${holidayYn}'
+		,	a.memo			= '${memo}'
+		,	a.last_chg_user = '${lastChgUser}'
+		,	a.LAST_CHG_DATE = TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss')
+    where   a.company_no 		= '${companyNo}'
+    and     a.work_date    		= '${workDate}'
+	]]>
+  </update>
+  
+<!-- Holiday info delete --> 
+ <update id="deleteHolidayInfo" parameterType="com.pjy.dashboard.domain.HolidayInfoVo">
+ <![CDATA[
+	delete  TBM_Holiday_INFO a
+    where   a.company_no 		= '${companyNo}'
+    and     a.work_date    		= '${workDate}'
+	]]>
+  </update>
+<!-- Holiday info insert --> 
+ <insert id="insertHolidayInfo" parameterType="com.pjy.dashboard.domain.HolidayInfoVo">
+    INSERT INTO TBM_Holiday_INFO
+    (
+      company_no,
+      work_date   ,
+      holiday_nm  ,
+      Holiday_yn,
+      memo ,
+      last_chg_user,
+      LAST_CHG_DATE
+    )
+    VALUES
+    (
+      '${companyNo}'
+     , '${workDate}'
+     , '${holidayNm}'
+     , '${holidayYn}'
+     , '${memo}'
+     , '${lastChgUser}'
+     , TO_CHAR( SYSDATE,'yyyy-mm-dd hh:mi:ss')
+    )
+  </insert>     
+  
+<!-- 배차확정시 BASIC history  --> 
+ <insert id="insertTBL_MONTH_ARRANGE_BASIC_FIX" parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+	 WITH maxinfo AS (   
+	   SELECT max(init_seq) + 1 AS next_seq
+	   FROM TBL_MONTH_ARRANGE_BASIC a
+	   WHERE	a.COMPANY_NO = '${companyNo}'
+		AND 	a.BASE_YM    = '${baseYm}'
+		AND 	a.route_nm   = '${routeNm}'
+	)
+	INSERT INTO TBL_MONTH_ARRANGE_BASIC
+	SELECT 	COMPANY_NO, ROUTE_NM, BASE_YM, b.next_seq AS INIT_SEQ, CAR_REGNO, EMP_NM, DISPATCH_SEQ, AMPM_GUBUN, PREV_DAILY_SEQ, PREV_WORK_PATTERN, D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15, D16, D17, D18, D19, D20, D21, D22, D23, D24, D25, D26, D27, D28, D29, D30, D31
+		FROM 	TBL_MONTH_ARRANGE_BASIC a,maxinfo b
+	   WHERE	a.COMPANY_NO = '${companyNo}'
+		AND 	a.BASE_YM    = '${baseYm}'
+		AND 	a.route_nm   = '${routeNm}'
+		AND 	a.INIT_SEQ   = 0
+  </insert>     
+
+<!-- 배차확정시 DETAIL_ history  --> 
+ <insert id="insertTBL_MONTH_ARRANGE_DETAIL_FIX" parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+	 WITH maxinfo AS (   
+	   SELECT max(init_seq) + 1 AS next_seq
+	   FROM TBL_MONTH_ARRANGE_DETAIL a
+	   WHERE	a.COMPANY_NO = '${companyNo}'
+		AND 	a.BASE_YM    = '${baseYm}'
+		AND 	a.route_nm   = '${routeNm}'
+	)
+	INSERT INTO TBL_MONTH_ARRANGE_DETAIL
+	SELECT 	COMPANY_NO, ROUTE_NM, BASE_YM, b.next_seq AS INIT_SEQ, CAR_REGNO, EMP_NM, DISPATCH_SEQ, AMPM_GUBUN, PREV_DAILY_SEQ, PREV_WORK_PATTERN, D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15, D16, D17, D18, D19, D20, D21, D22, D23, D24, D25, D26, D27, D28, D29, D30, D31
+		FROM 	TBL_MONTH_ARRANGE_DETAIL a,maxinfo b
+	   WHERE	a.COMPANY_NO = '${companyNo}'
+		AND 	a.BASE_YM    = '${baseYm}'
+		AND 	a.route_nm   = '${routeNm}'
+		AND 	a.INIT_SEQ   = 0
+  </insert>     
+  
+ <!-- 노선공통휴가종류 등록 -->    
+ <insert id="insertTBM_ROUTE_COMMON_INFO"  parameterType="com.pjy.dashboard.domain.AttendanceInfoVo">
+  <![CDATA[
+	MERGE INTO TBM_ROUTE_COMMON_INFO KEY (COMPANY_NO,ROUTE_NM,CODE)
+	SELECT '${companyNo}','${routeNm}','${key}'
+		, 	'${memo}' 
+		,	'','',0,0
+		]]>
+  </insert>
+  
+ <!-- 기사정보 upload시 입사일자 변경 10/25/23  2023-10-25일로 변경 -->    
+ <update id="updateEmployeeInfoEnterDate"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+	UPDATE TBL_EMPLOYEEINFO a
+		SET  a.ENTER_DATE =	CONVERT('20'||RIGHT(a.enter_date,2) || '-'||replace(SUBSTRING(a.enter_date,0, LENGTH (a.ENTER_DATE)-3),'/','-'),date)  
+		]]>
+  </update>   
+
+ <!-- 운전자정보 upload시 입사일자 변경 10/25/23  2023-10-25일로 변경 -->    
+ <update id="updateDriverInfoEnterDate"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+	UPDATE TBL_DRIVERINFO a
+		SET  a.ENTER_DATE =	CONVERT('20'||RIGHT(a.enter_date,2) || '-'||replace(SUBSTRING(a.enter_date,0, LENGTH (a.ENTER_DATE)-3),'/','-'),date)  
+		]]>
+  </update> 
+
+	<!-- 위험운전행동 insert후 노선정보 update -->    
+	<update id="updateDangerDrivingRouteNm"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+	<![CDATA[
+	UPDATE TBL_DANGER_DRIVING_INFO a
+	SET (a.ROUTE_NM,a.SP_GB)  =	(SELECT b.ROUTE_NM, b.SP_GB FROM   TBL_DRIVERINFO b where b.company_no = '${companyNo}' and b.emp_nm = a.emp_nm)
+	WHERE a.base_ym = '${baseYm}'
+		]]>
+  </update>
+  
+ <!-- isc운전자정보의 기사명을 driverInfo의 기사명으로 update (문영식 중복, 문영식C와 문영식으로 구분하기위해) -->    
+ <update id="updateIscDriverInfo_empNm"  parameterType="com.pjy.dashboard.domain.CommonCodeVo">
+  <![CDATA[
+	MERGE INTO TBL_ISC_DRIVER_INFO KEY (COMPANY_NO,DRIVER_ID)
+	SELECT a.COMPANY_NO ,a.DRIVER_ID ,b.EMP_NM,a.sex,a.BIRTH_YMD ,a.REGULAR_GB  FROM TBL_ISC_DRIVER_INFO a
+		JOIN TBL_DRIVERINFO b ON a.COMPANY_NO = b.COMPANY_NO AND a.BIRTH_YMD = b.BIRTH_YMD AND b.EMP_NM LIKE a.EMP_NM || '%'
+	WHERE a.COMPANY_NO ='${companyNo}' 
+	AND a.EMP_NM <> b.EMP_NM 
+		]]>
+  </update>   
+     
+ <select id="select_checkDrivingRecord_duplicationNm"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	SELECT  a.WORK_DATE ,a.EMP_NM ,count(a.ROUTE_NM) as dup_cnt
+			FROM TBB_DRIVING_RECORD_DAY a
+			WHERE a.COMPANY_NO ='${companyNo}'
+			AND 	a.work_date like '${baseYm}' || '%' 
+	GROUP BY a.WORK_DATE ,a.EMP_NM 
+	HAVING count(a.ROUTE_NM) > 1
+   	  	]]>
+  </select>
+     
+ <select id="select_getMenuInfo"  parameterType="com.pjy.dashboard.domain.CommonCodeVo" resultType="java.util.LinkedHashMap">
+  <![CDATA[
+	SELECT  a.*
+			FROM MENU_INFO a
+			where sub_seq = 0 
+			ORDER BY MENU_ID
+   	  	]]>
+  </select>
+     
+     
+</mapper>
